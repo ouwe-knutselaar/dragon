@@ -1,0 +1,14 @@
+dragonraspberry\services\I2CService.class
+dragonraspberry\DragonRaspberry$1.class
+dragonraspberry\services\MotionService$1.class
+dragonraspberry\DragonRaspberry.class
+dragonraspberry\services\DragonFileService.class
+dragonraspberry\DragonRaspberry$2.class
+dragonraspberry\services\UDPNetworkService.class
+dragonraspberry\services\DragonEvent.class
+dragonraspberry\services\WaveService.class
+dragonraspberry\services\TimerService.class
+dragonraspberry\services\MotionService.class
+dragonraspberry\pojo\Motion.class
+dragonraspberry\services\WaveService$1.class
+dragonraspberry\services\TCPPNetworkService.class

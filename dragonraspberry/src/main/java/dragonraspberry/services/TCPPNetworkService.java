@@ -36,7 +36,6 @@ public class TCPPNetworkService implements Runnable{
 			+ "stp:         stop recording\n"
 			+ "dmp:         dumpcurrent record\n"
 			+ "wrt:         write current motion to storage\n"
-			+ "llm xx:      show limits of servo xx\n"
 			+ "pse:			pause all activity"
 			+ "nor:         operate normal"
 			+ "end:         End software\n";
@@ -140,9 +139,6 @@ public class TCPPNetworkService implements Runnable{
 					orchestrationService.writeCurrentMotion();
 					__write("OK WRITE CURRENT");
 					break;
-				case "llm":
-					__write(orchestrationService.getServoLimits(Integer.parseInt(clientInputString.substring(4))));
-					break;	
 				case "end":
 					DragonRaspberry.endDragon();
 					break;

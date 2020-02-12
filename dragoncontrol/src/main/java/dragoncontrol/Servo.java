@@ -1,4 +1,4 @@
-package dragonraspberry.pojo;
+package dragoncontrol;
 
 public class Servo {
 	

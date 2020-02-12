@@ -5,8 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import dragonraspberry.continuemovement.ContinueMovement;
 import dragonraspberry.pojo.DragonEvent;
-import dragonraspberry.pojo.ServoLimits;
-
+import dragonraspberry.pojo.Globals;
 
 
 // The core of the robot
@@ -31,7 +30,6 @@ public class OrchestrationService {
 	private WaveService waveService					= WaveService.getInstance();
 	private RecordingService recordingService		= new RecordingService();
 	private static OrchestrationService INSTANCE	= new OrchestrationService();
-	private ServoLimits servoLimits      			= ServoLimits.getInstance();
 	
 	/**
 	 * This is a singleton
@@ -46,7 +44,7 @@ public class OrchestrationService {
 	private OrchestrationService() {
 		log.info("Make the OrchestrationService");
 
-		i2cService.init(60);			
+		i2cService.init(Globals.servoFrequency);			
 
 		// Voeg een actie aan de timer toe
 		timerService.addOnTimerEvent(new DragonEvent() {
@@ -112,10 +110,8 @@ public class OrchestrationService {
 	 */
 	public void setSingleServo(int servoNumber, int servoValue) throws IOException {
 		log.debug("Write single server/led :"+servoNumber+" with "+servoValue);
-		
-        __recordedValueFromUDP=servoLimits.correctToLimits(servoNumber,servoValue);
+        __recordedValueFromUDP=Globals.servoLimitList[servoNumber].correctToLimits(servoValue);
         if(__recodingEnabled)return;
-        
 		i2cService.writeSingleLed(servoNumber, servoValue);
 	}
 
@@ -162,17 +158,6 @@ public class OrchestrationService {
 		__continueMovement.writeCurrentMotion();
 	}
 
-	
-	public String getServoLimits(int servo)
-	{
-		String result="limits servo:"+servo+" min:"+
-	                  servoLimits.getMinimumOfServo(servo)+" max:"+
-	                  servoLimits.getMaximumOfServo(servo)+" rest:"+
-	                  servoLimits.getRestPositionOfServo(servo)+" name:"+
-	                  servoLimits.getNameOfServo(servo);
-		
-		return result;
-	}
 
 
 	public void dumpCurrentMotion() {

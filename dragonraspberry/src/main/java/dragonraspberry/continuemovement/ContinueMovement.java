@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import org.apache.log4j.Logger;
 import dragonraspberry.connector.DragonFileConnector;
+import dragonraspberry.pojo.Globals;
 import dragonraspberry.pojo.Motion;
 
 
@@ -14,8 +15,8 @@ public class ContinueMovement {
 
 	private Logger log 							  	= Logger.getLogger(this.getClass().getSimpleName());
 	private Random rand 						  	= new Random();
-	private MovementArray[] __MovementArrayList   	= new MovementArray[16];
-	private int[] __currentValueOfServos 		  	= new int[16];
+	private MovementArray[] __MovementArrayList   	= new MovementArray[Globals.numberOfServos];
+	private int[] __currentValueOfServos 		  	= new int[Globals.numberOfServos];
 	private int __untilNextMotion				  	= 0;
 	private DragonFileConnector dragonFileService 	= DragonFileConnector.getInstance();
 	private List<String> __motionNamesList			= dragonFileService.getActionList();	 // Lijst met motion names
@@ -49,7 +50,7 @@ public class ContinueMovement {
 			return nextNormalOperatingStep();
 		if (isExecutingMotion)
 			return nextExecutingMotionStep();
-		return new int[16];
+		return new int[Globals.numberOfServos];
 	}
 
 	
@@ -97,7 +98,7 @@ public class ContinueMovement {
 		if (__untilNextMotion < 0)
 			setNextNewAction();
 
-		for (int tel = 0; tel < 16; tel++) {
+		for (int tel = 0; tel < Globals.numberOfServos; tel++) {
 			__currentValueOfServos[tel] = __MovementArrayList[tel].getNext();
 			//log.debug(__currentValueOfServos[tel] + "  ");
 		}

@@ -12,10 +12,11 @@ import javafx.stage.Stage;
 
 public class DragonController extends Application{
 
-	static private BorderPane mainPane=new BorderPane();
-	static private DragonMenu menuBar = new DragonMenu();
-	static private ServoSlider servoSlider=new ServoSlider();	
-	static private DragonTerm terminal = new DragonTerm();
+	private DragonFileConnector fileReader=new DragonFileConnector();
+	private BorderPane mainPane=new BorderPane();
+	private DragonMenu menuBar = new DragonMenu();
+	private ServoSlider servoSlider=new ServoSlider();	
+	private DragonTerm terminal = new DragonTerm();
 	
 	
 	public static void main(String argv[])
@@ -31,6 +32,8 @@ public class DragonController extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Dragon Controller 1.0");
 
+		
+				
 		Scene scene=new Scene(mainPane);			// Make a new scene with the main client area
 		mainPane.setTop(menuBar);                  // Plaats de menubar
 		mainPane.setCenter(servoSlider);   			// Plaats de controller

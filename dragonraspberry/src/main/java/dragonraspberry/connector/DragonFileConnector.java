@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import dragonraspberry.pojo.Globals;
 import dragonraspberry.pojo.Motion;
 import dragonraspberry.pojo.Servo;
 import dragonraspberry.services.WaveService;
@@ -29,11 +30,7 @@ public class DragonFileConnector {
 	private List<String> actionList = new ArrayList<>();				// Lijst met acties
 
 	private static DragonFileConnector INSTANCE=new DragonFileConnector();
-	
-	// Public variables
-	Servo servoList[]=new Servo[16];		// list of servo's
-	
-	
+		
 	
 	private DragonFileConnector() {
 		log.info("Make the DragonFileConnector");
@@ -41,7 +38,7 @@ public class DragonFileConnector {
         
 		log.info("read the default values");
 		try {
-			readTheDeafaultFromTheProperiesFile(rootDir);
+			readTheDeafaultFromTheProperiesFileAndPutItInGlobals(rootDir);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,13 +49,11 @@ public class DragonFileConnector {
 		actionList=__ScanTheActionToTheActionList(this.rootDir);
 		actionList.forEach(action -> __checkForSequenceFile(action));
 		
-		
-		
 	}
 
 
 
-	private void readTheDeafaultFromTheProperiesFile(String directory) throws IOException 
+	private void readTheDeafaultFromTheProperiesFileAndPutItInGlobals(String directory) throws IOException 
 	{
 		directory=directory+"/dragon.properties";
 		InputStream input = new FileInputStream(directory);
@@ -66,24 +61,24 @@ public class DragonFileConnector {
 		prop.load(input);
 		
 		
-		servoList[0]=new Servo(0,prop.getProperty("servo0", "none,0,0,0"));
-		servoList[1]=new Servo(1,prop.getProperty("servo1", "none,0,0,0"));
-		servoList[2]=new Servo(2,prop.getProperty("servo2", "none,0,0,0"));
-		servoList[3]=new Servo(3,prop.getProperty("servo3", "none,0,0,0"));
-		servoList[4]=new Servo(4,prop.getProperty("servo4", "none,0,0,0"));
-		servoList[5]=new Servo(5,prop.getProperty("servo5", "none,0,0,0"));
-		servoList[6]=new Servo(6,prop.getProperty("servo6", "none,0,0,0"));
-		servoList[7]=new Servo(7,prop.getProperty("servo7", "none,0,0,0"));
-		servoList[8]=new Servo(8,prop.getProperty("servo8", "none,0,0,0"));
-		servoList[9]=new Servo(9,prop.getProperty("servo9", "none,0,0,0"));
-		servoList[10]=new Servo(10,prop.getProperty("servo10", "none,0,0,0"));
-		servoList[11]=new Servo(11,prop.getProperty("servo11", "none,0,0,0"));
-		servoList[12]=new Servo(12,prop.getProperty("servo12", "none,0,0,0"));
-		servoList[13]=new Servo(13,prop.getProperty("servo13", "none,0,0,0"));
-		servoList[14]=new Servo(14,prop.getProperty("servo14", "none,0,0,0"));
-		servoList[15]=new Servo(15,prop.getProperty("servo15", "none,0,0,0"));
+		Globals.servoLimitList[0]=new Servo(0,prop.getProperty("servo0", "none,0,0,0"));
+		Globals.servoLimitList[1]=new Servo(1,prop.getProperty("servo1", "none,0,0,0"));
+		Globals.servoLimitList[2]=new Servo(2,prop.getProperty("servo2", "none,0,0,0"));
+		Globals.servoLimitList[3]=new Servo(3,prop.getProperty("servo3", "none,0,0,0"));
+		Globals.servoLimitList[4]=new Servo(4,prop.getProperty("servo4", "none,0,0,0"));
+		Globals.servoLimitList[5]=new Servo(5,prop.getProperty("servo5", "none,0,0,0"));
+		Globals.servoLimitList[6]=new Servo(6,prop.getProperty("servo6", "none,0,0,0"));
+		Globals.servoLimitList[7]=new Servo(7,prop.getProperty("servo7", "none,0,0,0"));
+		Globals.servoLimitList[8]=new Servo(8,prop.getProperty("servo8", "none,0,0,0"));
+		Globals.servoLimitList[9]=new Servo(9,prop.getProperty("servo9", "none,0,0,0"));
+		Globals.servoLimitList[10]=new Servo(10,prop.getProperty("servo10", "none,0,0,0"));
+		Globals.servoLimitList[11]=new Servo(11,prop.getProperty("servo11", "none,0,0,0"));
+		Globals.servoLimitList[12]=new Servo(12,prop.getProperty("servo12", "none,0,0,0"));
+		Globals.servoLimitList[13]=new Servo(13,prop.getProperty("servo13", "none,0,0,0"));
+		Globals.servoLimitList[14]=new Servo(14,prop.getProperty("servo14", "none,0,0,0"));
+		Globals.servoLimitList[15]=new Servo(15,prop.getProperty("servo15", "none,0,0,0"));
 		
-		for(Servo servo: servoList)log.info(servo.toString());
+		for(Servo servo: Globals.servoLimitList)log.info(servo.toString());
 	}
 
 

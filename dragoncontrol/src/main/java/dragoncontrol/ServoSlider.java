@@ -9,9 +9,12 @@ import java.net.UnknownHostException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -29,17 +32,13 @@ public class ServoSlider extends GridPane
 	
 	private int id;
 	
-	private int min=100;
-	private int max=600;
-	private int rest=350;
+
 	private int servo=0;
 	private int port=80;
 	private String host="127.0.0.1";
 	InetAddress IPAddress;
 	
-	
-
-	Slider slider=new Slider(min,max,rest);
+	Slider slider;
 
 	Label ipAdressLabel=new Label("ip adres");
 	Label ipPortLabel=new Label("port");
@@ -50,15 +49,18 @@ public class ServoSlider extends GridPane
 	
 	TextField ipAdressField=new TextField("127.0.0.1");
 	TextField ipPortField=new TextField("3001");
-	TextField minField=new TextField(""+min);
-	TextField maxField=new TextField(""+max);
-	TextField restField=new TextField(""+rest);
-	TextField servoField=new TextField(""+0);
+	TextField minField;
+	TextField maxField;
+	TextField restField;
+
+	
+	
 	
 	Button connect=new Button("Connect");
 	DatagramSocket clientSocket;
 	
-
+	private Integer[] servoList={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+	ComboBox<Integer> servoDropDownList=new ComboBox<>(FXCollections.observableArrayList(servoList));
 	
 	public ServoSlider() 
 	{
@@ -76,6 +78,22 @@ public class ServoSlider extends GridPane
 			System.exit(1);
 		}
 
+	
+		 slider=new Slider(Globals.servoLimitList[servo].getMinPos(),Globals.servoLimitList[servo].getMaxPos(),Globals.servoLimitList[servo].getRestPos());
+
+		 ipAdressLabel=new Label("ip adres");
+		 ipPortLabel=new Label("port");
+		 minLabel=new Label("min");
+		 maxLabel=new Label("max");
+		 restLabel=new Label("rest");
+		 servoLabel=new Label("servo");
+		
+		 ipAdressField=new TextField("127.0.0.1");
+		 ipPortField=new TextField("3001");
+		 minField=new TextField(""+Globals.servoLimitList[servo].getMinPos());
+		 maxField=new TextField(""+Globals.servoLimitList[servo].getMaxPos());
+		 restField=new TextField(""+Globals.servoLimitList[servo].getRestPos());
+		
 		
 		this.add(minLabel, 0,0);
 		this.add(restLabel, 0,1);
@@ -90,14 +108,14 @@ public class ServoSlider extends GridPane
 		this.add(maxField, 1,2);
 		this.add(ipAdressField, 1, 3);
 		this.add(ipPortField, 1, 4);
-		this.add(servoField, 1, 5);
+		this.add(servoDropDownList, 1, 5);
 
 		
 		this.add(connect,0,6,2,1);
 		this.add(slider, 0, 7,2,1);
 		
 		
-		slider.setPrefWidth(max-min);
+		slider.setPrefWidth(Globals.servoLimitList[servo].getMaxPos()-Globals.servoLimitList[servo].getMinPos());
 		slider.setOrientation(Orientation.VERTICAL);
 		slider.setShowTickLabels(true);
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -127,37 +145,21 @@ public class ServoSlider extends GridPane
 			}});
 		
 		
-		minField.textProperty().addListener(new ChangeListener<String>(){
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				min=Integer.parseInt(newValue);
-				slider.setMin(min);
-				slider.setPrefWidth(max-min);
-			}});
 		
-		maxField.textProperty().addListener(new ChangeListener<String>(){
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				max=Integer.parseInt(newValue);
-				slider.setMax(max);
-				slider.setPrefWidth(max-min);
-			}});
 		
-		restField.textProperty().addListener(new ChangeListener<String>(){
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				rest=Integer.parseInt(newValue);
-				slider.setValue(rest);
+		servoDropDownList.setValue(0);
+		servoDropDownList.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event) {
+				servo=(int) servoDropDownList.getValue();
+				
+				slider.setPrefWidth(Globals.servoLimitList[servo].getMaxPos()-Globals.servoLimitList[servo].getMinPos());
+				slider.setValue(Globals.servoLimitList[servo].getRestPos());
+				slider.setMax(Globals.servoLimitList[servo].getMaxPos());
+				slider.setMin(Globals.servoLimitList[servo].getMinPos());
 				
 			}});
 		
-		servoField.textProperty().addListener(new ChangeListener<String>(){
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				servo=Integer.parseInt(newValue);
-				
-				
-			}});
 		
 		this.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 			  System.out.println("keypressed "+key.getText()+" "+key.getCode());

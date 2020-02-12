@@ -13,7 +13,7 @@ public class Motion {
 		
 	Logger log=Logger.getLogger(this.getClass().getSimpleName());
 	
-	private final int __size=16;
+	private final int __size=Globals.numberOfServos;
 	private String seqFileName;
 	private String waveFileName;
 	private List<int[]> servoValueList=new ArrayList<>();

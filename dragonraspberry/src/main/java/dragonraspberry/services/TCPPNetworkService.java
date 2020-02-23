@@ -27,18 +27,18 @@ public class TCPPNetworkService implements Runnable{
 	boolean __sessionIsRunning = false;
 	
 	
-	private final String help="Dragon help\n"
-			+ "rnd:         start random actions\n"
-			+ "lst:         list actions\n"
-			+ "pos SS XXX:  set servo SS at XXX\n"
-			+ "cur xxxxxxx: set new current motion\n"
-			+ "trk XX:      arm recording for servo XX\n"
-			+ "stp:         stop recording\n"
-			+ "dmp:         dumpcurrent record\n"
-			+ "wrt:         write current motion to storage\n"
-			+ "pse:			pause all activity"
-			+ "nor:         operate normal"
-			+ "end:         End software\n";
+	private final String help="Dragon help"+System.lineSeparator()
+			+ "rnd:         start random actions"+System.lineSeparator()
+			+ "lst:         list actions"+System.lineSeparator()
+			+ "pos SS XXX:  set servo SS at XXX"+System.lineSeparator()
+			+ "cur xxxxxxx: set new current motion"+System.lineSeparator()
+			+ "trk XX:      arm recording for servo XX"+System.lineSeparator()
+			+ "stp:         stop recording"+System.lineSeparator()
+			+ "dmp:         dumpcurrent record"+System.lineSeparator()
+			+ "wrt:         write current motion to storage"+System.lineSeparator()
+			+ "pse:         pause all activity"+System.lineSeparator()
+			+ "nor:         operate normal"+System.lineSeparator()
+			+ "end:         End software"+System.lineSeparator();
 	
 	
 	

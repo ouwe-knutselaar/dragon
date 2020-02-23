@@ -7,6 +7,7 @@ public class Servo {
 	private int maxPos;
 	private int restPos;
 	private int servoValue;
+	private int diff;				// Max - min
 	
 	
 	public Servo(int servoValue,String inputStringToParse)
@@ -17,6 +18,7 @@ public class Servo {
 		this.maxPos = Integer.parseInt(valueList[2]);
 		this.restPos = Integer.parseInt(valueList[3]);
 		this.servoValue = servoValue;
+		this.diff = maxPos-minPos;
 	}
 	
 	
@@ -58,6 +60,12 @@ public class Servo {
 	}
 	public void setServoValue(int servoValue) {
 		this.servoValue = servoValue;
+	}
+	public int getDiff() {
+		return diff;
+	}
+	public void setDiff(int diff) {
+		this.diff = diff;
 	}
 
 

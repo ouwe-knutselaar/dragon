@@ -29,8 +29,11 @@ public class ContinueMovement {
 		log.info("Make the ContinueMovement");
 		__untilNextMotion = 100 + rand.nextInt(250); // Standaard de eerste beweging tussen de 2 en 7 seconden
 		
-		// Make 16 new movement arrays
-		for (int tel = 0; tel < 16; tel++)__MovementArrayList[tel] = new MovementArray(0, 0, 0, tel);
+		// Make 16 new movement arrays in the rest position
+		for (int tel = 0; tel < 16; tel++)__MovementArrayList[tel] = new MovementArray(10,
+																					   Globals.servoLimitList[tel].getRestPos(),
+																					   Globals.servoLimitList[tel].getRestPos(), 
+																					   tel);
 
 		// load the motions in memory
 		for (String actionName : __motionNamesList) {
@@ -94,24 +97,26 @@ public class ContinueMovement {
 	// ************************************** private functions
 
 	private int[] nextNormalOperatingStep() {
-		__untilNextMotion--;
+		__untilNextMotion--;						// Lower the counter until we must select a new movement
 		if (__untilNextMotion < 0)
-			setNextNewAction();
+			setNextNewAction();						// Oke, time to select a new movement and make a new movement array
 
-		for (int tel = 0; tel < Globals.numberOfServos; tel++) {
-			__currentValueOfServos[tel] = __MovementArrayList[tel].getNext();
+		for (int tel = 0; tel < Globals.numberOfServos; tel++) {				// Update the servo list
+			__currentValueOfServos[tel] = __MovementArrayList[tel].getNext();	// loop through all the servo's
 			//log.debug(__currentValueOfServos[tel] + "  ");
 		}
 		//log.debug(System.lineSeparator());
-		return __currentValueOfServos;
+		return __currentValueOfServos;				// Return the errorlist
 	}
 
+	
+	// Create a new action
 	private void setNextNewAction() {
 		int selectedServoToMove = rand.nextInt(16);
 		int startPosition = __MovementArrayList[selectedServoToMove].getNext();
-		__MovementArrayList[selectedServoToMove] = new MovementArray(rand.nextInt(500), 
-																	 startPosition,
-																	 rand.nextInt(600), 
+		__MovementArrayList[selectedServoToMove] = new MovementArray(rand.nextInt(500), 													// Max 500 steps
+																	 startPosition,															// From the latest start position
+																	 Globals.servoLimitList[selectedServoToMove].getMinPos()+rand.nextInt(Globals.servoLimitList[selectedServoToMove].getDiff()), //
 																	 selectedServoToMove);
 		__untilNextMotion = 500 + rand.nextInt(250);
 	}

@@ -39,11 +39,13 @@ public class MovementArray {
 	{
 		int valueList[]=new int[steps];							// Make an empty list
 		double diff=max-min;								// calculate the difference
-		double stepSize=Math.PI/steps;						// Calculate the stepssize for 1/4 PI
+		double stepSize=2*Math.PI/steps;						// Calculate the stepssize for 1/4 PI
 		
 		for(int tel=0;tel<steps;tel++)							// Loop to all the steps
 		{
+			//valueList[tel]=min-(int)((0.5*Math.cos(tel*stepSize)-0.5)*diff);	// Calculate the movement
 			valueList[tel]=min-(int)((0.5*Math.cos(tel*stepSize)-0.5)*diff);	// Calculate the movement
+
 		}
 		return valueList;
 	}

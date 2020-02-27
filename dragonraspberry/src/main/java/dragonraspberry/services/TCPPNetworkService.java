@@ -38,6 +38,7 @@ public class TCPPNetworkService implements Runnable{
 			+ "wrt:         write current motion to storage"+System.lineSeparator()
 			+ "pse:         pause all activity"+System.lineSeparator()
 			+ "nor:         operate normal"+System.lineSeparator()
+			+ "rst:         total reset"+System.lineSeparator()
 			+ "end:         End software"+System.lineSeparator();
 	
 	
@@ -130,6 +131,9 @@ public class TCPPNetworkService implements Runnable{
 					break;	
 				case "nor":
 					orchestrationService.operateNormal();
+					break;
+				case "rst":
+					orchestrationService.totalReset();
 					break;
 				case "dmp":
 					orchestrationService.dumpCurrentMotion();

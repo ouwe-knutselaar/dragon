@@ -25,6 +25,7 @@ public class ContinueMovement {
 	private Motion __currentMotion					= new Motion("none", "none");
 	private Map<String, Motion> __motionList 		= new HashMap<>(); // Basic indexed lijst met motion names
 
+	
 	public ContinueMovement() {
 		log.info("Make the ContinueMovement");
 		__untilNextMotion = 100 + rand.nextInt(250); // Standaard de eerste beweging tussen de 2 en 7 seconden
@@ -61,10 +62,12 @@ public class ContinueMovement {
 		return __motionNamesList;
 	}
 
+	
 	public void setCurrentMotionFromName(String motionName) {
 		__currentMotion = __motionList.get(motionName);
 	}
 
+	
 	public void runCurrentMotion() {
 		isExecutingMotion = true;
 		isNormalOperating = false;
@@ -103,9 +106,9 @@ public class ContinueMovement {
 
 		for (int tel = 0; tel < Globals.numberOfServos; tel++) {				// Update the servo list
 			__currentValueOfServos[tel] = __MovementArrayList[tel].getNext();	// loop through all the servo's
-			//log.debug(__currentValueOfServos[tel] + "  ");
+			System.out.print(__currentValueOfServos[tel] + "  ");
 		}
-		//log.debug(System.lineSeparator());
+		System.out.print(System.lineSeparator());
 		return __currentValueOfServos;				// Return the errorlist
 	}
 

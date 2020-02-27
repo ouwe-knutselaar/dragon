@@ -189,6 +189,18 @@ public class OrchestrationService {
 	}
 
 
+	public void totalReset() {
+		__normalOperation=false;
+		try {
+			i2cService.reset();
+		} catch (IOException e) {
+			log.error("Reset operation failed");
+			e.printStackTrace();
+		}
+		
+	}
+
+
 
 	
 }

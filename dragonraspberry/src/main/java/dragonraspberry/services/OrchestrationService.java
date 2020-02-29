@@ -18,7 +18,7 @@ public class OrchestrationService {
 	// For the recording mode
 	private int __servoToRecord			= 0;			// The servo that is recorded
 	private boolean __recodingEnabled	= false;		// Enable or disable recording
-	private boolean __normalOperation	= false;		// enable or disable normal operation
+	private boolean __normalOperation	= true;		// enable or disable normal operation
 	private int __recordedValueFromUDP	= 0;			// Value tracked by the UDP Service
 	
 	// For normal operation

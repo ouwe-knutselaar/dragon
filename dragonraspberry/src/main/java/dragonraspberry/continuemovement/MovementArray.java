@@ -19,6 +19,7 @@ public class MovementArray {
 		__valueList=__makeMove(steps,min,max);
 		__count=0;
 		__max=max;
+		__min=min;
 	}
 	
 	
@@ -29,12 +30,12 @@ public class MovementArray {
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
-			return __max;
+			return __min;						
 		}
 	}
 	
 	
-	
+	// Make a wave from min to max and back in n steps.
 	private int[] __makeMove(int steps,int min,int max)
 	{
 		int valueList[]=new int[steps];							// Make an empty list

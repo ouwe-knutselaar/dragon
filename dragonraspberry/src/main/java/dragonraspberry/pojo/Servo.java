@@ -7,7 +7,8 @@ public class Servo {
 	private int maxPos;
 	private int restPos;
 	private int servoValue;
-	private int diff;				// Max - min
+	private int diff;						// Max - min
+	private boolean active=false;			// Use this servo or not
 	
 	
 	public Servo(int servoValue,String inputStringToParse)
@@ -17,6 +18,7 @@ public class Servo {
 		this.minPos = Integer.parseInt(valueList[1]);
 		this.maxPos = Integer.parseInt(valueList[2]);
 		this.restPos = Integer.parseInt(valueList[3]);
+		if(valueList[4].equals("1"))active=true;
 		this.servoValue = servoValue;
 		this.diff = maxPos-minPos;
 	}
@@ -68,6 +70,10 @@ public class Servo {
 		this.diff = diff;
 	}
 
+	public boolean isActive()
+	{
+		return active;
+	}
 
 	@Override
 	public String toString() {
@@ -75,7 +81,8 @@ public class Servo {
 				+ ", minPos=" + minPos 
 				+ ", maxPos=" + maxPos 
 				+ ", restPos=" + restPos
-				+ ", servoValue=" + servoValue ;
+				+ ", servoValue=" + servoValue 
+				+ ", active=" + active ;
 	}
 	
 	

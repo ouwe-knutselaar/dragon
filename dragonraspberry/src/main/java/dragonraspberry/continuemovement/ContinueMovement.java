@@ -106,16 +106,16 @@ public class ContinueMovement {
 
 		for (int tel = 0; tel < Globals.numberOfServos; tel++) {				// Update the servo list
 			__currentValueOfServos[tel] = __MovementArrayList[tel].getNext();	// loop through all the servo's
-			System.out.print(__currentValueOfServos[tel] + "  ");
+			//System.out.print(__currentValueOfServos[tel] + "  ");
 		}
-		System.out.print(System.lineSeparator());
+		//System.out.print(System.lineSeparator());
 		return __currentValueOfServos;				// Return the errorlist
 	}
 
 	
 	// Create a new action
 	private void setNextNewAction() {
-		int selectedServoToMove = rand.nextInt(16);
+		int selectedServoToMove = SelectRandomActiveServo();
 		int startPosition = __MovementArrayList[selectedServoToMove].getNext();
 		int newNumberOfSteps=100+rand.nextInt(400);
 		__MovementArrayList[selectedServoToMove] = new MovementArray(newNumberOfSteps, 				// Minimal 1000 and Max 500 steps
@@ -123,6 +123,14 @@ public class ContinueMovement {
 																	 Globals.servoLimitList[selectedServoToMove].getMinPos()+rand.nextInt(Globals.servoLimitList[selectedServoToMove].getDiff()), //
 																	 selectedServoToMove);
 		__untilNextMotion = newNumberOfSteps+rand.nextInt(250);
+	}
+	
+	
+	private int SelectRandomActiveServo()
+	{
+		int selectedServoToMove = rand.nextInt(16);
+		if(Globals.servoLimitList[selectedServoToMove].isActive())return selectedServoToMove;
+		return SelectRandomActiveServo();
 	}
 
 }

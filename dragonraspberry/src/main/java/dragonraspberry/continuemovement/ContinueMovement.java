@@ -117,12 +117,12 @@ public class ContinueMovement {
 	private void setNextNewAction() {
 		int selectedServoToMove = SelectRandomActiveServo();
 		int startPosition = __MovementArrayList[selectedServoToMove].getNext();
-		int newNumberOfSteps=100+rand.nextInt(400);
+		int newNumberOfSteps=50+rand.nextInt(50);
 		__MovementArrayList[selectedServoToMove] = new MovementArray(newNumberOfSteps, 				// Minimal 1000 and Max 500 steps
 																	 startPosition,															// From the latest start position
-																	 Globals.servoLimitList[selectedServoToMove].getMinPos()+rand.nextInt(Globals.servoLimitList[selectedServoToMove].getDiff()), //
+																	 Globals.servoLimitList[selectedServoToMove].getMinPos()+Globals.servoLimitList[selectedServoToMove].getDiff(), //
 																	 selectedServoToMove);
-		__untilNextMotion = newNumberOfSteps+rand.nextInt(250);
+		__untilNextMotion = newNumberOfSteps+rand.nextInt(50);
 	}
 	
 	

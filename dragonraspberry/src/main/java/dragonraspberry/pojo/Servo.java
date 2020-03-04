@@ -1,6 +1,11 @@
 package dragonraspberry.pojo;
 
+import org.apache.log4j.Logger;
+
 public class Servo {
+	
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
+
 	
 	private String servoName;
 	private int minPos;
@@ -13,6 +18,7 @@ public class Servo {
 	
 	public Servo(int servoValue,String inputStringToParse)
 	{
+		log.info("Parse "+inputStringToParse);
 		String valueList[]=inputStringToParse.split(",");
 		this.servoName = valueList[0];
 		this.minPos = Integer.parseInt(valueList[1]);

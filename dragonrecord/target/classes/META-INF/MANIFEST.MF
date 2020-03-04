@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Built-By: Erwin
+Class-Path: libs/pi4j-core-1.2.jar libs/pi4j-gpio-extension-1.2.jar li
+ bs/pi4j-device-1.2.jar libs/log4j-1.2.17.jar libs/commons-cli-1.4.jar
+Build-Jdk: 1.8.0_101
+Created-By: Maven Integration for Eclipse
+Main-Class: dragonrecord.DragonRecord
+

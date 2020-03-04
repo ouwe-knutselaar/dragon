@@ -192,8 +192,8 @@ public class DragonFileConnector {
 	
 	private String __selectRootDir() {
 		String OS = System.getProperty("os.name").toLowerCase();
-		if(OS.contains("win"))return "D:\\erwin\\dragon\\actions";
-		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/var/dragon/";
+		if(OS.contains("win"))return Globals.windowsBaseDirectory;
+		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return Globals.linuxBaseDirectory;
 		return "unknown";
 	}
 	

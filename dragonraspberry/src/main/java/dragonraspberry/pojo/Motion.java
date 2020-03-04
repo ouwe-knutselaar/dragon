@@ -79,6 +79,19 @@ public class Motion {
 	}
 	
 	
+	// Make an empty list
+	public void createEmptyMotion(int steps)
+	{
+		servoValueList.clear();
+		for(int tel=0;tel<steps;tel++)
+		{
+			servoValueList.add(new int[Globals.numberOfServos]);
+		}
+		this.steps=steps;
+		log.debug("Created empty file of " + steps + " steps");
+	}
+	
+	
 	public void dumpMotion()
 	{
 		log.info("Sequence name is "+seqFileName);

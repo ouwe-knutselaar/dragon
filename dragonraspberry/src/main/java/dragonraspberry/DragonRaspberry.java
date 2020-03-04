@@ -2,11 +2,17 @@ package dragonraspberry;
 
 import java.io.IOException;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 
 import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
 
 import dragonraspberry.pojo.DragonEvent;
+import dragonraspberry.pojo.Globals;
 import dragonraspberry.services.OrchestrationService;
 import dragonraspberry.services.TCPPNetworkService;
 import dragonraspberry.services.UDPNetworkService;
@@ -19,7 +25,17 @@ public class DragonRaspberry {
 	private TCPPNetworkService tcpPNetworkService;
 	private static boolean running=true;
 
-	public static void main(String[] args) throws IOException, UnsupportedBusNumberException {
+	public static void main(String[] args) throws IOException, UnsupportedBusNumberException, ParseException {
+		
+		// First we parse the command line to override the defaults
+		Options options = new Options();
+		options.addOption("f", false, "Directory containing the properties and the actions");
+		
+		CommandLineParser parser = new DefaultParser();
+		CommandLine line=parser.parse(options, args);
+		if(line.hasOption("f"))Globals.baseDirectory=line.getOptionValue("f");
+		
+		
 		DragonRaspberry dragonRaspberry = new DragonRaspberry();
 		dragonRaspberry.init();
 		dragonRaspberry.blockAll();
@@ -71,11 +87,10 @@ public class DragonRaspberry {
 		running=false;
 	}
 	
+	
 	public void init()  {
 		log.info("Init Dragon for the Raspberry PI");
 
-		
-		
 		orchestrationService = OrchestrationService.GetInstance();
 
 		udpNetworkService = new UDPNetworkService();

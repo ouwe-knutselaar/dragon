@@ -22,6 +22,7 @@ public class I2CService {
 	private final static int LEDBASE = 0x06;
 	private final static int[] LEDBASELIST = { 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66 };
 	private final static int FQ60HZ = 101;
+	private final static int[] FULLZERO={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	private I2CDevice i2cdev;
 	private I2CBus i2cbus;
 	private boolean demoMode=false;
@@ -78,6 +79,7 @@ public class I2CService {
 		if(demoMode)return;
 		int settings_mode1 = i2cdev.read(MODE1);
 		i2cdev.write(MODE1, (byte) (settings_mode1 | 0x80));
+		writeAllLeds(FULLZERO);
 	}
 
 	

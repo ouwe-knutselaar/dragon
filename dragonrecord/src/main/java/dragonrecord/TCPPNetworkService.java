@@ -31,6 +31,7 @@ public class TCPPNetworkService implements Runnable{
 			+ "stp:         stop recording"+System.lineSeparator()
 			+ "wrt:         write current motion to storage"+System.lineSeparator()
 			+ "rst:         total reset"+System.lineSeparator()
+			+ "dmp:         dump record"+System.lineSeparator()
 			+ "end:         End software"+System.lineSeparator();
 	
 	
@@ -110,6 +111,10 @@ public class TCPPNetworkService implements Runnable{
 					orchestrationService.writeCurrentMotion();
 					__write("OK WRITE CURRENT");
 					break;
+				case "dmp":
+					orchestrationService.dumpCurrentMotion();
+					__write("OK DUMP CURRENT");
+					break;	
 				case "end":
 					//DragonRaspberry.endDragon();
 					break;

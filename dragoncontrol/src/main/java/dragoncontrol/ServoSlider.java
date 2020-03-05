@@ -118,6 +118,7 @@ public class ServoSlider extends GridPane
 		slider.setPrefWidth(Globals.servoLimitList[servo].getMaxPos()-Globals.servoLimitList[servo].getMinPos());
 		slider.setOrientation(Orientation.VERTICAL);
 		slider.setShowTickLabels(true);
+		
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				

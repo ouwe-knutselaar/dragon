@@ -96,7 +96,7 @@ public class I2CService {
                 result[3] = (byte) ((data & 0x0000FF00) >> 8);		// LED OFF_L
                 result[2] = (byte) ((data & 0x000000FF) >> 0);		// LED OFF_H
             
-		log.debug("Write " + Integer.toHexString(result[1])+" "+Integer.toHexString(result[0])+" "+Integer.toHexString(result[3])+" "+Integer.toHexString(result[2]));
+		//log.debug("Write " + Integer.toHexString(result[1])+" "+Integer.toHexString(result[0])+" "+Integer.toHexString(result[3])+" "+Integer.toHexString(result[2]));
 		if(demoMode)return;
 		i2cdev.write(LEDBASELIST[lednumber],result);
 	}

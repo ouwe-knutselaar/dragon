@@ -13,7 +13,7 @@ public class TimerService implements Runnable{
 	private int step;
 	private long starttime;
 	private static TimerService INSTANCE=new TimerService();
-	List<DragonEvent> eventHandlersList=new ArrayList<>();		// Lijst met eventhandlers
+	private List<DragonEvent> eventHandlersList=new ArrayList<>();		// Lijst met eventhandlers
 	
 	
 	private TimerService()
@@ -56,10 +56,9 @@ public class TimerService implements Runnable{
 					{
 						handler.handle("timer", step,0);
 					}
-					oldtime=currentTime;								// Reset de laatste keer
+					oldtime=currentTime;							// Reset de laatste keer
 					difftime=(int) (currentTime-starttime);			// Maak het verschil
-					step=difftime / interval;					// Bepaal het aantal stepds
-					//log.debug("Timer "+oldtime+" \tdifftime "+difftime+"\tstep "+step);
+					step=difftime / interval;						// Bepaal het aantal stepds
 				}
 				
 				try {
@@ -83,7 +82,7 @@ public class TimerService implements Runnable{
 	
 	public void stepReset()
 	{
-		log.info("Timer reset reqested");
+		log.info("Timer reset requested");
 		step=0;
 		starttime=System.currentTimeMillis();
 	}
@@ -92,12 +91,6 @@ public class TimerService implements Runnable{
 	{
 		log.info("Try to stop the Timer Service");
 		running=false;
-	}
-
-
-	public int getStep() {
-		// TODO Auto-generated method stub
-		return step;
 	}
 
 }

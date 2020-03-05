@@ -46,20 +46,17 @@ public class UDPNetworkService implements Runnable{
 	@Override
 	public void run() {
 		log.info("UDPNetworkService thread started");
-		String receivedDataString="";
-		while(running)
-		{
-			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            try {
+		String receivedDataString = "";
+		while (running) {
+			try {
+				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				serverSocket.receive(receivePacket);
-				receivedDataString=new  String(receivePacket.getData());
+				receivedDataString = new String(receivePacket.getData());
 				positionServo(receivedDataString);
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
 		log.info("UDPNetworkService stopped");
 	}
 
@@ -72,12 +69,11 @@ public class UDPNetworkService implements Runnable{
 	
 	
 	
-	private String positionServo(String clientSentence) {
+	private String positionServo(String clientSentence) throws IOException {
 		try{
-			log.debug("Position servo with string "+clientSentence);
+			
 			int servo=Integer.parseInt(clientSentence.substring(2,4));
 			int servoValue=Integer.parseInt(clientSentence.substring(5,9));
-			log.debug("Servo is "+servo+" values is "+servoValue); 
 			orchestrationService.setSingleServo(servo,servoValue);
 		}
 		catch (NumberFormatException e)

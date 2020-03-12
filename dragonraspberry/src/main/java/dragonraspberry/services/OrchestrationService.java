@@ -23,7 +23,6 @@ public class OrchestrationService {
 	// The services that the motionserivce needs
 	private TimerService timerService				= TimerService.getInstance();
 	private I2CService i2cService					= new I2CService();
-	private WaveService waveService					= WaveService.getInstance();
 	private static OrchestrationService INSTANCE	= new OrchestrationService();
 	
 	/**
@@ -106,9 +105,6 @@ public class OrchestrationService {
 	}
 
 
-	public void writeCurrentMotion() throws IOException {
-		__continueMovement.writeCurrentMotion();
-	}
 
 
 

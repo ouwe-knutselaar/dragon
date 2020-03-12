@@ -78,13 +78,6 @@ public class ContinueMovement {
 		return new int[16];
 	}
 
-	public void writeCurrentMotion() {
-		try {
-			dragonFileService.writeSequenceFile(__currentMotion);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	
 	public Motion getCurrentMotion()

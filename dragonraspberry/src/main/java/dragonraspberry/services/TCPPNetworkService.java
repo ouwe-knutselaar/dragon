@@ -32,10 +32,7 @@ public class TCPPNetworkService implements Runnable{
 			+ "lst:         list actions"+System.lineSeparator()
 			+ "pos SS XXX:  set servo SS at XXX"+System.lineSeparator()
 			+ "cur xxxxxxx: set new current motion"+System.lineSeparator()
-			+ "trk XX:      arm recording for servo XX"+System.lineSeparator()
-			+ "stp:         stop recording"+System.lineSeparator()
 			+ "dmp:         dumpcurrent record"+System.lineSeparator()
-			+ "wrt:         write current motion to storage"+System.lineSeparator()
 			+ "pse:         pause all activity"+System.lineSeparator()
 			+ "nor:         operate normal"+System.lineSeparator()
 			+ "rst:         total reset"+System.lineSeparator()
@@ -115,14 +112,6 @@ public class TCPPNetworkService implements Runnable{
 					orchestrationService.setCurrentMotion(clientInputString.substring(4));
 					__write("OK SET CURRENT");
 					break;
-				case "trk":
-					orchestrationService.startTrackRecording(Integer.parseInt(clientInputString.substring(4)));
-					__write("OK SET RECORD");
-					break;
-				case "stp":
-					orchestrationService.stopTrackRecording();
-					__write("OK STOP RECORD");
-					break;
 				case "hlp":
 					__write(help());
 					break;
@@ -138,10 +127,6 @@ public class TCPPNetworkService implements Runnable{
 				case "dmp":
 					orchestrationService.dumpCurrentMotion();
 					__write("OK DUMP RECORD");
-					break;
-				case "wrt":
-					orchestrationService.writeCurrentMotion();
-					__write("OK WRITE CURRENT");
 					break;
 				case "end":
 					DragonRaspberry.endDragon();

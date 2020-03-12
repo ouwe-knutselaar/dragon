@@ -108,55 +108,6 @@ public class DragonFileConnector {
 		return  rootDir + "/" + actionName + "/" + actionName+".wav";
 	}
 
-	
-	public void writeSequenceFile(Motion motion) throws IOException
-	{
-		String sequenceFileName=rootDir+"/"+motion.getSeqFileName()+"/"+motion.getSeqFileName()+".seq";
-		log.info("Write sequence file :"+sequenceFileName);
-		File seqenueceFile=new File(sequenceFileName);
-		
-		BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(seqenueceFile));
-		for(int tel=0;tel<motion.getSteps();tel++)
-			{
-			 int valueList[]=motion.getListOfServoValues(tel);
-			 bos.write(String.format("%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d\n",
-							   valueList[0],
-							   valueList[1],
-							   valueList[2],
-							   valueList[3],
-							   valueList[4],
-							   valueList[5],
-							   valueList[6],
-							   valueList[7],
-							   valueList[8],
-							   valueList[9],
-							   valueList[10],
-							   valueList[11],
-							   valueList[12],
-							   valueList[13],
-							   valueList[14],
-							   valueList[15]).getBytes());
-			
-			}
-		bos.close();
-	}
-	
-	
-	
-	private void __createNewSequenceFile(int steps, String sequenceName) throws IOException {
-		log.info("Create new sequence file :"+sequenceName);
-		File seqenueceFile=new File(sequenceName);
-		BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(seqenueceFile));
-		for(int tel=0;tel<steps;tel++)
-			{
-				bos.write("0000000000000000000000000000000000000000000000000000000000000000\n".getBytes());
-			}
-		bos.close();
-		
-		
-		return;
-	}
-
 
 
 	private List<String> __ScanTheActionToTheActionList(String rootDir) {
@@ -175,13 +126,6 @@ public class DragonFileConnector {
 		log.info("The sequence for "+motion+" does not exist, create one");
 		WaveService waveService=WaveService.getInstance();									// Open de wave Service
 		waveService.loadWaveFile(rootDir+"/"+motion+"/"+motion+".wav");							// open de wave file					
-		try {
-			__createNewSequenceFile(waveService.getSteps(),rootDir+"/"+motion+"/"+motion+".seq");
-		} catch (IOException e) {
-			log.error("Error while creating nmissing sequence file "+e.getMessage());
-			e.printStackTrace();
-			System.exit(1);
-		}
 		return;
 	}
 	

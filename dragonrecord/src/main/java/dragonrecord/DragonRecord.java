@@ -12,7 +12,6 @@ public class DragonRecord {
 	
 	private UDPNetworkService udpNetworkService;
 	private OrchestrationService orchestrationService;
-	private TCPPNetworkService tcpPNetworkService;
 	private TimerService timerService;
 	
 	private boolean RUNNING=true;
@@ -40,25 +39,17 @@ public class DragonRecord {
 			}
 		}
 		udpNetworkService.stop();
-		tcpPNetworkService.stop();
 		timerService.stopService();
 	}
 	
 	
 	public void init()  {
 		log.info("Init Dragon Recorder");
-
 		timerService=TimerService.getInstance();
 		timerService.startTimer();
-		
 		udpNetworkService = new UDPNetworkService();
 		udpNetworkService.startUDPNetworkService();
-
-		tcpPNetworkService = new TCPPNetworkService();
-		tcpPNetworkService.startTCPPNetworkService();
-		
 		orchestrationService = OrchestrationService.GetInstance();
-		
 	}
 	
 }

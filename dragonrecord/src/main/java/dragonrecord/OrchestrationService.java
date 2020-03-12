@@ -40,14 +40,16 @@ public class OrchestrationService {
 		return INSTANCE;
 	}
 
-	public void startTrackRecording(int parseInt) 
+	public void startTrackRecording(int servo) 
 	{
 		timerService.stepReset();
 		recording=true;
+		log.info("Start recording of "+servo);
 	}
 
 	public void stopTrackRecording() {
 		recording=false;
+		log.info("Stop recording");
 	}
 
 	public void totalReset() {
@@ -59,7 +61,6 @@ public class OrchestrationService {
 	}
 
 	public void runCurrentMotion() {
-		// TODO Auto-generated method stub
 	}
 
 	public void setSingleServo(int servo, int servoValue) throws IOException {
@@ -70,8 +71,14 @@ public class OrchestrationService {
 
 
 	public void dumpCurrentMotion() {
+		log.info("dump current motion");
 		System.out.println(movementRecorder);
 		
+	}
+
+
+	public void saveCurrentMotion() throws IOException {
+		movementRecorder.writeSequenceFile();
 	}
 	
 }

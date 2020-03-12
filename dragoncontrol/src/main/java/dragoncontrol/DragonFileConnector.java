@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 
 public class DragonFileConnector {
 
-	Logger log = Logger.getLogger(DragonFileConnector.class);
 
 	private String rootDir = "unknown"; // Rootdit van de acties
 
@@ -17,7 +15,6 @@ public class DragonFileConnector {
 
 		rootDir = __selectRootDir();
 
-		log.info("read the default values");
 		try {
 			readTheDeafaultFromTheProperiesFileAndPutItInGlobals(rootDir);
 		} catch (IOException e) {
@@ -51,8 +48,6 @@ public class DragonFileConnector {
 		Globals.servoLimitList[14] = new Servo(14, prop.getProperty("servo14", "none,0,0,0"));
 		Globals.servoLimitList[15] = new Servo(15, prop.getProperty("servo15", "none,0,0,0"));
 
-		for (Servo servo : Globals.servoLimitList)
-			log.info(servo.toString());
 	}
 
 	private String __selectRootDir() {

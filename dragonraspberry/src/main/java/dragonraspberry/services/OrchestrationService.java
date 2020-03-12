@@ -15,11 +15,7 @@ public class OrchestrationService {
 
 	private Logger log=Logger.getLogger(this.getClass().getSimpleName());
 	
-	// For the recording mode
-	private int __servoToRecord			= 0;			// The servo that is recorded
-	private boolean __recodingEnabled	= false;		// Enable or disable recording
 	private boolean __normalOperation	= true;		// enable or disable normal operation
-	private int __recordedValueFromUDP	= 0;			// Value tracked by the UDP Service
 	
 	// For normal operation
 	private ContinueMovement __continueMovement 	= new ContinueMovement();
@@ -28,7 +24,6 @@ public class OrchestrationService {
 	private TimerService timerService				= TimerService.getInstance();
 	private I2CService i2cService					= new I2CService();
 	private WaveService waveService					= WaveService.getInstance();
-	private RecordingService recordingService		= new RecordingService();
 	private static OrchestrationService INSTANCE	= new OrchestrationService();
 	
 	/**
@@ -51,14 +46,7 @@ public class OrchestrationService {
 			@Override
 			public void handle(String msgFromTimer, int stepFromTimer, int val2) {
 				try {
-					// Recording a movement
 					
-					if(__recodingEnabled)
-					{
-						int[] tempValueList=__continueMovement.nextStep();
-						tempValueList[__servoToRecord]=__recordedValueFromUDP;					// Alter on value to the record value
-						recordingService.setValue(stepFromTimer, __recordedValueFromUDP);		// Write the value to the recording list
-					}
 					if(__normalOperation)
 					{
 						i2cService.writeLedString(__continueMovement.nextStep());
@@ -73,11 +61,7 @@ public class OrchestrationService {
 			}
 		});
 		
-		recordingService.addOnRecordingEvent(new DragonEvent(){
-			@Override
-			public void handle(String msg, int val1, int val2) {
-				stopTrackRecording();
-			}});
+		
 	}
 		
 	
@@ -110,42 +94,10 @@ public class OrchestrationService {
 	 */
 	public void setSingleServo(int servoNumber, int servoValue) throws IOException {
 		log.debug("Write single server/led :"+servoNumber+" with "+servoValue);
-        __recordedValueFromUDP=Globals.servoLimitList[servoNumber].correctToLimits(servoValue);
-        if(__recodingEnabled)return;
 		i2cService.writeSingleLed(servoNumber, servoValue);
 	}
 
 	
-	/**
-	 * Enable the recording of a track
-	 * @param clientInputString
-	 */
-	public void startTrackRecording(int servo) {
-		try{
-			__normalOperation=false;
-			__servoToRecord = servo;															// Determine the servo to record
-			waveService.loadWaveFile(__continueMovement.getCurrentMotion().getWaveFileName());
-			recordingService.makeNewRecordingTrask(waveService.getSteps());						// Create new recording track
-			__recodingEnabled=true;																// enable recording
-			timerService.stepReset();															// Reset de timer
-			waveService.playWave();																// Start de audio
-			log.info("Set "+__continueMovement.getCurrentMotion().getSeqFileName()+" recording for servo "+__servoToRecord);
-		}
-		catch(NumberFormatException e)
-		{
-			log.error("Client gave invalid number to record");
-		}
-	}
-
-
-	public void stopTrackRecording() {
-		__recodingEnabled=false;
-		log.info("Recording stopped");
-		log.info("Recording "+recordingService.dumpRecordedTrack());
-		log.info("Update the motion");
-		recordingService.correctNotReceived();
-		__continueMovement.updateServoListInCurrentMotion(__servoToRecord, recordingService.getValueList());
-	}
 
 
 	public void setCurrentMotion(String motionName) {
@@ -176,14 +128,12 @@ public class OrchestrationService {
 
 
 	public void pauseAllActivities() {
-		__recodingEnabled=false;
 		__normalOperation=false;
 		log.info("Pause all activites");
 	}
 
 
 	public void operateNormal() {
-		__recodingEnabled=false;
 		__normalOperation=true;
 		log.info("Operate normal");
 	}

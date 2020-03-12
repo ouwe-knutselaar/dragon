@@ -52,7 +52,13 @@ public class UDPNetworkService implements Runnable{
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				serverSocket.receive(receivePacket);
 				receivedDataString = new String(receivePacket.getData());
-				positionServo(receivedDataString);
+				System.out.println(receivedDataString);
+				char choice=receivedDataString.charAt(0);
+				if(choice=='p')positionServo(receivedDataString);
+				if(choice=='r')orchestrationService.startTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
+				if(choice=='t')orchestrationService.stopTrackRecording();
+				if(choice=='d')orchestrationService.dumpCurrentMotion();
+				if(choice=='s')orchestrationService.saveCurrentMotion();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

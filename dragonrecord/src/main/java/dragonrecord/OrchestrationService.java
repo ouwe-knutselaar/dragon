@@ -53,6 +53,7 @@ public class OrchestrationService {
 	}
 
 	public void totalReset() {
+		log.info("Reset current recording");
 		movementRecorder.reset();
 	}
 
@@ -79,6 +80,12 @@ public class OrchestrationService {
 
 	public void saveCurrentMotion() throws IOException {
 		movementRecorder.writeSequenceFile();
+	}
+
+
+	public void createNewRecording(String recordingName) throws IOException {
+		log.info("Create new recording named "+recordingName);
+		movementRecorder.createNewSequence(recordingName);
 	}
 	
 }

@@ -12,12 +12,10 @@ import dragonraspberry.pojo.DragonEvent;
 import dragonraspberry.pojo.Globals;
 import dragonraspberry.services.OrchestrationService;
 import dragonraspberry.services.TCPPNetworkService;
-import dragonraspberry.services.UDPNetworkService;
 
 public class DragonRaspberry {
 
 	private Logger log = Logger.getLogger(DragonRaspberry.class);
-	private UDPNetworkService udpNetworkService;
 	private OrchestrationService orchestrationService;
 	private TCPPNetworkService tcpPNetworkService;
 	private static boolean running=true;
@@ -73,7 +71,6 @@ public class DragonRaspberry {
 
 	public void stopAll() {
 		orchestrationService.stopAll();
-		udpNetworkService.stop();
 		tcpPNetworkService.stop();
 		log.info("Dragon ended");
 	}
@@ -89,15 +86,6 @@ public class DragonRaspberry {
 		log.info("Init Dragon for the Raspberry PI");
 
 		orchestrationService = OrchestrationService.GetInstance();
-
-		udpNetworkService = new UDPNetworkService();
-		udpNetworkService.startUDPNetworkService();
-		udpNetworkService.onNetworkEvent(new DragonEvent() {
-			@Override
-			public void handle(String msg, int val1, int val2) {
-				log.info("Event received " + msg + " " + val1 + " " + val2);
-			}
-		});
 
 		tcpPNetworkService = new TCPPNetworkService();
 		tcpPNetworkService.startTCPPNetworkService();

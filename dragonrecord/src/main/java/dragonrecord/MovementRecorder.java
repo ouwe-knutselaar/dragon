@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
@@ -18,6 +21,7 @@ public class MovementRecorder {
 	private int tracklist[][];
 	private int laststep=0;
 	private String tempname="xxxxxxx";
+	private String tempdir=__selectRootDir()+tempname;;
 	
 	
 	public MovementRecorder()
@@ -61,8 +65,7 @@ public class MovementRecorder {
 	
 	public void writeSequenceFile() throws IOException
 	{
-		randomSequenceName();
-		String sequenceFileName=__selectRootDir()+tempname+".seq";
+		String sequenceFileName=tempdir+tempname+".seq";
 		log.info("Write sequence file :"+sequenceFileName);
 		File seqenueceFile=new File(sequenceFileName);
 		
@@ -93,27 +96,24 @@ public class MovementRecorder {
 	}
 	
 	
-	
-	private String randomSequenceName() {
-		Random rand=new Random();
-	    byte[] array = new byte[7]; // length is bounded by 7
-	    array[0]=(byte) (65+rand.nextInt(25));
-	    array[1]=(byte) (65+rand.nextInt(25));
-	    array[2]=(byte) (65+rand.nextInt(25));
-	    array[3]=(byte) (65+rand.nextInt(25));
-	    array[4]=(byte) (65+rand.nextInt(25));
-	    array[5]=(byte) (65+rand.nextInt(25));
-	    array[6]=(byte) (65+rand.nextInt(25));
-	    tempname = new String(array, Charset.forName("UTF-8"));
-	    return tempname;
-	}
+
 	
 	
 	private String __selectRootDir() {
 		String OS = System.getProperty("os.name").toLowerCase();
-		if(OS.contains("win"))return "D:\\erwin\\dragon\\actions";
+		if(OS.contains("win"))return "D:\\erwin\\dragon\\actions\\";
 		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/var/dragon/";
 		return "unknown";
 	}
+
+	public void createNewSequence(String recordingName) throws IOException {
+		tempname=recordingName;
+		tempdir=__selectRootDir()+recordingName+"\\";
+		Path path = Paths.get(tempdir);
+        Files.createDirectories(path);
+	}
+	
+	
+	
 	
 }

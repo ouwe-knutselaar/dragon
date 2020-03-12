@@ -39,12 +39,14 @@ public class ServoSlider extends GridPane
 	Label maxLabel=new Label("max");
 	Label restLabel=new Label("rest");
 	Label servoLabel=new Label("servo");
+	Label actionName=new Label("name");
 	
 	TextField ipAdressField=new TextField(host);
 	TextField ipPortField=new TextField("3001");
 	TextField minField;
 	TextField maxField;
 	TextField restField;
+	TextField nameField;
 	
 	Button connect=new Button("Connect");
 	Button startRecordingButton = new Button("record");

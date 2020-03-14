@@ -4,11 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Random;
 
 import org.apache.log4j.Logger;
 
@@ -46,23 +44,17 @@ public class MovementRecorder {
 	
 	
 	@Override
-	public String toString()
-	{
-		StringBuilder record=new StringBuilder();
-		for(int stepcount=0;stepcount<laststep;stepcount++)
-		{
-			for(int servocount=0;servocount<NUM_OF_SERVOS;servocount++)
-			{
+	public String toString() {
+		StringBuilder record = new StringBuilder();
+		for (int stepcount = 0; stepcount < laststep; stepcount++) {
+			for (int servocount = 0; servocount < NUM_OF_SERVOS; servocount++) {
 				record.append(tracklist[servocount][stepcount]).append('\t');
 			}
 			record.append(System.lineSeparator());
 		}
-		
 		return record.toString();
 	}
-
-	
-	
+		
 	public void writeSequenceFile() throws IOException
 	{
 		String sequenceFileName=recordingDirectory+"\\"+recordingName+".seq";
@@ -90,14 +82,9 @@ public class MovementRecorder {
 					 		tracklist[13][tel],
 					 		tracklist[14][tel],
 					 		tracklist[15][tel]).getBytes());
-			
 			}
 		bos.close();
 	}
-	
-	
-
-	
 	
 	private String __selectRootDir() {
 		String OS = System.getProperty("os.name").toLowerCase();
@@ -114,7 +101,6 @@ public class MovementRecorder {
 		Path path = Paths.get(recordingDirectory);
         Files.createDirectories(path);
 	}
-	
 	
 	public String getRecordingWaveName()
 	{

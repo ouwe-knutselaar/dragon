@@ -11,8 +11,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import org.apache.log4j.Logger;
@@ -35,13 +33,11 @@ public class WaveService{
 	private AudioFormat format;
 	private byte[] eightBitByteArray;
 	private int[][] samples;
-	
 	private static WaveService INSTANCE;
 	private double maxvol = 1;
 	private Clip clip;
 	private File waveFile;
-	private String filename		= "";
-	
+
 	
 	private WaveService()
 	{
@@ -91,7 +87,6 @@ public class WaveService{
 	public boolean loadWaveFile(String audioFile)
 	{
 		log.info("Load wave file "+audioFile);
-		filename=audioFile;
 		waveFile=new File(audioFile);
 		try {
 			audioInputStream=AudioSystem.getAudioInputStream(waveFile);		// Open de audiofile naar een inputstream

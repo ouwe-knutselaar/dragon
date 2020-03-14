@@ -4,12 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
-
-
 
 
 public class UDPNetworkService implements Runnable{
@@ -19,7 +14,6 @@ public class UDPNetworkService implements Runnable{
 	private Logger log=Logger.getLogger(UDPNetworkService.class.getSimpleName());
 	private boolean running=true;
 	private byte[] receiveData = new byte[1024];
-	private byte[] sendData = new byte[1024];
 	private DatagramSocket serverSocket;
 	
 	
@@ -60,6 +54,7 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='t')orchestrationService.stopTrackRecording();
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
 				if(choice=='s')orchestrationService.saveCurrentMotion();
+				if(choice=='e')orchestrationService.executeCurrentMotion();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -73,7 +68,6 @@ public class UDPNetworkService implements Runnable{
 		log.info("Stopping the UDPNetworkService service");
 		running=false;
 	}
-	
 	
 	
 	private String positionServo(String clientSentence) throws IOException {

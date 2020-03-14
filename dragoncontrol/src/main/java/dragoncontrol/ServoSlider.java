@@ -52,6 +52,7 @@ public class ServoSlider extends GridPane
 	Button createNewRecordButton=new Button("Create");
 	Button startRecordingButton = new Button("record");
 	Button stopRecordingButton = new Button("stop");
+	Button playRecordingButton = new Button("play");
 	Button dumpRecordingButton = new Button("dump");
 	Button saveRecordingButton = new Button("save");
 
@@ -113,12 +114,13 @@ public class ServoSlider extends GridPane
 
 		
 		this.add(connect,0,7,1,1);
-		this.add(slider, 1, 7,1,5);
+		this.add(slider, 1, 7,1,6);
 		this.add(createNewRecordButton, 0, 8);
 		this.add(startRecordingButton, 0, 9);
-		this.add(stopRecordingButton, 0, 10);
-		this.add(dumpRecordingButton, 0, 11);
-		this.add(saveRecordingButton, 0, 12);
+		this.add(playRecordingButton, 0, 10);
+		this.add(stopRecordingButton, 0, 11);
+		this.add(dumpRecordingButton, 0, 12);
+		this.add(saveRecordingButton, 0, 13);
 		
 		
 		slider.setOrientation(Orientation.VERTICAL);
@@ -155,6 +157,15 @@ public class ServoSlider extends GridPane
 			public void handle(MouseEvent event) {
 				System.out.println("Start recording");
 				sendUDP(String.format("r %02d", servo));
+			}
+		});
+		
+		
+		playRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				System.out.println("stop recording");
+				sendUDP("e 00");
 			}
 		});
 

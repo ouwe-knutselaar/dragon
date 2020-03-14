@@ -31,11 +31,6 @@ public class OrchestrationService {
 			}});
 	}
 	
-	
-	/**
-	 * This is a singleton
-	 * @return
-	 */
 	public static OrchestrationService GetInstance()
 	{
 		return INSTANCE;
@@ -63,31 +58,31 @@ public class OrchestrationService {
 		log.info("Write current motion");
 	}
 
-	public void runCurrentMotion() {
-	}
-
 	public void setSingleServo(int servo, int servoValue) throws IOException {
 		i2cService.writeSingleLed(servo, servoValue);
 		this.currentServo=servo;
 		this.currentServoValue=servoValue;
 	}
 
-
 	public void dumpCurrentMotion() {
 		log.info("dump current motion");
 		System.out.println(movementRecorder);
-		
 	}
-
 
 	public void saveCurrentMotion() throws IOException {
+		log.info("Save current motion");
 		movementRecorder.writeSequenceFile();
 	}
-
 
 	public void createNewRecording(String recordingName) throws IOException {
 		log.info("Create new recording named -"+recordingName+"-");
 		movementRecorder.createNewSequence(recordingName);
+	}
+
+	public void executeCurrentMotion() {
+		log.info("Play current motion");
+		waveService.playWave(movementRecorder.getRecordingWaveName());
+		timerService.stepReset();
 	}
 	
 }

@@ -20,8 +20,8 @@ public class MovementRecorder {
 	private final int MAXSTEPS=300*50;			// 50 hz x 300 seconden
 	private int tracklist[][];
 	private int laststep=0;
-	private String tempname="xxxxxxx";
-	private String tempdir=__selectRootDir()+tempname;;
+	private String recordingName="xxxxxxx";
+	private String recordingDirectory=__selectRootDir()+recordingName;;
 	
 	
 	public MovementRecorder()
@@ -65,7 +65,7 @@ public class MovementRecorder {
 	
 	public void writeSequenceFile() throws IOException
 	{
-		String sequenceFileName=tempdir+tempname+".seq";
+		String sequenceFileName=recordingDirectory+"\\"+recordingName+".seq";
 		log.info("Write sequence file :"+sequenceFileName);
 		File seqenueceFile=new File(sequenceFileName);
 		
@@ -106,14 +106,20 @@ public class MovementRecorder {
 		return "unknown";
 	}
 
-	public void createNewSequence(String recordingName) throws IOException {
-		tempname=recordingName;
-		tempdir=__selectRootDir()+recordingName+"\\";
-		Path path = Paths.get(tempdir);
+	public void createNewSequence(String newRecordingName) throws IOException {
+		recordingName=newRecordingName.trim();
+		recordingDirectory=(__selectRootDir()+recordingName).trim();
+		log.info("Created new recoding in -"+recordingDirectory+"-");
+		log.info("Recordng name is "+recordingName);
+		Path path = Paths.get(recordingDirectory);
         Files.createDirectories(path);
 	}
 	
 	
+	public String getRecordingWaveName()
+	{
+		return recordingDirectory+"\\"+recordingName+".wav";
+	}
 	
 	
 }

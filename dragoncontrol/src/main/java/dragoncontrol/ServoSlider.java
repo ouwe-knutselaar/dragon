@@ -49,6 +49,7 @@ public class ServoSlider extends GridPane
 	TextField nameField;
 	
 	Button connect=new Button("Connect");
+	Button createNewRecordButton=new Button("Create");
 	Button startRecordingButton = new Button("record");
 	Button stopRecordingButton = new Button("stop");
 	Button dumpRecordingButton = new Button("dump");
@@ -90,7 +91,8 @@ public class ServoSlider extends GridPane
 		 minField=new TextField(""+Globals.servoLimitList[servo].getMinPos());
 		 maxField=new TextField(""+Globals.servoLimitList[servo].getMaxPos());
 		 restField=new TextField(""+Globals.servoLimitList[servo].getRestPos());
-		
+		 nameField=new TextField("tempname");
+		 
 		
 		this.add(minLabel, 0,0);
 		this.add(restLabel, 0,1);
@@ -98,6 +100,7 @@ public class ServoSlider extends GridPane
 		this.add(ipAdressLabel, 0, 3);
 		this.add(ipPortLabel, 0, 4);
 		this.add(servoLabel, 0, 5);
+		this.add(actionName, 0, 6);
 		
 		
 		this.add(minField, 1,0);
@@ -106,14 +109,16 @@ public class ServoSlider extends GridPane
 		this.add(ipAdressField, 1, 3);
 		this.add(ipPortField, 1, 4);
 		this.add(servoDropDownList, 1, 5);
+		this.add(nameField, 1, 6);
 
 		
-		this.add(connect,0,6,1,1);
-		this.add(slider, 1, 6,1,5);
-		this.add(startRecordingButton, 0, 7);
-		this.add(stopRecordingButton, 0, 8);
-		this.add(dumpRecordingButton, 0, 9);
-		this.add(saveRecordingButton, 0, 10);
+		this.add(connect,0,7,1,1);
+		this.add(slider, 1, 7,1,5);
+		this.add(createNewRecordButton, 0, 8);
+		this.add(startRecordingButton, 0, 9);
+		this.add(stopRecordingButton, 0, 10);
+		this.add(dumpRecordingButton, 0, 11);
+		this.add(saveRecordingButton, 0, 12);
 		
 		
 		slider.setOrientation(Orientation.VERTICAL);
@@ -170,11 +175,20 @@ public class ServoSlider extends GridPane
 		});
 		
 		
+		createNewRecordButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				System.out.println("save recording");
+				sendUDP("c"+nameField.getText());
+			}
+		});
+		
+		
 		saveRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				System.out.println("save recording");
-				sendUDP("s xx");
+				sendUDP("s"+nameField.getText());
 			}
 		});
 		

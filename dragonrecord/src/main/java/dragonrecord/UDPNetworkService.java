@@ -52,7 +52,7 @@ public class UDPNetworkService implements Runnable{
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				serverSocket.receive(receivePacket);
 				receivedDataString = new String(receivePacket.getData());
-				System.out.println(receivedDataString);
+				//System.out.println(receivedDataString);
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
 				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));

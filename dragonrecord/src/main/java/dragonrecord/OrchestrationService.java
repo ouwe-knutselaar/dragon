@@ -14,6 +14,7 @@ public class OrchestrationService {
 
 	private MovementRecorder movementRecorder =new MovementRecorder();
 	private I2CService i2cService = new I2CService();
+	private WaveService waveService = WaveService.getInstance();
 	
 	private int currentServo;
 	private int currentServoValue;
@@ -42,6 +43,7 @@ public class OrchestrationService {
 
 	public void startTrackRecording(int servo) 
 	{
+		waveService.playWave(movementRecorder.getRecordingWaveName());
 		timerService.stepReset();
 		recording=true;
 		log.info("Start recording of "+servo);
@@ -84,7 +86,7 @@ public class OrchestrationService {
 
 
 	public void createNewRecording(String recordingName) throws IOException {
-		log.info("Create new recording named "+recordingName);
+		log.info("Create new recording named -"+recordingName+"-");
 		movementRecorder.createNewSequence(recordingName);
 	}
 	

@@ -30,9 +30,7 @@ public class TCPPNetworkService implements Runnable{
 	private final String help="Dragon help"+System.lineSeparator()
 			+ "rnd:         start random actions"+System.lineSeparator()
 			+ "lst:         list actions"+System.lineSeparator()
-			+ "pos SS XXX:  set servo SS at XXX"+System.lineSeparator()
 			+ "cur xxxxxxx: set new current motion"+System.lineSeparator()
-			+ "dmp:         dumpcurrent record"+System.lineSeparator()
 			+ "pse:         pause all activity"+System.lineSeparator()
 			+ "nor:         operate normal"+System.lineSeparator()
 			+ "rst:         total reset"+System.lineSeparator()
@@ -105,9 +103,6 @@ public class TCPPNetworkService implements Runnable{
 				case "lst":
 					__write(getMotionNameList());
 					break;
-				case "pos":
-					__write(positionServo(clientInputString));
-					break;
 				case "cur":
 					orchestrationService.setCurrentMotion(clientInputString.substring(4));
 					__write("OK SET CURRENT");
@@ -123,10 +118,6 @@ public class TCPPNetworkService implements Runnable{
 					break;
 				case "rst":
 					orchestrationService.totalReset();
-					break;
-				case "dmp":
-					orchestrationService.dumpCurrentMotion();
-					__write("OK DUMP RECORD");
 					break;
 				case "end":
 					DragonRaspberry.endDragon();
@@ -168,21 +159,6 @@ public class TCPPNetworkService implements Runnable{
 		return help;
 	}
 
-	
-	private String positionServo(String clientSentence) {
-		try{
-			int servo=Integer.parseInt(clientSentence.substring(3,5));
-			int servoValue=Integer.parseInt(clientSentence.substring(5,8));
-			orchestrationService.setSingleServo(servo,servoValue);
-		}
-		catch (NumberFormatException e)
-		{
-			return "ERROR NumberFormatException\n";
-		} catch (IOException e) {
-			return "ERROR IOExecption\n";
-		}
-		return "OK\n\r";
-	}
 
 	private String getMotionNameList() {
 		

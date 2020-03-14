@@ -13,15 +13,11 @@ public class I2CService {
 
 	private final static int PCAADDR = 0x40;
 	private final static int MODE1 = 0x00;
-	private final static int MODE2 = 0x01;
 	private final static int PRESCALE = 0xFE;
 	private final static int SLEEP = 0b00010000;
-	private final static int AWAKE = 0b11101111;
 	private final static int AI = 0b00100000;
-	private final static int RESTART = 0b10000000;
 	private final static int LEDBASE = 0x06;
 	private final static int[] LEDBASELIST = { 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66 };
-	private final static int FQ60HZ = 101;
 	private final static int[] FULLZERO={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	private I2CDevice i2cdev;
 	private I2CBus i2cbus;

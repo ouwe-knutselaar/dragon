@@ -15,12 +15,8 @@ public class OrchestrationService {
 
 	private Logger log=Logger.getLogger(this.getClass().getSimpleName());
 	
-	private boolean __normalOperation	= true;		// enable or disable normal operation
-	
-	// For normal operation
+	private boolean __normalOperation				= true;		// enable or disable normal operation
 	private ContinueMovement __continueMovement 	= new ContinueMovement();
-	
-	// The services that the motionserivce needs
 	private TimerService timerService				= TimerService.getInstance();
 	private I2CService i2cService					= new I2CService();
 	private static OrchestrationService INSTANCE	= new OrchestrationService();
@@ -34,35 +30,23 @@ public class OrchestrationService {
 		return INSTANCE;
 	}
 	
-	
 	private OrchestrationService() {
 		log.info("Make the OrchestrationService");
-
-		i2cService.init(Globals.servoFrequency);			
+		i2cService.init(Globals.servoFrequency);
 
 		// Voeg een actie aan de timer toe
 		timerService.addOnTimerEvent(new DragonEvent() {
 			@Override
 			public void handle(String msgFromTimer, int stepFromTimer, int val2) {
 				try {
-					
-					if(__normalOperation)
-					{
-						i2cService.writeLedString(__continueMovement.nextStep());
-					}
+					if (__normalOperation) i2cService.writeLedString(__continueMovement.nextStep());
 					return;
-				} catch (IllegalArgumentException e) {
-					// log.debug("time gives value that is out of bound "+val1);
 				} catch (IOException e) {
-					
 					e.printStackTrace();
 				}
 			}
 		});
-		
-		
 	}
-		
 	
 	/**
 	 * Run an action based on an motion names
@@ -74,7 +58,6 @@ public class OrchestrationService {
 		 __continueMovement.runCurrentMotion();
 	}
 	
-	
 	/**
 	 * Het a list of motion names
 	 * @return
@@ -84,68 +67,38 @@ public class OrchestrationService {
 		return __continueMovement.getMotionNameList();
 	}
 
-	
-	/**
-	 * Write a value to a single Led of Servo
-	 * @param ledNumber
-	 * @param servoValue
-	 * @throws IOException
-	 */
-	public void setSingleServo(int servoNumber, int servoValue) throws IOException {
-		log.debug("Write single server/led :"+servoNumber+" with "+servoValue);
-		i2cService.writeSingleLed(servoNumber, servoValue);
-	}
-
-	
-
-
 	public void setCurrentMotion(String motionName) {
 		__continueMovement.setCurrentMotionFromName(motionName);
 		log.info("Current motion set to "+motionName);
 	}
 
-
-
-
-
-	public void dumpCurrentMotion() {
-		__continueMovement.getCurrentMotion().dumpMotion();
-	}
-
-
 	public void runCurrentMotion() {
 		__continueMovement.runCurrentMotion();
 	}
-
-
+	
 	public void stopAll() {
 		timerService.stopService();
 	}
 
-
 	public void pauseAllActivities() {
-		__normalOperation=false;
+		__normalOperation = false;
 		log.info("Pause all activites");
 	}
 
-
 	public void operateNormal() {
-		__normalOperation=true;
+		__normalOperation = true;
 		log.info("Operate normal");
 	}
 
-
 	public void totalReset() {
-		__normalOperation=false;
+		__normalOperation = false;
 		try {
 			i2cService.reset();
 		} catch (IOException e) {
 			log.error("Reset operation failed");
 			e.printStackTrace();
 		}
-		
 	}
-
 
 
 	

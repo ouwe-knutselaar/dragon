@@ -93,16 +93,12 @@ public class ContinueMovement {
 	// ************************************** private functions
 
 	private int[] nextNormalOperatingStep() {
-		__untilNextMotion--;						// Lower the counter until we must select a new movement
-		if (__untilNextMotion < 0)
-			setNextNewAction();						// Oke, time to select a new movement and make a new movement array
-
+		__untilNextMotion--;													// Lower the counter until we must select a new movement
+		if (__untilNextMotion < 0)setNextNewAction();							// Oke, time to select a new movement and make a new movement array
 		for (int tel = 0; tel < Globals.numberOfServos; tel++) {				// Update the servo list
 			__currentValueOfServos[tel] = __MovementArrayList[tel].getNext();	// loop through all the servo's
-			//System.out.print(__currentValueOfServos[tel] + "  ");
 		}
-		//System.out.print(System.lineSeparator());
-		return __currentValueOfServos;				// Return the errorlist
+		return __currentValueOfServos;											// Return the errorlist
 	}
 
 	

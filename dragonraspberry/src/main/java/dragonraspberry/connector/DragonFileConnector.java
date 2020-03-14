@@ -1,9 +1,7 @@
 package dragonraspberry.connector;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -13,7 +11,6 @@ import java.util.List;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import dragonraspberry.pojo.Globals;
-import dragonraspberry.pojo.Motion;
 import dragonraspberry.pojo.Servo;
 import dragonraspberry.services.WaveService;
 

@@ -1,11 +1,7 @@
 package dragonrecord;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-
-
-import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -51,31 +47,8 @@ public class WaveService{
 	 */
 	public static WaveService getInstance()
 	{
-		if(INSTANCE==null)
-		{
-			INSTANCE=new WaveService();
-		}
+		if(INSTANCE==null)INSTANCE=new WaveService();
 		return INSTANCE;
-	}
-	
-	
-	/**
-	 * Write the sample file under the right name
-	 * @param audioFile
-	 * @return
-	 */
-	public boolean saveFile(File audioFile)
-	{
-		// Maak een audio stream
-		AudioInputStream ais=new AudioInputStream(new ByteArrayInputStream(eightBitByteArray), format, eightBitByteArray.length);
-		int rc=0;
-		try {
-			rc=AudioSystem.write(ais, Type.WAVE, audioFile);		//schrijf de audio stream
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		log.info("Wave file saved as "+audioFile.getAbsolutePath()+" size is "+rc);
-		return true;
 	}
 	
 	
@@ -86,9 +59,9 @@ public class WaveService{
 	 */
 	public boolean loadWaveFile(String audioFile)
 	{
-		log.info("Load wave file "+audioFile);
-		waveFile=new File(audioFile);
 		try {
+			log.info("Load wave file "+audioFile);
+			waveFile=new File(audioFile);
 			audioInputStream=AudioSystem.getAudioInputStream(waveFile);		// Open de audiofile naar een inputstream
 			format=audioInputStream.getFormat();								// Haal het formaat op
 			
@@ -146,85 +119,44 @@ public class WaveService{
 			}
 			log.info("Sample loaded size "+sampleIndex);
 			log.info("Maximal volume is "+maxvol);
+			return true;
 			
 		} catch (UnsupportedAudioFileException | IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
 	}
 	
-	
-	/**
-	 * Stop playing the wave file
-	 */
-	public void stopWave()
-	{
-		if(clip==null)return;
-		clip.stop();
-	}
 	
 	
 	/**
 	 * Start the wave file
 	 */
-	public void playWave(String waveFileName)
-	{
-		log.info("Play wave file "+waveFileName);
+	public void playWave(String waveFileName) {
 		try {
-			waveFile=new File(waveFileName);
-			// Prepare the wave file
+			log.info("Play wave file " + waveFileName);
+			waveFile = new File(waveFileName);
 			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			clip=(Clip)AudioSystem.getLine(info);
-			
-			audioInputStream=AudioSystem.getAudioInputStream(waveFile);
+			clip = (Clip) AudioSystem.getLine(info);
+			audioInputStream = AudioSystem.getAudioInputStream(waveFile);
 			clip.open(audioInputStream);
-			//log.debug("frame len "+clip.getFrameLength());
-			//log.debug("frame len n ms  "+clip.getMicrosecondLength());
 			clip.setMicrosecondPosition(0);
-			
-			//Prepare the timer
-			
 			clip.start();
-			
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
-			log.error("Cannot play "+waveFileName);
+			log.error("Cannot play " + waveFileName);
 		} catch (IOException e) {
 			e.printStackTrace();
-			log.error("Cannot play "+waveFileName);
+			log.error("Cannot play " + waveFileName);
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
-			log.error("Cannot play "+waveFileName);
+			log.error("Cannot play " + waveFileName);
 		}
 	}
 	
 	
 	protected int getSixteenBitSample(int high, int low) {
 		return (high << 8) + (low & 0x00ff);
-	}
-
-	
-	public int[][] getSample()
-	{
-		return samples;
-	}
-	
-	
-	public int sampleSize()
-	{
-		return (int)frameLength;
-	}
-	
-	
-	public double getMaxvol()
-	{
-		return maxvol;
-	}
-
-
-	public int getSteps() {
-		return steps;
 	}
 
 }

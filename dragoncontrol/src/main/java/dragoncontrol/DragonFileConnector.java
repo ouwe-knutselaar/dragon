@@ -12,17 +12,14 @@ public class DragonFileConnector {
 	private String rootDir = "unknown"; // Rootdit van de acties
 
 	public DragonFileConnector() {
-
-		rootDir = __selectRootDir();
-
 		try {
+			rootDir = __selectRootDir();
 			readTheDeafaultFromTheProperiesFileAndPutItInGlobals(rootDir);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.exit(1);
 		}
-
 	}
 
 	private void readTheDeafaultFromTheProperiesFileAndPutItInGlobals(String directory) throws IOException {

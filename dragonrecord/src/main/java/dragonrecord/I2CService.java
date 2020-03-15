@@ -1,6 +1,8 @@
 package dragonrecord;
 
 import java.io.IOException;
+import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
@@ -45,43 +47,62 @@ public class I2CService {
 
 			setFrequency(frequency);
 			log.info("Init done");
+			
 		} catch (UnsupportedBusNumberException e) {
 			log.info("UnsupportedBusNumberException switch to demo mode");
 			demoMode=true;
 		} catch (IOException e) {
-			log.error("IO Exception "+e.getMessage());
+			log.error("IO Exception ");
 			e.printStackTrace();
-			System.exit(1);
+		} 
+	}
+
+	
+	public void setFrequency(int frequency) {
+		try {
+			log.info("Set the frequencyof the  PCA9685 on " + frequency + "Hz");
+			int prescale = (25_000_000 / (4096 * frequency)) - 1;
+			log.info("Prescale set on " + prescale);
+			if (demoMode)return;
+			int settings_mode1 = i2cdev.read(MODE1);
+			i2cdev.write(MODE1, (byte) (settings_mode1 | SLEEP));
+			i2cdev.write(PRESCALE, (byte) prescale);
+			i2cdev.write(MODE1, (byte) (settings_mode1 & 0xEF));
+			Thread.sleep(500);
+		} catch (IOException e) {
+			log.error("Error cannot write to the I2C device");
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			log.error("Cannot execute sleep command");
+			e.printStackTrace();
 		}
 	}
 
 	
-	public void setFrequency(int frequency) throws IOException {
+	public void reset() {
 		
-		log.info("Set the frequencyof the  PCA9685 on " + frequency + "Hz");
-		int prescale = (25_000_000 / (4096 * frequency)) - 1;
-		log.info("Prescale set on " + prescale);
-		if(demoMode)return;
-		int settings_mode1 = i2cdev.read(MODE1);
-		i2cdev.write(MODE1, (byte) (settings_mode1 | SLEEP));
-		i2cdev.write(PRESCALE, (byte) prescale);
-		i2cdev.write(MODE1, (byte) (settings_mode1 & 0xEF));
-		wacht(500);
+		try {
+			log.info("Reset the PCA9685");
+			if(demoMode)return;
+			int settings_mode1 = i2cdev.read(MODE1);
+			i2cdev.write(MODE1, (byte) (settings_mode1 | 0x80));
+			writeAllServos(FULLZERO);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	
-	public void reset() throws IOException {
-		log.info("Reset the PCA9685");
-		if(demoMode)return;
-		int settings_mode1 = i2cdev.read(MODE1);
-		i2cdev.write(MODE1, (byte) (settings_mode1 | 0x80));
-		writeAllLeds(FULLZERO);
-	}
-
-	
-	public void writeByteArray(byte[] data) throws IOException {
-		if(demoMode)return;
-		i2cdev.write(LEDBASE, data);
+	public void writeByteArray(byte[] data) {
+		try {
+			log.debug("Write byte array to I2C");
+			if(demoMode)return;
+			i2cdev.write(LEDBASE, data);
+		} catch (IOException e) {
+			log.error("Error cannot write to the I2C device");
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -97,43 +118,33 @@ public class I2CService {
 		i2cdev.write(LEDBASELIST[lednumber],result);
 	}
 
-	public void writeAllLeds(int[] valueList) throws IOException {
-		byte[] byteValueList = new byte[valueList.length * 4];
-		for (int tel = 0; tel < valueList.length; tel++) {
-			byte[] result = intToBytes(valueList[tel]);
-			byteValueList[tel * 4] = result[0];
-			byteValueList[1 + tel * 4] = result[1];
-			byteValueList[2 + tel * 4] = result[2];
-			byteValueList[3 + tel * 4] = result[3];
-		}
-		if(demoMode)return;
-		i2cdev.write(LEDBASE, byteValueList);
-	}
 	
-	
-	private void wacht(int time) {
+	public void writeAllServos(int[] valueList) {
 		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
+			log.debug("Write valuelist tot the I2C device " + Arrays.toString(valueList));
+			if (demoMode)return;
+			byte[] byteValueList = new byte[valueList.length * 4];
+			for (int tel = 0; tel < valueList.length; tel++) {
+				byte[] result = intToBytes(valueList[tel]);
+				byteValueList[tel * 4] = result[0];
+				byteValueList[1 + tel * 4] = result[1];
+				byteValueList[2 + tel * 4] = result[2];
+				byteValueList[3 + tel * 4] = result[3];
+			}
+			i2cdev.write(LEDBASE, byteValueList);
+		} catch (IOException e) {
+			log.error("Error cannot write to the I2C device");
 			e.printStackTrace();
 		}
 	}
 	
-	
+
 	private static byte[] intToBytes(final int data) {
 		return new byte[] { (byte) ((data >> 16) & 0xff), 
 							(byte) ((data >> 24) & 0xff), 
 							(byte) ((data >> 0) & 0xff),
 							(byte) ((data >> 8) & 0xff), };
 	}
-
-	
-	public void writeLedString(int valueList[]) throws IOException
-	{
-		writeAllLeds(valueList);
-	}
-
-	
 
 	
 

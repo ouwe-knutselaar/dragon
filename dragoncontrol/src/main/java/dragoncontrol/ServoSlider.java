@@ -27,7 +27,6 @@ public class ServoSlider extends GridPane
 
 	private int servo=0;
 	private int udpPort=80;
-	private int tcpPort=3000;
 	private String host="127.0.0.1";
 	InetAddress IPAddress;
 	
@@ -128,13 +127,11 @@ public class ServoSlider extends GridPane
 		
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				
-				String sendString=String.format("p %02d %04d", servo,newValue.intValue());
-				DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), IPAddress, udpPort);
 				try {
+					String sendString=String.format("p %02d %04d", servo,newValue.intValue());
+					DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), IPAddress, udpPort);
 					clientSocket.send(sendPacket);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}});
@@ -145,17 +142,16 @@ public class ServoSlider extends GridPane
 				try {
 					host=ipAdressField.getText();
 					IPAddress = InetAddress.getByName(host);
+					udpPort=Integer.parseInt(ipPortField.getText());
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
-				udpPort=Integer.parseInt(ipPortField.getText());
 			}});
 		
 		
 		startRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("Start recording");
 				sendUDP(String.format("r %02d", servo));
 			}
 		});
@@ -164,7 +160,6 @@ public class ServoSlider extends GridPane
 		playRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("stop recording");
 				sendUDP("e 00");
 			}
 		});
@@ -172,7 +167,6 @@ public class ServoSlider extends GridPane
 		stopRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("stop recording");
 				sendUDP("t 00");
 			}
 		});
@@ -180,7 +174,6 @@ public class ServoSlider extends GridPane
 		dumpRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("dump recording");
 				sendUDP("d xx");
 			}
 		});
@@ -189,7 +182,6 @@ public class ServoSlider extends GridPane
 		createNewRecordButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("save recording");
 				sendUDP("c"+nameField.getText());
 			}
 		});
@@ -198,7 +190,6 @@ public class ServoSlider extends GridPane
 		saveRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("save recording");
 				sendUDP("s"+nameField.getText());
 			}
 		});
@@ -215,20 +206,13 @@ public class ServoSlider extends GridPane
 				minField.setText(""+Globals.servoLimitList[servo].getMinPos());
 				maxField.setText(""+Globals.servoLimitList[servo].getMaxPos());
 				restField.setText(""+Globals.servoLimitList[servo].getRestPos());
-
 			}});
 		
 		
 		this.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 			  System.out.println("keypressed "+key.getText()+" "+key.getCode());
 		      if(key.getCode()==KeyCode.F1) {
-		    	  String sendString="START";
-				  DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), IPAddress, udpPort);
-				  try {
-						clientSocket.send(sendPacket);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+		    	  sendUDP(String.format("r %02d", servo));
 		      }
 		});
 	}

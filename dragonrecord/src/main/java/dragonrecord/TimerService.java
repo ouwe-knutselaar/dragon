@@ -64,7 +64,7 @@ public class TimerService implements Runnable{
 				try {
 					Thread.sleep(0, 500);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					log.fatal("Error in Timerthread");
 					e.printStackTrace();
 				}
 			}

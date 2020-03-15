@@ -19,12 +19,12 @@ public class UDPNetworkService implements Runnable{
 	
 	public UDPNetworkService() 
 	{
-		log.info("Make the networking service");
-		orchestrationService=OrchestrationService.GetInstance();
 		try {
+			log.info("Make the networking service");
+			orchestrationService=OrchestrationService.GetInstance();
 			serverSocket = new DatagramSocket(3001);
 		} catch (SocketException e) {
-			log.error("UDP Socket Error "+e.getMessage());
+			log.fatal("UDP Socket Error "+e.getMessage());
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -71,18 +71,16 @@ public class UDPNetworkService implements Runnable{
 	
 	
 	private String positionServo(String clientSentence) throws IOException {
-		try{
-			
-			int servo=Integer.parseInt(clientSentence.substring(2,4));
-			int servoValue=Integer.parseInt(clientSentence.substring(5,9));
-			orchestrationService.setSingleServo(servo,servoValue);
-		}
-		catch (NumberFormatException e)
-		{
-			log.debug("NumberFormatException "+e.getMessage());
+		try {
+
+			int servo = Integer.parseInt(clientSentence.substring(2, 4));
+			int servoValue = Integer.parseInt(clientSentence.substring(5, 9));
+			orchestrationService.setSingleServo(servo, servoValue);
+			return "OK\n\r";
+		} catch (NumberFormatException e) {
+			log.debug("NumberFormatException " + e.getMessage());
 			return "NumberFormatException\n\r";
 		}
-		return "OK\n\r";
 	}
 
 }

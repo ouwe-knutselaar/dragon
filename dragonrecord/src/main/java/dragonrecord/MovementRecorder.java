@@ -40,21 +40,13 @@ public class MovementRecorder {
 		if(step>MAXSTEPS)return;
 		tracklist[servo][step]=servoValue;
 		laststep=Math.max(step, laststep);
+		log.debug("record servo "+servo+" value "+servoValue+" step "+step);
 	}
 	
 	
-	@Override
-	public String toString() {
-		StringBuilder record = new StringBuilder();
-		for (int stepcount = 0; stepcount < laststep; stepcount++) {
-			for (int servocount = 0; servocount < NUM_OF_SERVOS; servocount++) {
-				record.append(tracklist[servocount][stepcount]).append('\t');
-			}
-			record.append(System.lineSeparator());
-		}
-		return record.toString();
-	}
+
 		
+	
 	public void writeSequenceFile() throws IOException
 	{
 		String sequenceFileName=recordingDirectory+"\\"+recordingName+".seq";
@@ -63,9 +55,7 @@ public class MovementRecorder {
 		
 		BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(seqenueceFile));
 		for(int tel=0;tel<laststep;tel++)
-			{
-			 
-			 bos.write(String.format("%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d\n",
+			{bos.write(String.format("%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d\n",
 					 		tracklist[0][tel],
 					 		tracklist[1][tel],
 					 		tracklist[2][tel],
@@ -85,6 +75,7 @@ public class MovementRecorder {
 			}
 		bos.close();
 	}
+	
 	
 	private String __selectRootDir() {
 		String OS = System.getProperty("os.name").toLowerCase();
@@ -107,5 +98,26 @@ public class MovementRecorder {
 		return recordingDirectory+"\\"+recordingName+".wav";
 	}
 	
+	
+	public int[] getServoValuesFromStep(int step)
+	{
+		int result[]=new int[NUM_OF_SERVOS];
+		if(step>MAXSTEPS) return result;
+		for(int tel=0;tel<NUM_OF_SERVOS;tel++)result[tel]=tracklist[tel][step];
+		return result;
+	}
+	
+	
+	@Override
+	public String toString() {
+		StringBuilder record = new StringBuilder();
+		for (int stepcount = 0; stepcount < laststep; stepcount++) {
+			for (int servocount = 0; servocount < NUM_OF_SERVOS; servocount++) {
+				record.append(tracklist[servocount][stepcount]).append('\t');
+			}
+			record.append(System.lineSeparator());
+		}
+		return record.toString();
+	}
 	
 }

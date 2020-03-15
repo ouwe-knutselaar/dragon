@@ -27,21 +27,16 @@ public class DragonRecord {
 	
 	
 	
-	public void run()
-	{
-		while(RUNNING)
-		{
-			try {
-				Thread.sleep(50000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void run() {
+		try {
+			while (RUNNING) {Thread.sleep(50000);}
+			udpNetworkService.stop();
+			timerService.stopService();
+		} catch (InterruptedException e) {
+			log.fatal("Error in Sleep Thread");
+			e.printStackTrace();
 		}
-		udpNetworkService.stop();
-		timerService.stopService();
 	}
-	
 	
 	public void init()  {
 		log.info("Init Dragon Recorder");

@@ -140,28 +140,24 @@ public class TCPPNetworkService implements Runnable{
 	}
 	
 	
-	private void __write(String lineToWrite)
-	{
-		log.debug("tcp write "+lineToWrite);
+	private void __write(String lineToWrite) {
 		try {
-			outToClient.writeBytes(lineToWrite+System.lineSeparator());
+			log.debug("tcp write " + lineToWrite);
+			outToClient.writeBytes(lineToWrite + System.lineSeparator());
 		} catch (IOException e) {
 			e.printStackTrace();
 			log.info("Error in the session, abort connection");
-			__sessionIsRunning=false;
+			__sessionIsRunning = false;
 		}
 	}
 	
 	
-	
 	private String help() {
-		
 		return help;
 	}
 
 
 	private String getMotionNameList() {
-		
 		String actionList="";
 		for(String actionName:orchestrationService.getMotionNameList())actionList=actionList+actionName+"\n";
 		log.debug("Request for action list "+actionList);

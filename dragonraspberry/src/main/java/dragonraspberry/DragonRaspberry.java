@@ -8,7 +8,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
-import dragonraspberry.pojo.DragonEvent;
 import dragonraspberry.pojo.Globals;
 import dragonraspberry.services.OrchestrationService;
 import dragonraspberry.services.TCPPNetworkService;

@@ -1,11 +1,7 @@
 package dragonraspberry.services;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-
-
-import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -67,10 +63,10 @@ public class WaveService{
 	 */
 	public boolean loadWaveFile(String audioFile)
 	{
-		log.info("Load wave file "+audioFile);
-		filename=audioFile;
-		waveFile=new File(audioFile);
 		try {
+			log.info("Load wave file "+audioFile);
+			filename=audioFile;
+			waveFile=new File(audioFile);
 			audioInputStream=AudioSystem.getAudioInputStream(waveFile);		// Open de audiofile naar een inputstream
 			format=audioInputStream.getFormat();								// Haal het formaat op
 			
@@ -140,9 +136,9 @@ public class WaveService{
 	 */
 	public void playWave()
 	{
-		log.info("Play wave file");
+		
 		try {
-			
+			log.info("Play wave file");
 			// Prepare the wave file
 			DataLine.Info info = new DataLine.Info(Clip.class, format);
 			clip=(Clip)AudioSystem.getLine(info);

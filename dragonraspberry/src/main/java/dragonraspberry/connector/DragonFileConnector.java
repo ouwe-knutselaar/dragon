@@ -25,22 +25,19 @@ public class DragonFileConnector {
 		
 	
 	private DragonFileConnector() {
-		log.info("Make the DragonFileConnector");
-		rootDir=__selectRootDir();
-        
-		log.info("read the default values");
+		
 		try {
+			log.info("Make the DragonFileConnector");
+			rootDir=__selectRootDir();
+			log.info("read the default values");
 			readTheDeafaultFromTheProperiesFileAndPutItInGlobals(rootDir);
+			log.info("The root directory for the actions is "+rootDir);
+			actionList=__ScanTheActionToTheActionList(this.rootDir);
+			actionList.forEach(action -> __checkForSequenceFile(action));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
-		log.info("The root directory for the actions is "+rootDir);
-		actionList=__ScanTheActionToTheActionList(this.rootDir);
-		actionList.forEach(action -> __checkForSequenceFile(action));
-		
 	}
 
 
@@ -87,17 +84,20 @@ public class DragonFileConnector {
 
 	
 	public List<String> getServoStepsAsList(String actionName) {
-		String fullActionFileName = rootDir + "/" + actionName + "/" + actionName+".seq";
-		List<String> fileAsList=null;
+		
 		try {
+			String fullActionFileName = rootDir + "/" + actionName + "/" + actionName+".seq";
+			List<String> fileAsList=null;
 			fileAsList = Files.readAllLines(Paths.get(fullActionFileName));
+			return fileAsList;
 			
 		} catch (IOException e) {
 			log.error("IO Exception "+e.getMessage());
 			e.printStackTrace();
 			System.exit(1);
+			return null;
 		}
-		return fileAsList;
+		
 	}
 	
 	

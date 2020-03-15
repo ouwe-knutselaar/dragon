@@ -91,8 +91,8 @@ public class OrchestrationService {
 	}
 
 	public void totalReset() {
-		__normalOperation = false;
 		try {
+			__normalOperation = false;
 			i2cService.reset();
 		} catch (IOException e) {
 			log.error("Reset operation failed");

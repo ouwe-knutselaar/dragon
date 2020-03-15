@@ -30,9 +30,9 @@ public class I2CService {
 
 	
 	public void init(int frequency)  {
-		log.info("Init the PCA9685");
-
 		try {
+			log.info("Init the PCA9685");
+			
 			i2cbus = I2CFactory.getInstance(I2CBus.BUS_1);
 			i2cdev = i2cbus.getDevice(PCAADDR);
 
@@ -85,7 +85,7 @@ public class I2CService {
 	}
 
 	
-	public void writeSingleLed(int lednumber, int data) throws IOException {
+/*	public void writeSingleLed(int lednumber, int data) throws IOException {
                 byte[] result=new byte[4];
                 result[1] = (byte) ((data & 0xFF000000) >> 24);		// LED ON_L
                 result[0] = (byte) ((data & 0x00FF0000) >> 16);		// LED ON_H
@@ -95,7 +95,7 @@ public class I2CService {
 		log.debug("Write " + Integer.toHexString(result[1])+" "+Integer.toHexString(result[0])+" "+Integer.toHexString(result[3])+" "+Integer.toHexString(result[2]));
 		if(demoMode)return;
 		i2cdev.write(LEDBASELIST[lednumber],result);
-	}
+	}*/
 
 	public void writeAllLeds(int[] valueList) throws IOException {
 		byte[] byteValueList = new byte[valueList.length * 4];

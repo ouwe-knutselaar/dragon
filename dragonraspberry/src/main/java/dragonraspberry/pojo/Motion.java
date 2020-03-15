@@ -1,6 +1,7 @@
 package dragonraspberry.pojo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -18,7 +19,7 @@ public class Motion {
 	private String seqFileName;
 	private String waveFileName;
 	private List<int[]> servoValueList=new ArrayList<>();
-	private int steps=0;
+	private int numberOfSteps=0;
 	
 	public Motion(String name,String waveName)
 	{
@@ -31,14 +32,20 @@ public class Motion {
 		log.debug("actionlist has action:"+servoValueList.size());
 	}
 	
-	public int[] getListOfServoValues(int index) throws IllegalArgumentException
+
+	
+	public int[] getListFromStep(int step)
 	{
-		if(index<0)throw new IllegalArgumentException("Negative index number");
-		if(index>=servoValueList.size())throw new IllegalArgumentException("Out of bound:"+index);
-		return servoValueList.get(index);
+		try{
+			return servoValueList.get(step);
+		} catch(IndexOutOfBoundsException e)
+		{
+			return servoValueList.get(numberOfSteps);
+		}
 	}
-
-
+	
+	
+	
 	public String getSeqFileName() {
 		return seqFileName;
 	}
@@ -60,44 +67,23 @@ public class Motion {
 			}
 			servoValueList.add(valueList);
 		}
-		steps = servoValueList.size();
-		log.debug("Parsed action file of " + steps + " steps");
+		numberOfSteps = servoValueList.size();
+		log.debug("Parsed action file of " + numberOfSteps + " steps");
 	}
-	
-	
-	public void updateValueListForServo(int servo,int valueList[])
-	{
-		for(int tel=0;tel<valueList.length;tel++)
-		{
-			servoValueList.get(tel)[servo]=valueList[tel];
-		}
-	}
-	
+		
 	
 	public int getSteps()
 	{
-		return steps;
+		return numberOfSteps;
 	}
-	
-	
-	// Make an empty list
-	public void createEmptyMotion(int steps)
-	{
-		servoValueList.clear();
-		for(int tel=0;tel<steps;tel++)
-		{
-			servoValueList.add(new int[Globals.numberOfServos]);
-		}
-		this.steps=steps;
-		log.debug("Created empty file of " + steps + " steps");
-	}
+
 	
 	
 	public void dumpMotion()
 	{
 		log.info("Sequence name is "+seqFileName);
 		log.info("WaveFile name is "+waveFileName);
-		servoValueList.forEach(motion -> log.info(DisplayTools.ArrayToHexString(motion)));
+		servoValueList.forEach(motion -> log.info(Arrays.toString(motion)));
 	}
 	
 }

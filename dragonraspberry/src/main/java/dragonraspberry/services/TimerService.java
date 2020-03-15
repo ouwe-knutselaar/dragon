@@ -3,7 +3,6 @@ package dragonraspberry.services;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-
 import dragonraspberry.pojo.DragonEvent;
 
 
@@ -73,7 +72,6 @@ public class TimerService implements Runnable{
 				}
 			}
 		log.info("TimerThread is stopped");
-		
 	}
 	
 	
@@ -89,7 +87,6 @@ public class TimerService implements Runnable{
 		log.info("Timer reset reqested");
 		step=0;
 		starttime=System.currentTimeMillis();
-		
 	}
 	
 	public void stopService()

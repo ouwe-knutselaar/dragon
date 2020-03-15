@@ -30,13 +30,7 @@ public class Servo {
 	}
 	
 	
-	public int correctToLimits(int value) {
-		if (value < minPos)
-			value = minPos;
-		if (value > maxPos)
-			value = maxPos;
-		return value;
-	}
+
 	
 	
 	public String getServoName() {
@@ -91,7 +85,4 @@ public class Servo {
 				+ ", active=" + active ;
 	}
 	
-	
-	
-
 }

@@ -39,7 +39,7 @@ public class OrchestrationService {
 			@Override
 			public void handle(String msgFromTimer, int stepFromTimer, int val2) {
 				try {
-					if (__normalOperation) i2cService.writeLedString(__continueMovement.nextStep());
+					if (__normalOperation) i2cService.writeLedString(__continueMovement.nextStep(stepFromTimer));
 					return;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -55,7 +55,6 @@ public class OrchestrationService {
 	public void runNamedMotion(String name)
 	{
 		 __continueMovement.setCurrentMotionFromName(name);
-		 __continueMovement.runCurrentMotion();
 	}
 	
 	/**
@@ -72,9 +71,6 @@ public class OrchestrationService {
 		log.info("Current motion set to "+motionName);
 	}
 
-	public void runCurrentMotion() {
-		__continueMovement.runCurrentMotion();
-	}
 	
 	public void stopAll() {
 		timerService.stopService();

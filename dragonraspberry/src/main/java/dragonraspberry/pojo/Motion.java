@@ -20,42 +20,34 @@ public class Motion {
 	private String waveFileName;
 	private List<int[]> servoValueList=new ArrayList<>();
 	private int numberOfSteps=0;
+	private boolean endOfSequenceReached=false;
 	
 	public Motion(String name,String waveName)
 	{
 		log.info("Make Motion ");
 		this.seqFileName=name;
 		this.waveFileName=waveName;
-		
 		log.debug("Sequence file is "+seqFileName);
 		log.debug("wave file is "+waveName);
 		log.debug("actionlist has action:"+servoValueList.size());
 	}
 	
-
-	
 	public int[] getListFromStep(int step)
 	{
-		try{
-			return servoValueList.get(step);
-		} catch(IndexOutOfBoundsException e)
-		{
-			return servoValueList.get(numberOfSteps);
-		}
+		if(step<numberOfSteps)return servoValueList.get(step);
+		log.info("End of sequence reached");
+		endOfSequenceReached=true;
+		return servoValueList.get(numberOfSteps-1);
 	}
-	
-	
 	
 	public String getSeqFileName() {
 		return seqFileName;
 	}
 	
-	
 	public String getWaveFileName()
 	{
 		return waveFileName;
 	}
-	
 	
 	public void parseSequenceFile(List<String> seqFile) {
 		servoValueList.clear();
@@ -70,20 +62,22 @@ public class Motion {
 		numberOfSteps = servoValueList.size();
 		log.debug("Parsed action file of " + numberOfSteps + " steps");
 	}
-		
-	
-	public int getSteps()
-	{
-		return numberOfSteps;
-	}
-
-	
 	
 	public void dumpMotion()
 	{
 		log.info("Sequence name is "+seqFileName);
 		log.info("WaveFile name is "+waveFileName);
 		servoValueList.forEach(motion -> log.info(Arrays.toString(motion)));
+	}
+	
+	public boolean isEndOfSequenceReached()
+	{
+		return endOfSequenceReached;
+	}
+	
+	public void resetMotion()
+	{
+		endOfSequenceReached=false;
 	}
 	
 }

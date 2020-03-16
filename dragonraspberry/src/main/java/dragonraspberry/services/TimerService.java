@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import dragonraspberry.pojo.DragonEvent;
 
-
-
 public class TimerService implements Runnable{
 
 	private Logger log = Logger.getLogger(TimerService.class);
@@ -17,19 +15,16 @@ public class TimerService implements Runnable{
 	private static TimerService INSTANCE=new TimerService();
 	List<DragonEvent> eventHandlersList=new ArrayList<>();		// Lijst met eventhandlers
 	
-	
 	private TimerService()
 	{
 		log.info("Make TimerService");
 		this.startTimer();
 	}
 	
-	
 	public static TimerService getInstance()
 	{
 		return INSTANCE;
 	}
-	
 	
 	public void startTimer()
 	{
@@ -37,7 +32,6 @@ public class TimerService implements Runnable{
 		Thread thisThread=new Thread(this);
 		thisThread.start();
 	}
-	
 
 	// HEt timer loop
 	@Override
@@ -80,7 +74,6 @@ public class TimerService implements Runnable{
 		log.info("Add timerListener from "+event);
 		eventHandlersList.add(event);
 	}
-	
 	
 	public void stepReset()
 	{

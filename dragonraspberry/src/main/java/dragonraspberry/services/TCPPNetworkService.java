@@ -36,8 +36,6 @@ public class TCPPNetworkService implements Runnable{
 			+ "rst:         total reset"+System.lineSeparator()
 			+ "end:         End software"+System.lineSeparator();
 	
-	
-	
 	public TCPPNetworkService() 
 	{
 		log.info("Make the networking service");
@@ -61,7 +59,6 @@ public class TCPPNetworkService implements Runnable{
 		thisThread.start();
 	}
 	
-	
 	@Override
 	public void run() {	
 		log.info("Start TCPNetworkService Thread");
@@ -80,7 +77,6 @@ public class TCPPNetworkService implements Runnable{
 		log.info("TCPPNetworkService stopped");
 	}
 
-	
 	private void tcpSession(Socket connectionSocket) throws IOException {
 		log.info("Session with " + connectionSocket.getInetAddress());
 		BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
@@ -151,11 +147,9 @@ public class TCPPNetworkService implements Runnable{
 		}
 	}
 	
-	
 	private String help() {
 		return help;
 	}
-
 
 	private String getMotionNameList() {
 		String actionList="";
@@ -181,7 +175,5 @@ public class TCPPNetworkService implements Runnable{
 	{
 		eventHandler.add(event);
 	}
-	
-
 
 }

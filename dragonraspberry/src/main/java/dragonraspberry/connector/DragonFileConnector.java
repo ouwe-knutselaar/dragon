@@ -17,13 +17,10 @@ import dragonraspberry.services.WaveService;
 public class DragonFileConnector {
 
 	Logger log = Logger.getLogger(DragonFileConnector.class);
-
 	private String rootDir="unknown";									// Rootdit van de acties
 	private List<String> actionList = new ArrayList<>();				// Lijst met acties
-
 	private static DragonFileConnector INSTANCE=new DragonFileConnector();
 		
-	
 	private DragonFileConnector() {
 		
 		try {
@@ -39,8 +36,6 @@ public class DragonFileConnector {
 			System.exit(1);
 		}
 	}
-
-
 
 	private void readTheDeafaultFromTheProperiesFileAndPutItInGlobals(String directory) throws IOException 
 	{
@@ -69,43 +64,32 @@ public class DragonFileConnector {
 		for(Servo servo: Globals.servoLimitList)log.info(servo.toString());
 	}
 
-
-
 	public static DragonFileConnector getInstance()
 	{
 		return INSTANCE;
 	}
 	
-	
-	// Geef de lijst met Acties/Motions
 	public List<String> getActionList() {
 		return actionList;
 	}
 
-	
 	public List<String> getServoStepsAsList(String actionName) {
-		
 		try {
 			String fullActionFileName = rootDir + "/" + actionName + "/" + actionName+".seq";
 			List<String> fileAsList=null;
 			fileAsList = Files.readAllLines(Paths.get(fullActionFileName));
 			return fileAsList;
-			
 		} catch (IOException e) {
 			log.error("IO Exception "+e.getMessage());
 			e.printStackTrace();
 			System.exit(1);
 			return null;
 		}
-		
 	}
-	
 	
 	public String getWaveFileName(String actionName){
 		return  rootDir + "/" + actionName + "/" + actionName+".wav";
 	}
-
-
 
 	private List<String> __ScanTheActionToTheActionList(String rootDir) {
 		List<String> templist=new ArrayList<>();;
@@ -116,7 +100,6 @@ public class DragonFileConnector {
 		log.info("Loaded " + actionList.size() + " actions from " + rootDir);
 		return templist;
 	}
-	
 	
 	private void __checkForSequenceFile(String motion) {
 		if(Files.exists(Paths.get(rootDir+"/"+motion+"/"+motion+".seq")))return;			// Test of de file er is

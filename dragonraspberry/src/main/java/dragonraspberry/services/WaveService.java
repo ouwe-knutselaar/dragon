@@ -13,12 +13,9 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import org.apache.log4j.Logger;
 
-
-
 public class WaveService{
 	
 	Logger log=Logger.getLogger(WaveService.class);
-	
 	
 	private AudioInputStream audioInputStream;
 	private int frameLength;
@@ -28,23 +25,16 @@ public class WaveService{
 	private AudioFormat format;
 	private byte[] eightBitByteArray;
 	private int[][] samples;
-	
 	private static WaveService INSTANCE;
 	private Clip clip;
 	private File waveFile;
 	private String filename		= "";
-	
 	
 	private WaveService()
 	{
 		log.info("Make the WaveService ");
 	}
 	
-	
-	/**
-	 * Singleton initializer
-	 * @return
-	 */
 	public static WaveService getInstance()
 	{
 		if(INSTANCE==null)
@@ -54,13 +44,6 @@ public class WaveService{
 		return INSTANCE;
 	}
 	
-
-	
-	/**
-	 * Load a wave fiel from disk
-	 * @param audioFile File handler
-	 * @return
-	 */
 	public boolean loadWaveFile(String audioFile)
 	{
 		try {
@@ -120,23 +103,14 @@ public class WaveService{
 		return true;
 	}
 	
-	
-	/**
-	 * Stop playing the wave file
-	 */
 	public void stopWave()
 	{
 		if(clip==null)return;
 		clip.stop();
 	}
 	
-	
-	/**
-	 * Start the wave file
-	 */
 	public void playWave()
-	{
-		
+	{	
 		try {
 			log.info("Play wave file");
 			// Prepare the wave file
@@ -172,10 +146,8 @@ public class WaveService{
 		}
 	}
 	
-	
 	protected int getSixteenBitSample(int high, int low) {
 		return (high << 8) + (low & 0x00ff);
 	}
-
 
 }

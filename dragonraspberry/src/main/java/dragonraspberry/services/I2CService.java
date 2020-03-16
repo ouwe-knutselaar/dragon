@@ -10,7 +10,6 @@ import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
 public class I2CService {
 
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-
 	private final static int PCAADDR = 0x40;
 	private final static int MODE1 = 0x00;
 	private final static int PRESCALE = 0xFE;
@@ -22,12 +21,10 @@ public class I2CService {
 	private I2CDevice i2cdev;
 	private I2CBus i2cbus;
 	private boolean demoMode=false;
-
 	
 	public I2CService() {
 		log.info("Make I2CService");
 	}
-
 	
 	public void init(int frequency)  {
 		try {
@@ -54,7 +51,6 @@ public class I2CService {
 			System.exit(1);
 		}
 	}
-
 	
 	public void setFrequency(int frequency) throws IOException {
 		
@@ -68,7 +64,6 @@ public class I2CService {
 		i2cdev.write(MODE1, (byte) (settings_mode1 & 0xEF));
 		wacht(500);
 	}
-
 	
 	public void reset() throws IOException {
 		log.info("Reset the PCA9685");
@@ -77,25 +72,11 @@ public class I2CService {
 		i2cdev.write(MODE1, (byte) (settings_mode1 | 0x80));
 		writeAllLeds(FULLZERO);
 	}
-
 	
 	public void writeByteArray(byte[] data) throws IOException {
 		if(demoMode)return;
 		i2cdev.write(LEDBASE, data);
 	}
-
-	
-/*	public void writeSingleLed(int lednumber, int data) throws IOException {
-                byte[] result=new byte[4];
-                result[1] = (byte) ((data & 0xFF000000) >> 24);		// LED ON_L
-                result[0] = (byte) ((data & 0x00FF0000) >> 16);		// LED ON_H
-                result[3] = (byte) ((data & 0x0000FF00) >> 8);		// LED OFF_L
-                result[2] = (byte) ((data & 0x000000FF) >> 0);		// LED OFF_H
-            
-		log.debug("Write " + Integer.toHexString(result[1])+" "+Integer.toHexString(result[0])+" "+Integer.toHexString(result[3])+" "+Integer.toHexString(result[2]));
-		if(demoMode)return;
-		i2cdev.write(LEDBASELIST[lednumber],result);
-	}*/
 
 	public void writeAllLeds(int[] valueList) throws IOException {
 		byte[] byteValueList = new byte[valueList.length * 4];
@@ -110,7 +91,6 @@ public class I2CService {
 		i2cdev.write(LEDBASE, byteValueList);
 	}
 	
-	
 	private void wacht(int time) {
 		try {
 			Thread.sleep(time);
@@ -119,7 +99,6 @@ public class I2CService {
 		}
 	}
 	
-	
 	private static byte[] intToBytes(final int data) {
 		return new byte[] { (byte) ((data >> 16) & 0xff), 
 							(byte) ((data >> 24) & 0xff), 
@@ -127,14 +106,9 @@ public class I2CService {
 							(byte) ((data >> 8) & 0xff), };
 	}
 
-	
 	public void writeLedString(int valueList[]) throws IOException
 	{
 		writeAllLeds(valueList);
 	}
-
-	
-
-	
 
 }

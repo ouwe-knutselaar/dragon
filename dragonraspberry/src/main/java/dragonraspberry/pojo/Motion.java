@@ -32,6 +32,21 @@ public class Motion {
 		log.debug("actionlist has action:"+servoValueList.size());
 	}
 	
+	
+	public void makeEmtpyMotion(int steps)
+	{
+		log.info("Create empty motion of "+steps+"steps");
+		int [] emtpy={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+		servoValueList.clear();
+		for(int tel=0;tel<steps;tel++)
+		{
+			servoValueList.add(emtpy);
+		}
+		numberOfSteps=steps;
+		endOfSequenceReached=false;
+	}
+	
+	
 	public int[] getListFromStep(int step)
 	{
 		if(step<numberOfSteps)return servoValueList.get(step);

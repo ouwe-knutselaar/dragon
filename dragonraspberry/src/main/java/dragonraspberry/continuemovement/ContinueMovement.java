@@ -18,7 +18,9 @@ public class ContinueMovement {
 	private List<String> __motionNamesList			= null;
 	private Motion __currentMotion					= new Motion("none", "none");
 	private Map<String, Motion> __motionList 		= new HashMap<>(); // Basic indexed lijst met motion names
+	private Motion emptyMotion						= new Motion("empty","empty");
 	private TimerService timerService				= TimerService.getInstance();
+	private boolean makePause						= false;
 
 	public ContinueMovement() {
 		log.info("Make the ContinueMovement");
@@ -34,17 +36,30 @@ public class ContinueMovement {
 		log.info("Start with motion:"+__currentMotion.getSeqFileName());
 	}
 
+	
 	public int[] nextStep(int stepFromTimer) {
 		if(__currentMotion.isEndOfSequenceReached())
 		{
 			timerService.stepReset();
 			__currentMotion.resetMotion();
-			__currentMotion=__motionList.get(__motionNamesList.get(rand.nextInt(__motionNamesList.size())));
+			if(makePause)
+				{
+				 __currentMotion=new Motion("empty","empty");
+				 __currentMotion.makeEmtpyMotion(100+rand.nextInt(400));
+				 makePause=false;
+				}
+			else
+				{
+				 __currentMotion=__motionList.get(__motionNamesList.get(rand.nextInt(__motionNamesList.size())));
+				 makePause=true;
+				 
+				}
 			log.info("Select motion named: "+__currentMotion.getSeqFileName());
 		}
 		return __currentMotion.getListFromStep(stepFromTimer);
 	}
 
+	
 	public List<String> getMotionNameList() {
 		return __motionNamesList;
 	}

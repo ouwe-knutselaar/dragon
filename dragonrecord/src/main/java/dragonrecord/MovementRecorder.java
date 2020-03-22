@@ -19,7 +19,9 @@ public class MovementRecorder {
 	private int tracklist[][];
 	private int laststep=0;
 	private String recordingName="xxxxxxx";
-	private String recordingDirectory=__selectRootDir()+recordingName;;
+	private String recordingDirectory=__selectRootDir()+recordingName;
+	private String directorySeparator=__selectDirSeparator();
+	
 	
 	
 	public MovementRecorder()
@@ -49,7 +51,7 @@ public class MovementRecorder {
 	
 	public void writeSequenceFile() throws IOException
 	{
-		String sequenceFileName=recordingDirectory+"\\"+recordingName+".seq";
+		String sequenceFileName=recordingDirectory+directorySeparator+recordingName+".seq";
 		log.info("Write sequence file :"+sequenceFileName);
 		File seqenueceFile=new File(sequenceFileName);
 		
@@ -83,6 +85,15 @@ public class MovementRecorder {
 		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/var/dragon/";
 		return "unknown";
 	}
+	
+	
+	private String __selectDirSeparator() {
+		String OS = System.getProperty("os.name").toLowerCase();
+		if(OS.contains("win"))return "\\";
+		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/";
+		return "/";
+	}
+	
 
 	public void createNewSequence(String newRecordingName) throws IOException {
 		recordingName=newRecordingName.trim();
@@ -95,7 +106,7 @@ public class MovementRecorder {
 	
 	public String getRecordingWaveName()
 	{
-		return recordingDirectory+"\\"+recordingName+".wav";
+		return recordingDirectory+directorySeparator+recordingName+".wav";
 	}
 	
 	

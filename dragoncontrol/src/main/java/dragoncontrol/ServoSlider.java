@@ -23,6 +23,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 public class ServoSlider extends GridPane
 {
@@ -40,8 +41,11 @@ public class ServoSlider extends GridPane
 	Label maxLabel=new Label("max");
 	Label restLabel=new Label("rest");
 	Label servoLabel=new Label("servo");
-	Label actionName=new Label("name");
-	Label messageField = new Label("messages");
+	Label actionName=new Label("sequence name");
+	Label servoNameLabel=new Label("servo name");
+	
+	Text messageField = new Text("messages");
+	Text servoName = new Text(Globals.servoLimitList[0].getServoName());
 	
 	TextField ipAdressField=new TextField(host);
 	TextField ipPortField=new TextField("3001");
@@ -108,6 +112,7 @@ public class ServoSlider extends GridPane
 		fieldGrid.add(ipPortLabel, 0, 4);
 		fieldGrid.add(servoLabel, 0, 5);
 		fieldGrid.add(actionName, 0, 6);
+		fieldGrid.add(servoNameLabel,0,7);
 		
 		
 		fieldGrid.add(minField, 1,0);
@@ -117,6 +122,8 @@ public class ServoSlider extends GridPane
 		fieldGrid.add(ipPortField, 1, 4);
 		fieldGrid.add(servoDropDownList, 1, 5);
 		fieldGrid.add(nameField, 1, 6);
+		fieldGrid.add(servoName, 1, 7);
+		
 
 		// colom , row, colspan, rowspan
 		buttonGrid.add(connect,0,0);
@@ -145,6 +152,8 @@ public class ServoSlider extends GridPane
 		this.add(fieldGrid, 0, 0);
 		this.add(buttonGrid, 0, 1);
 		this.add(slider, 1, 0);
+		
+		messageField.prefWidth(400);
 		this.add(messageField, 0, 2,2,1);
 		
 		slider.setOrientation(Orientation.VERTICAL);
@@ -292,7 +301,8 @@ public class ServoSlider extends GridPane
 		minField.setText(""+Globals.servoLimitList[servo].getMinPos());
 		maxField.setText(""+Globals.servoLimitList[servo].getMaxPos());
 		restField.setText(""+Globals.servoLimitList[servo].getRestPos());
-		messageField.setText("Switch to servo "+servo);
+		messageField.setText("Switch to servo "+Globals.servoLimitList[servo].getServoName());
+		servoName.setText(Globals.servoLimitList[servo].getServoName());
 	}
 	
 	

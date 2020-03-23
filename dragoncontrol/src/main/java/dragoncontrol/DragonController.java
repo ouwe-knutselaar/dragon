@@ -24,6 +24,7 @@ public class DragonController extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Dragon Controller 1.0");
 		Scene scene=new Scene(mainPane);			// Make a new scene with the main client area
+		scene.getStylesheets().add("dragonstyle.css");
 		mainPane.setCenter(servoSlider);   			// Plaats de controller
 		primaryStage.setScene(scene);
 		primaryStage.show();			// Show the GUI

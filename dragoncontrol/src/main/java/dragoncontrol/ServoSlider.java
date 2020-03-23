@@ -11,12 +11,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -39,6 +41,7 @@ public class ServoSlider extends GridPane
 	Label restLabel=new Label("rest");
 	Label servoLabel=new Label("servo");
 	Label actionName=new Label("name");
+	Label messageField = new Label("messages");
 	
 	TextField ipAdressField=new TextField(host);
 	TextField ipPortField=new TextField("3001");
@@ -47,14 +50,18 @@ public class ServoSlider extends GridPane
 	TextField restField;
 	TextField nameField;
 	
-	Button connect=new Button("Connect");
+	Button connect=new Button("Set IP");
 	Button createNewRecordButton=new Button("Create");
 	Button startRecordingButton = new Button("record");
 	Button stopRecordingButton = new Button("stop");
 	Button playRecordingButton = new Button("play");
 	Button dumpRecordingButton = new Button("dump");
 	Button saveRecordingButton = new Button("save");
+	Button smoothRecordingButton = new Button("smooth*");
 
+	GridPane fieldGrid = new GridPane();
+	GridPane buttonGrid = new GridPane();
+	
 	
 	DatagramSocket clientSocket;
 	
@@ -94,36 +101,73 @@ public class ServoSlider extends GridPane
 		 nameField=new TextField("tempname");
 		 
 		
-		this.add(minLabel, 0,0);
-		this.add(restLabel, 0,1);
-		this.add(maxLabel, 0,2);
-		this.add(ipAdressLabel, 0, 3);
-		this.add(ipPortLabel, 0, 4);
-		this.add(servoLabel, 0, 5);
-		this.add(actionName, 0, 6);
+		fieldGrid.add(minLabel, 0,0);
+		fieldGrid.add(restLabel, 0,1);
+		fieldGrid.add(maxLabel, 0,2);
+		fieldGrid.add(ipAdressLabel, 0, 3);
+		fieldGrid.add(ipPortLabel, 0, 4);
+		fieldGrid.add(servoLabel, 0, 5);
+		fieldGrid.add(actionName, 0, 6);
 		
 		
-		this.add(minField, 1,0);
-		this.add(restField, 1,1);
-		this.add(maxField, 1,2);
-		this.add(ipAdressField, 1, 3);
-		this.add(ipPortField, 1, 4);
-		this.add(servoDropDownList, 1, 5);
-		this.add(nameField, 1, 6);
+		fieldGrid.add(minField, 1,0);
+		fieldGrid.add(restField, 1,1);
+		fieldGrid.add(maxField, 1,2);
+		fieldGrid.add(ipAdressField, 1, 3);
+		fieldGrid.add(ipPortField, 1, 4);
+		fieldGrid.add(servoDropDownList, 1, 5);
+		fieldGrid.add(nameField, 1, 6);
 
+		// colom , row, colspan, rowspan
+		buttonGrid.add(connect,0,0);
+		buttonGrid.add(smoothRecordingButton,1,0);
+		buttonGrid.add(startRecordingButton, 2, 0);
 		
-		this.add(connect,0,7,1,1);
-		this.add(slider, 1, 7,1,6);
-		this.add(createNewRecordButton, 0, 8);
-		this.add(startRecordingButton, 0, 9);
-		this.add(playRecordingButton, 0, 10);
-		this.add(stopRecordingButton, 0, 11);
-		this.add(dumpRecordingButton, 0, 12);
-		this.add(saveRecordingButton, 0, 13);
+		buttonGrid.add(createNewRecordButton, 0, 1);
+		buttonGrid.add(stopRecordingButton, 2, 1);
 		
+		buttonGrid.add(saveRecordingButton, 0, 2);	
+		
+		buttonGrid.add(dumpRecordingButton, 0, 3);
+		buttonGrid.add(playRecordingButton, 2, 3);
+				
+		
+		fieldGrid.setHgap(10);
+		fieldGrid.setVgap(10);
+		
+		buttonGrid.setHgap(10);
+		buttonGrid.setVgap(10);
+		
+		this.setPadding(new Insets(20));
+		this.setVgap(20);
+		this.setHgap(20);
+		
+		this.add(fieldGrid, 0, 0);
+		this.add(buttonGrid, 0, 1);
+		this.add(slider, 1, 0);
+		this.add(messageField, 0, 2,2,1);
 		
 		slider.setOrientation(Orientation.VERTICAL);
 		slider.setShowTickLabels(true);
+		
+			
+		minField.textProperty().addListener(new ChangeListener<String>(){
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				servo=(int) servoDropDownList.getValue();
+				Globals.servoLimitList[servo].setMinPos(Integer.parseInt(newValue));
+				rebuildSlider();
+			}});
+		
+		maxField.textProperty().addListener(new ChangeListener<String>(){
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(newValue.equals(""))return;
+				servo=(int) servoDropDownList.getValue();
+				Globals.servoLimitList[servo].setMaxPos(Integer.parseInt(newValue));
+				rebuildSlider();
+			}});
+		
 		
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -143,6 +187,7 @@ public class ServoSlider extends GridPane
 					host=ipAdressField.getText();
 					IPAddress = InetAddress.getByName(host);
 					udpPort=Integer.parseInt(ipPortField.getText());
+					messageField.setText("Host is "+host+"at port "+ipPortField.getText());
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
@@ -152,6 +197,7 @@ public class ServoSlider extends GridPane
 		startRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				messageField.setText("Start recording for servo "+servo);
 				sendUDP(String.format("r %02d", servo));
 			}
 		});
@@ -160,6 +206,7 @@ public class ServoSlider extends GridPane
 		playRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				messageField.setText("Play sequence");
 				sendUDP("e 00");
 			}
 		});
@@ -168,12 +215,14 @@ public class ServoSlider extends GridPane
 			@Override
 			public void handle(MouseEvent event) {
 				sendUDP("t 00");
+				messageField.setText("Stop sequence");
 			}
 		});
 
 		dumpRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				messageField.setText("Dump sequence");
 				sendUDP("d xx");
 			}
 		});
@@ -182,6 +231,7 @@ public class ServoSlider extends GridPane
 		createNewRecordButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				messageField.setText("New recording named "+nameField.getText());
 				sendUDP("c"+nameField.getText());
 			}
 		});
@@ -190,7 +240,16 @@ public class ServoSlider extends GridPane
 		saveRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				messageField.setText("save sequence "+nameField.getText());
 				sendUDP("s"+nameField.getText());
+			}
+		});
+		
+		smoothRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				messageField.setText("Smooth recording for servo "+servo);
+				sendUDP(String.format("f %02d", servo));
 			}
 		});
 		
@@ -198,20 +257,14 @@ public class ServoSlider extends GridPane
 		servoDropDownList.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				servo=(int) servoDropDownList.getValue();
-				slider.setPrefHeight(Globals.servoLimitList[servo].getMaxPos()-Globals.servoLimitList[servo].getMinPos());
-				slider.setValue(Globals.servoLimitList[servo].getRestPos());
-				slider.setMax(Globals.servoLimitList[servo].getMaxPos());
-				slider.setMin(Globals.servoLimitList[servo].getMinPos());
-				minField.setText(""+Globals.servoLimitList[servo].getMinPos());
-				maxField.setText(""+Globals.servoLimitList[servo].getMaxPos());
-				restField.setText(""+Globals.servoLimitList[servo].getRestPos());
+				rebuildSlider();
 			}});
 		
 		
 		this.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 			  System.out.println("keypressed "+key.getText()+" "+key.getCode());
 		      if(key.getCode()==KeyCode.F1) {
+		    	  messageField.setText("Start recording for servo "+servo);
 		    	  sendUDP(String.format("r %02d", servo));
 		      }
 		});
@@ -228,6 +281,19 @@ public class ServoSlider extends GridPane
 		}
 	}
 	
+	
+	private void rebuildSlider()
+	{
+		servo=(int) servoDropDownList.getValue();
+		slider.setPrefHeight(Globals.servoLimitList[servo].getMaxPos()-Globals.servoLimitList[servo].getMinPos());
+		slider.setValue(Globals.servoLimitList[servo].getRestPos());
+		slider.setMax(Globals.servoLimitList[servo].getMaxPos());
+		slider.setMin(Globals.servoLimitList[servo].getMinPos());
+		minField.setText(""+Globals.servoLimitList[servo].getMinPos());
+		maxField.setText(""+Globals.servoLimitList[servo].getMaxPos());
+		restField.setText(""+Globals.servoLimitList[servo].getRestPos());
+		messageField.setText("Switch to servo "+servo);
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package dragoncontrol;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -18,12 +19,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ServoSlider extends GridPane
 {
@@ -62,6 +64,7 @@ public class ServoSlider extends GridPane
 	Button dumpRecordingButton = new Button("dump");
 	Button saveRecordingButton = new Button("save");
 	Button smoothRecordingButton = new Button("smooth*");
+	Button uploadWavButton = new Button("wav upload");
 
 	GridPane fieldGrid = new GridPane();
 	GridPane buttonGrid = new GridPane();
@@ -124,7 +127,7 @@ public class ServoSlider extends GridPane
 		fieldGrid.add(nameField, 1, 6);
 		fieldGrid.add(servoName, 1, 7);
 		
-
+		
 		// colom , row, colspan, rowspan
 		buttonGrid.add(connect,0,0);
 		buttonGrid.add(smoothRecordingButton,1,0);
@@ -133,7 +136,8 @@ public class ServoSlider extends GridPane
 		buttonGrid.add(createNewRecordButton, 0, 1);
 		buttonGrid.add(stopRecordingButton, 2, 1);
 		
-		buttonGrid.add(saveRecordingButton, 0, 2);	
+		buttonGrid.add(saveRecordingButton, 0, 2);
+		buttonGrid.add(uploadWavButton,2,2);
 		
 		buttonGrid.add(dumpRecordingButton, 0, 3);
 		buttonGrid.add(playRecordingButton, 2, 3);
@@ -254,6 +258,19 @@ public class ServoSlider extends GridPane
 			}
 		});
 		
+		uploadWavButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				messageField.setText("upload wae for "+nameField.getText());
+				try {
+					waveUpload();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		
 		smoothRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -305,5 +322,31 @@ public class ServoSlider extends GridPane
 		servoName.setText(Globals.servoLimitList[servo].getServoName());
 	}
 	
+
+	private void waveUpload() throws IOException
+	{
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		fileChooser.getExtensionFilters().addAll(
+		         new ExtensionFilter("Wave Files", "*.wave","*.wav"),
+		         new ExtensionFilter("All Files", "*.*"));
+		File selectedFile = fileChooser.showOpenDialog(this.getScene().getWindow());
+		if (selectedFile == null)return;
+		
+		
+		
+		sendUDP("u"+nameField.getText());
+		messageField.setText("Wait 2 seconds for the server to start");
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		FileXferClient xferClient=new FileXferClient();
+		int rc=xferClient.SendFile(selectedFile.getCanonicalPath(),ipAdressField.getText());
+		servoName.setText("File send is "+(rc!=-1));		
+		
+	}
 	
 }

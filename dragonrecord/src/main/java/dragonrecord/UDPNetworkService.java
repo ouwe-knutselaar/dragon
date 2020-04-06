@@ -55,6 +55,7 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
 				if(choice=='s')orchestrationService.saveCurrentMotion();
 				if(choice=='e')orchestrationService.executeCurrentMotion();
+				if(choice=='u')orchestrationService.receiveWaveFile(receivedDataString.substring(1));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

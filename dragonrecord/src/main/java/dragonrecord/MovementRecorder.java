@@ -19,7 +19,7 @@ public class MovementRecorder {
 	private int tracklist[][];
 	private int laststep=0;
 	private String recordingName="xxxxxxx";
-	private String recordingDirectory=__selectRootDir()+recordingName;
+	private String recordingDirectory=selectRootDir()+recordingName;
 	private String directorySeparator=__selectDirSeparator();
 	
 	
@@ -79,7 +79,7 @@ public class MovementRecorder {
 	}
 	
 	
-	private String __selectRootDir() {
+	public String selectRootDir() {
 		String OS = System.getProperty("os.name").toLowerCase();
 		if(OS.contains("win"))return "D:\\erwin\\dragon\\actions\\";
 		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/var/dragon/";
@@ -97,7 +97,7 @@ public class MovementRecorder {
 
 	public void createNewSequence(String newRecordingName) throws IOException {
 		recordingName=newRecordingName.trim();
-		recordingDirectory=(__selectRootDir()+recordingName).trim();
+		recordingDirectory=(selectRootDir()+recordingName).trim();
 		log.info("Created new recoding in -"+recordingDirectory+"-");
 		log.info("Recordng name is "+recordingName);
 		Path path = Paths.get(recordingDirectory);

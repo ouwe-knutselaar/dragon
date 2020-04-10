@@ -141,6 +141,8 @@ public class ServoSlider extends GridPane
 		
 		buttonGrid.add(dumpRecordingButton, 0, 3);
 		buttonGrid.add(playRecordingButton, 2, 3);
+		
+		
 				
 		
 		fieldGrid.setHgap(10);

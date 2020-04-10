@@ -97,7 +97,6 @@ public class OrchestrationService {
 	public void receiveWaveFile(String waveName) {
 		waveName=waveName.trim();
 		String waveFile=String.format("%s%s\\%s.wav",movementRecorder.selectRootDir(),waveName,waveName);
-		System.out.println(waveFile);
 		log.info("Receive file "+waveFile);
 		FileXferServer xferServer = new FileXferServer();
 		xferServer.Serverloop(waveFile);

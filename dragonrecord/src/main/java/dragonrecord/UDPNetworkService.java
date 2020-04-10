@@ -73,7 +73,6 @@ public class UDPNetworkService implements Runnable{
 	
 	private String positionServo(String clientSentence) throws IOException {
 		try {
-
 			int servo = Integer.parseInt(clientSentence.substring(2, 4));
 			int servoValue = Integer.parseInt(clientSentence.substring(5, 9));
 			orchestrationService.setSingleServo(servo, servoValue);

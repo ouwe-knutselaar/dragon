@@ -68,4 +68,17 @@ public class FileXferServer {
 		log.info("Created new directory "+Paths.get(receiveFile).getParent().toString());
 	}
 	
+	
+	public String getSemiColonSeparatedDirectoryListing(String source) {
+		StringBuilder tempSb = new StringBuilder();
+		try {
+			Files.newDirectoryStream(Paths.get(source))
+					.forEach(item -> tempSb.append(item.getFileName().toString()).append(';'));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return tempSb.deleteCharAt(tempSb.length()-1).toString();
+
+	}
 }

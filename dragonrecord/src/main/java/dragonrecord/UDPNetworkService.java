@@ -3,6 +3,7 @@ package dragonrecord;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import org.apache.log4j.Logger;
 
@@ -56,6 +57,7 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='s')orchestrationService.saveCurrentMotion();
 				if(choice=='e')orchestrationService.executeCurrentMotion();
 				if(choice=='u')orchestrationService.receiveWaveFile(receivedDataString.substring(1));
+				if(choice=='l')orchestrationService.sendActions(receivePacket.getAddress());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -81,6 +83,22 @@ public class UDPNetworkService implements Runnable{
 			log.debug("NumberFormatException " + e.getMessage());
 			return "NumberFormatException\n\r";
 		}
+	}
+	
+	
+	public void sendString(InetAddress inetAddress,String sendString)
+	{
+		try {
+			DatagramSocket clientSocket = new DatagramSocket();
+			DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), inetAddress, 3003);
+			clientSocket.send(sendPacket);
+			clientSocket.close();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -3,17 +3,12 @@ package dragonrecord;
 import org.apache.log4j.Logger;
 
 
-
-
-
 public class DragonRecord {
 	
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-	
 	private UDPNetworkService udpNetworkService;
 	private OrchestrationService orchestrationService;
 	private TimerService timerService;
-	
 	private boolean RUNNING=true;
 	
 	public static void main(String[] argv)
@@ -23,9 +18,6 @@ public class DragonRecord {
 		dragonRecord.run();
 	}
 
-	
-	
-	
 	
 	public void run() {
 		try {

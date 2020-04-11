@@ -1,23 +1,23 @@
 package dragonrecord;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 import org.apache.log4j.Logger;
 
 public class OrchestrationService {
 
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-	
 	private static OrchestrationService INSTANCE	= new OrchestrationService();
 	private TimerService timerService;
 	private boolean recording=false;
 	private boolean playing=false;
-	
-
 	private MovementRecorder movementRecorder =new MovementRecorder();
 	private I2CService i2cService = new I2CService();
 	private WaveService waveService = WaveService.getInstance();
-	
+	FileXferServer xferServer = new FileXferServer();
 	private int currentServo;
 	private int currentServoValue;
 	
@@ -98,9 +98,24 @@ public class OrchestrationService {
 		waveName=waveName.trim();
 		String waveFile=String.format("%s%s\\%s.wav",movementRecorder.selectRootDir(),waveName,waveName);
 		log.info("Receive file "+waveFile);
-		FileXferServer xferServer = new FileXferServer();
+		
 		xferServer.Serverloop(waveFile);
 		log.info("File received");
+	}
+
+	public void sendActions(InetAddress inetAddress) {
+		try {
+			log.info("Reqeust to deliver the list of actions");
+			DatagramSocket clientSocket = new DatagramSocket();
+			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(movementRecorder.selectRootDir());
+			DatagramPacket sendPacket = new DatagramPacket(dirlist.getBytes(), dirlist.length(), inetAddress, 3003);
+			clientSocket.send(sendPacket);
+			clientSocket.close();
+			log.info("List of actions send");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

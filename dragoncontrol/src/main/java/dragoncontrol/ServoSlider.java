@@ -2,14 +2,22 @@ package dragoncontrol;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+import com.sun.javafx.collections.ArrayListenerHelper;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -54,7 +62,9 @@ public class ServoSlider extends GridPane
 	TextField minField;
 	TextField maxField;
 	TextField restField;
-	TextField nameField;
+	
+	ObservableList<String> actionNames=FXCollections.observableArrayList();
+	ComboBox<String> actionDownDownList =new ComboBox<>(actionNames);
 	
 	Button connect=new Button("Set IP");
 	Button createNewRecordButton=new Button("Create");
@@ -90,6 +100,12 @@ public class ServoSlider extends GridPane
 			System.exit(1);
 		}
 		
+		actionNames.add("bagger");
+		actionNames.add("troep");
+		actionNames.add("zooi");
+		actionNames.add("rommel");
+		actionDownDownList.setEditable(true);
+		
 	
 		 slider=new Slider(Globals.servoLimitList[servo].getMinPos(),Globals.servoLimitList[servo].getMaxPos(),Globals.servoLimitList[servo].getRestPos());
 
@@ -105,7 +121,7 @@ public class ServoSlider extends GridPane
 		 minField=new TextField(""+Globals.servoLimitList[servo].getMinPos());
 		 maxField=new TextField(""+Globals.servoLimitList[servo].getMaxPos());
 		 restField=new TextField(""+Globals.servoLimitList[servo].getRestPos());
-		 nameField=new TextField("tempname");
+		 
 		 
 		
 		fieldGrid.add(minLabel, 0,0);
@@ -124,7 +140,7 @@ public class ServoSlider extends GridPane
 		fieldGrid.add(ipAdressField, 1, 3);
 		fieldGrid.add(ipPortField, 1, 4);
 		fieldGrid.add(servoDropDownList, 1, 5);
-		fieldGrid.add(nameField, 1, 6);
+		fieldGrid.add(actionDownDownList, 1, 6);
 		fieldGrid.add(servoName, 1, 7);
 		
 		
@@ -203,6 +219,8 @@ public class ServoSlider extends GridPane
 					IPAddress = InetAddress.getByName(host);
 					udpPort=Integer.parseInt(ipPortField.getText());
 					messageField.setText("Host is "+host+"at port "+ipPortField.getText());
+					receiveListOfActions();
+					
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
@@ -246,8 +264,8 @@ public class ServoSlider extends GridPane
 		createNewRecordButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				messageField.setText("New recording named "+nameField.getText());
-				sendUDP("c"+nameField.getText());
+				messageField.setText("New recording named "+actionDownDownList.getValue().toString());
+				sendUDP("c"+actionDownDownList.getValue().toString());
 			}
 		});
 		
@@ -255,15 +273,15 @@ public class ServoSlider extends GridPane
 		saveRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				messageField.setText("save sequence "+nameField.getText());
-				sendUDP("s"+nameField.getText());
+				messageField.setText("save sequence "+actionDownDownList.getValue().toString());
+				sendUDP("s"+actionDownDownList.getValue().toString());
 			}
 		});
 		
 		uploadWavButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				messageField.setText("upload wae for "+nameField.getText());
+				messageField.setText("upload wae for "+actionDownDownList.getValue().toString());
 				try {
 					waveUpload();
 				} catch (IOException e) {
@@ -299,6 +317,27 @@ public class ServoSlider extends GridPane
 	}
 	
 	
+	private void receiveListOfActions() {
+		
+		try {
+			sendUDP("l ");
+			DatagramSocket serverSocket = new DatagramSocket(3003);
+			byte[] receiveData = new byte[9128];
+			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			serverSocket.receive(receivePacket);
+			String receivedDataString = new String(receivePacket.getData());
+			serverSocket.close();
+			
+			actionNames.clear();
+			actionNames.addAll(Arrays.asList(receivedDataString.split(";")));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+
+
 	private void sendUDP(String sendString)
 	{
 		try {
@@ -335,9 +374,7 @@ public class ServoSlider extends GridPane
 		File selectedFile = fileChooser.showOpenDialog(this.getScene().getWindow());
 		if (selectedFile == null)return;
 		
-		
-		
-		sendUDP("u"+nameField.getText());
+		sendUDP("u"+actionDownDownList.getValue().toString());
 		messageField.setText("Wait 2 seconds for the server to start");
 		try {
 			Thread.sleep(2000);

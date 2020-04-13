@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -20,6 +21,7 @@ public class OrchestrationService {
 	FileXferServer xferServer = new FileXferServer();
 	private int currentServo;
 	private int currentServoValue;
+	private String currentActionName;
 	
 	private OrchestrationService()
 	{
@@ -42,7 +44,7 @@ public class OrchestrationService {
 
 	public void startTrackRecording(int servo) 
 	{
-		waveService.playWave(movementRecorder.getRecordingWaveName());
+		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
 		recording=true;
 		playing=true;
@@ -78,25 +80,28 @@ public class OrchestrationService {
 
 	public void saveCurrentMotion() throws IOException {
 		log.info("Save current motion");
-		movementRecorder.writeSequenceFile();
+		movementRecorder.writeSequenceFile(getSequenceFileName());
 	}
 
 	public void createNewRecording(String recordingName) throws IOException {
+		recordingName=recordingName.trim();
 		log.info("Create new recording named "+recordingName+"-");
-		movementRecorder.createNewSequence(recordingName);
+		currentActionName=recordingName;
+		movementRecorder.createNewSequence(getSequenceFileName());
 	}
 
 	public void executeCurrentMotion() {
 		log.info("Play current motion");
-		waveService.playWave(movementRecorder.getRecordingWaveName());
+		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
 		recording=false;
 		playing=true;
 	}
 
+
 	public void receiveWaveFile(String waveName) {
 		waveName=waveName.trim();
-		String waveFile=String.format("%s%s\\%s.wav",movementRecorder.selectRootDir(),waveName,waveName);
+		String waveFile=String.format("%s%s\\%s.wav",selectRootDir(),waveName,waveName);
 		log.info("Receive file "+waveFile);
 		xferServer.Serverloop(waveFile);
 		log.info("File received");
@@ -107,7 +112,7 @@ public class OrchestrationService {
 		try {
 			log.info("Reqeust to deliver the list of actions");
 			DatagramSocket clientSocket = new DatagramSocket();
-			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(movementRecorder.selectRootDir());
+			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
 			DatagramPacket sendPacket = new DatagramPacket(dirlist.getBytes(), dirlist.length(), inetAddress, 3003);
 			clientSocket.send(sendPacket);
 			clientSocket.close();
@@ -121,6 +126,45 @@ public class OrchestrationService {
 	public void filterServo(int servo) {
 		log.info("Run filter for servo "+servo);
 		movementRecorder.filter(servo);
+	}
+	
+	
+	public String selectRootDir() {
+		String OS = System.getProperty("os.name").toLowerCase();
+		if(OS.contains("win"))return "D:\\erwin\\dragon\\";
+		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/var/dragon/";
+		return "unknown";
+	}
+	
+	
+	private String getActionsDir()
+	{
+		StringBuilder actionDir=new StringBuilder(selectRootDir())
+								.append("actions");
+		return actionDir.toString();
+	}
+	
+	
+	private String getRecordingWaveName() {
+		StringBuilder waveFile=new StringBuilder(selectRootDir())
+									.append("actions")
+									.append(File.separatorChar)
+									.append(currentActionName)
+									.append(File.separatorChar)
+									.append(currentActionName)
+									.append(".wav");
+		return waveFile.toString();
+	}
+
+	private String getSequenceFileName() {
+		StringBuilder waveFile=new StringBuilder(selectRootDir())
+									.append("actions")
+									.append(File.separatorChar)
+									.append(currentActionName)
+									.append(File.separatorChar)
+									.append(currentActionName)
+									.append(".seq");
+		return waveFile.toString();
 	}
 	
 }

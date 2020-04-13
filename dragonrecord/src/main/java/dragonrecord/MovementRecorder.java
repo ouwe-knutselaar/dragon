@@ -17,10 +17,7 @@ public class MovementRecorder {
 	private final int MAXSTEPS=300*50;			// 50 hz x 300 seconden
 	private int tracklist[][];					//[servo][step]
 	private int laststep=0;
-	private String recordingName="xxxxxxx";
-	private String recordingDirectory=selectRootDir()+recordingName;
-	private String directorySeparator=__selectDirSeparator();
-	
+
 	
 	public MovementRecorder()
 	{
@@ -50,9 +47,8 @@ public class MovementRecorder {
 	}
 		
 	
-	public void writeSequenceFile() throws IOException
+	public void writeSequenceFile(String sequenceFileName) throws IOException
 	{
-		String sequenceFileName=recordingDirectory+directorySeparator+recordingName+".seq";
 		log.info("Write sequence file :"+sequenceFileName);
 		File seqenueceFile=new File(sequenceFileName);
 		
@@ -79,35 +75,15 @@ public class MovementRecorder {
 		bos.close();
 	}
 	
-	
-	public String selectRootDir() {
-		String OS = System.getProperty("os.name").toLowerCase();
-		if(OS.contains("win"))return "D:\\erwin\\dragon\\actions\\";
-		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/var/dragon/";
-		return "unknown";
-	}
-	
-	
-	private String __selectDirSeparator() {
-		String OS = System.getProperty("os.name").toLowerCase();
-		if(OS.contains("win"))return "\\";
-		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/";
-		return "/";
-	}
-	
 
-	public void createNewSequence(String newRecordingName) throws IOException {
-		recordingName=newRecordingName.trim();
-		recordingDirectory=(selectRootDir()+recordingName).trim();
-		log.info("Created new recoding in "+recordingDirectory);
-		log.info("Recordng name is "+recordingName);
-		Path path = Paths.get(recordingDirectory);
-        Files.createDirectories(path);
-	}
-	
-	public String getRecordingWaveName()
-	{
-		return recordingDirectory+directorySeparator+recordingName+".wav";
+	public void createNewSequence(String newSequenceFile) throws IOException {
+		
+		Path sequencePath=Paths.get(newSequenceFile);
+		
+		log.info("Created new recoding in "+sequencePath.getParent());
+		log.info("Recordng name is "+sequencePath.getFileName());
+		
+        Files.createDirectories(sequencePath.getParent());
 	}
 	
 	

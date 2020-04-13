@@ -15,7 +15,7 @@ public class MovementRecorder {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	private final int NUM_OF_SERVOS=16;
 	private final int MAXSTEPS=300*50;			// 50 hz x 300 seconden
-	private int tracklist[][];
+	private int tracklist[][];					//[servo][step]
 	private int laststep=0;
 	private String recordingName="xxxxxxx";
 	private String recordingDirectory=selectRootDir()+recordingName;
@@ -44,7 +44,10 @@ public class MovementRecorder {
 	}
 	
 	
-
+	public int getLastStep()
+	{
+		return laststep;
+	}
 		
 	
 	public void writeSequenceFile() throws IOException
@@ -96,7 +99,7 @@ public class MovementRecorder {
 	public void createNewSequence(String newRecordingName) throws IOException {
 		recordingName=newRecordingName.trim();
 		recordingDirectory=(selectRootDir()+recordingName).trim();
-		log.info("Created new recoding in -"+recordingDirectory+"-");
+		log.info("Created new recoding in "+recordingDirectory);
 		log.info("Recordng name is "+recordingName);
 		Path path = Paths.get(recordingDirectory);
         Files.createDirectories(path);
@@ -129,4 +132,21 @@ public class MovementRecorder {
 		return record.toString();
 	}
 	
+	
+	
+	public void filter(int servo)
+	{
+		int tempTrack[]=new int[MAXSTEPS];
+		for(int tel=1;tel<MAXSTEPS-1;tel++)
+		{
+			int sub = tracklist[servo][tel - 1] + tracklist[servo][tel] + tracklist[servo][tel + 1];
+			sub = sub/3;
+			tempTrack[tel]=sub;
+		}
+		
+		for(int tel=0;tel<MAXSTEPS;tel++)
+		{
+			tracklist[servo][tel]=tempTrack[tel];
+		}
+	}
 }

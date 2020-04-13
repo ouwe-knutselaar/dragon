@@ -2,18 +2,12 @@ package dragoncontrol;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-
-import com.sun.javafx.collections.ArrayListenerHelper;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -303,7 +297,16 @@ public class ServoSlider extends GridPane
 		servoDropDownList.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
+				
 				rebuildSlider();
+			}});
+		
+		
+		actionDownDownList.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event) {
+				messageField.setText("Set action to "+actionDownDownList.getValue().toString());
+				sendUDP("c"+actionDownDownList.getValue().toString());
 			}});
 		
 		

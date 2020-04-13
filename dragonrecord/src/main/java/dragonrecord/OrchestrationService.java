@@ -52,7 +52,7 @@ public class OrchestrationService {
 	public void stopTrackRecording() {
 		recording=false;
 		playing=false;
-		log.info("Stop recording");
+		log.info("Stop recording at "+movementRecorder.getLastStep());
 	}
 
 	public void totalReset() {
@@ -82,7 +82,7 @@ public class OrchestrationService {
 	}
 
 	public void createNewRecording(String recordingName) throws IOException {
-		log.info("Create new recording named -"+recordingName+"-");
+		log.info("Create new recording named "+recordingName+"-");
 		movementRecorder.createNewSequence(recordingName);
 	}
 
@@ -98,11 +98,11 @@ public class OrchestrationService {
 		waveName=waveName.trim();
 		String waveFile=String.format("%s%s\\%s.wav",movementRecorder.selectRootDir(),waveName,waveName);
 		log.info("Receive file "+waveFile);
-		
 		xferServer.Serverloop(waveFile);
 		log.info("File received");
 	}
 
+	
 	public void sendActions(InetAddress inetAddress) {
 		try {
 			log.info("Reqeust to deliver the list of actions");
@@ -113,9 +113,14 @@ public class OrchestrationService {
 			clientSocket.close();
 			log.info("List of actions send");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	
+	public void filterServo(int servo) {
+		log.info("Run filter for servo "+servo);
+		movementRecorder.filter(servo);
 	}
 	
 }

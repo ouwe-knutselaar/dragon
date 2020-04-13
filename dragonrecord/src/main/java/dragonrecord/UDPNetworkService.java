@@ -58,6 +58,8 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='e')orchestrationService.executeCurrentMotion();
 				if(choice=='u')orchestrationService.receiveWaveFile(receivedDataString.substring(1));
 				if(choice=='l')orchestrationService.sendActions(receivePacket.getAddress());
+				if(choice=='f')orchestrationService.filterServo(Integer.parseInt(receivedDataString.substring(2,4)));
+				receiveData = new byte[1024];	// reset the buffer
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

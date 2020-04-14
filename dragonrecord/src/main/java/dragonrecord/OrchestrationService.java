@@ -46,6 +46,7 @@ public class OrchestrationService {
 	{
 		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
+		movementRecorder.startRecording();
 		recording=true;
 		playing=true;
 		log.info("Start recording of "+servo);
@@ -54,6 +55,7 @@ public class OrchestrationService {
 	public void stopTrackRecording() {
 		recording=false;
 		playing=false;
+		movementRecorder.stopRecording();
 		log.info("Stop recording at "+movementRecorder.getLastStep());
 	}
 

@@ -14,8 +14,9 @@ public class MovementRecorder {
 	
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	private final int NUM_OF_SERVOS=16;
-	private final int MAXSTEPS=300*50;			// 50 hz x 300 seconden
-	private int tracklist[][];					//[servo][step]
+	private final int MAXSTEPS=300*50;					// 50 hz x 300 seconden
+	private int tracklist[][];							//[servo][step]
+	private boolean recorded[]=new boolean[MAXSTEPS];	
 	private int laststep=0;
 
 	
@@ -29,6 +30,7 @@ public class MovementRecorder {
 	{
 		log.info("Reset the recorder to "+MAXSTEPS+" steps");
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
+		recorded=new boolean[MAXSTEPS];
 		laststep=0;
 	}
 
@@ -36,9 +38,26 @@ public class MovementRecorder {
 	public void record(int servo, int servoValue, int step) {
 		if(step>MAXSTEPS)return;
 		tracklist[servo][step]=servoValue;
+		recorded[step]=true;
 		laststep=Math.max(step, laststep);
 		log.debug("record servo "+servo+" value "+servoValue+" step "+step);
 	}
+	
+	
+	public void stopRecording()
+	{
+		int total=0;
+		for(int tel=1;tel<laststep;tel++)
+		{
+			if(recorded[tel]==false)
+			{
+				tracklist[0][tel]=(int)(tracklist[0][tel-1]+tracklist[0][tel+1])/2;
+				total++;
+			}
+		}
+		log.info("Number of autocorrected errors "+total);		
+	}
+	
 	
 	
 	public int getLastStep()
@@ -103,11 +122,11 @@ public class MovementRecorder {
 			for (int servocount = 0; servocount < NUM_OF_SERVOS; servocount++) {
 				record.append(tracklist[servocount][stepcount]).append('\t');
 			}
+			record.append(recorded[stepcount]);
 			record.append(System.lineSeparator());
 		}
 		return record.toString();
 	}
-	
 	
 	
 	public void filter(int servo)
@@ -124,5 +143,10 @@ public class MovementRecorder {
 		{
 			tracklist[servo][tel]=tempTrack[tel];
 		}
+	}
+
+	
+	public void startRecording() {
+		recorded=new boolean[MAXSTEPS];
 	}
 }

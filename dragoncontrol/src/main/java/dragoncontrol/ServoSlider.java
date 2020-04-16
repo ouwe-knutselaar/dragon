@@ -241,7 +241,7 @@ public class ServoSlider extends GridPane
 		stopRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				sendUDP("t 00");
+				sendUDP(String.format("t %02d", servo));
 				messageField.setText("Stop sequence");
 			}
 		});
@@ -325,6 +325,7 @@ public class ServoSlider extends GridPane
 		try {
 			sendUDP("l ");
 			DatagramSocket serverSocket = new DatagramSocket(3003);
+			serverSocket.setSoTimeout(1000);
 			byte[] receiveData = new byte[9128];
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			serverSocket.receive(receivePacket);
@@ -333,8 +334,12 @@ public class ServoSlider extends GridPane
 			
 			actionNames.clear();
 			actionNames.addAll(Arrays.asList(receivedDataString.split(";")));
-		} catch (IOException e) {
-			
+			actionDownDownList.getSelectionModel().select(0);
+		}catch (SocketException e){
+			messageField.setText("Time out error");
+			e.printStackTrace();
+		}catch (IOException e) {
+			messageField.setText("IO Error");
 			e.printStackTrace();
 		}
 		

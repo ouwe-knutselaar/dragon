@@ -52,7 +52,7 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='p')positionServo(receivedDataString);
 				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));
 				if(choice=='r')orchestrationService.startTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
-				if(choice=='t')orchestrationService.stopTrackRecording();
+				if(choice=='t')orchestrationService.stopTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
 				if(choice=='s')orchestrationService.saveCurrentMotion();
 				if(choice=='e')orchestrationService.executeCurrentMotion();

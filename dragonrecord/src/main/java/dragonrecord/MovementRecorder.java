@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -44,18 +45,18 @@ public class MovementRecorder {
 	}
 	
 	
-	public void stopRecording()
+	public void stopRecording(int servo)
 	{
 		int total=0;
 		for(int tel=1;tel<laststep;tel++)
 		{
 			if(recorded[tel]==false)
 			{
-				tracklist[0][tel]=(int)(tracklist[0][tel-1]+tracklist[0][tel+1])/2;
+				tracklist[servo][tel]=(int)(tracklist[servo][tel-1]+tracklist[servo][tel+1])/2;
 				total++;
 			}
 		}
-		log.info("Number of autocorrected errors "+total);		
+		log.info("Number of autocorrected errors "+total +" for servo "+servo);		
 	}
 	
 	
@@ -65,6 +66,7 @@ public class MovementRecorder {
 		return laststep;
 	}
 		
+	
 	
 	public void writeSequenceFile(String sequenceFileName) throws IOException
 	{
@@ -95,21 +97,36 @@ public class MovementRecorder {
 	}
 	
 
-	public void createNewSequence(String newSequenceFile) throws IOException {
+	public void openNewSequence(String sequenceFileName) throws IOException {
+		if(!Files.exists(Paths.get(sequenceFileName)))
+		{
+			Path sequencePath=Paths.get(sequenceFileName);
+			log.info("Created new recoding in "+sequenceFileName);
+			log.info("Recordng name is "+sequencePath.getFileName());
+	        Files.createDirectories(sequencePath.getParent());
+	        Files.createFile(Paths.get(sequenceFileName));
+		}
 		
-		Path sequencePath=Paths.get(newSequenceFile);
+		log.info("Read sequencefile "+sequenceFileName);
+		List<String> sequenceLines = Files.readAllLines(Paths.get(sequenceFileName));
+		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
+		for (int lines=0;lines < sequenceLines.size();lines++) {
+			//log.debug("Parse " + line);
+			
+			for (int tel = 0; tel < NUM_OF_SERVOS; tel++) {
+				tracklist[tel][lines] = Integer.parseInt(sequenceLines.get(lines).substring((tel * 4), 4 + (tel * 4)));
+			}
+		}
+		laststep = sequenceLines.size();
+		log.info("Parsed action file of " + laststep + " steps");
 		
-		log.info("Created new recoding in "+sequencePath.getParent());
-		log.info("Recordng name is "+sequencePath.getFileName());
-		
-        Files.createDirectories(sequencePath.getParent());
 	}
 	
 	
 	public int[] getServoValuesFromStep(int step)
 	{
 		int result[]=new int[NUM_OF_SERVOS];
-		if(step>MAXSTEPS) return result;
+		if(step>MAXSTEPS-1) return result;
 		for(int tel=0;tel<NUM_OF_SERVOS;tel++)result[tel]=tracklist[tel][step];
 		return result;
 	}
@@ -145,6 +162,8 @@ public class MovementRecorder {
 		}
 	}
 
+	
+	
 	
 	public void startRecording() {
 		recorded=new boolean[MAXSTEPS];

@@ -52,10 +52,10 @@ public class OrchestrationService {
 		log.info("Start recording of "+servo);
 	}
 
-	public void stopTrackRecording() {
+	public void stopTrackRecording(int servo) {
 		recording=false;
 		playing=false;
-		movementRecorder.stopRecording();
+		movementRecorder.stopRecording(servo);
 		log.info("Stop recording at "+movementRecorder.getLastStep());
 	}
 
@@ -87,9 +87,9 @@ public class OrchestrationService {
 
 	public void createNewRecording(String recordingName) throws IOException {
 		recordingName=recordingName.trim();
-		log.info("Create new recording named "+recordingName+"-");
+		log.info("Set on recording named '"+recordingName+"'");
 		currentActionName=recordingName;
-		movementRecorder.createNewSequence(getSequenceFileName());
+		movementRecorder.openNewSequence(getSequenceFileName());
 	}
 
 	public void executeCurrentMotion() {
@@ -103,7 +103,7 @@ public class OrchestrationService {
 
 	public void receiveWaveFile(String waveName) {
 		waveName=waveName.trim();
-		String waveFile=String.format("%s%s\\%s.wav",selectRootDir(),waveName,waveName);
+		String waveFile=String.format("%s\\actions\\%s\\%s.wav",selectRootDir(),waveName,waveName);
 		log.info("Receive file "+waveFile);
 		xferServer.Serverloop(waveFile);
 		log.info("File received");

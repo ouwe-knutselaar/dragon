@@ -39,6 +39,7 @@ public class FileXferServer {
 				total+=bytesRead;
 			}while(bytesRead>-1);
 			
+			os.flush();
 			clntSock.close();
 			os.close();
 			outputFile.close();
@@ -52,7 +53,7 @@ public class FileXferServer {
 			return -1;
 		}
 		
-		log.info("File Received");
+		log.info("File Received of "+total+" bytes");
 		return total;
 	}
 	

@@ -46,6 +46,7 @@ public class ServoSlider extends GridPane
 	Label restLabel=new Label("rest");
 	Label servoLabel=new Label("servo");
 	Label actionName=new Label("sequence name");
+	Label actionType=new Label("sequence type");
 	Label servoNameLabel=new Label("servo name");
 	
 	Text messageField = new Text("messages");
@@ -58,7 +59,10 @@ public class ServoSlider extends GridPane
 	TextField restField;
 	
 	ObservableList<String> actionNames=FXCollections.observableArrayList();
-	ComboBox<String> actionDownDownList =new ComboBox<>(actionNames);
+	ComboBox<String> actionNamesList =new ComboBox<>(actionNames);
+	
+	ObservableList<String> actionTypes=FXCollections.observableArrayList();
+	ComboBox<String> actionTypesList =new ComboBox<>(actionTypes);
 	
 	Button connect=new Button("Set IP");
 	Button createNewRecordButton=new Button("Create");
@@ -94,30 +98,31 @@ public class ServoSlider extends GridPane
 			System.exit(1);
 		}
 		
-		actionNames.add("bagger");
-		actionNames.add("troep");
-		actionNames.add("zooi");
-		actionNames.add("rommel");
-		actionDownDownList.setEditable(true);
+		actionNames.add("empty");
+		actionNamesList.setEditable(true);
 		
-	
-		 slider=new Slider(Globals.servoLimitList[servo].getMinPos(),Globals.servoLimitList[servo].getMaxPos(),Globals.servoLimitList[servo].getRestPos());
+		actionTypes.add("male");
+		actionTypes.add("female");
+		actionTypes.add("myself");
+		actionTypes.add("child");
+		actionTypesList.getSelectionModel().select(0);
+		
+		
+		slider=new Slider(Globals.servoLimitList[servo].getMinPos(),Globals.servoLimitList[servo].getMaxPos(),Globals.servoLimitList[servo].getRestPos());
 
-		 ipAdressLabel=new Label("ip adres");
-		 ipPortLabel=new Label("port");
-		 minLabel=new Label("min");
-		 maxLabel=new Label("max");
-		 restLabel=new Label("rest");
-		 servoLabel=new Label("servo");
+		ipAdressLabel=new Label("ip adres");
+		ipPortLabel=new Label("port");
+		minLabel=new Label("min");
+		maxLabel=new Label("max");
+		restLabel=new Label("rest");
+		servoLabel=new Label("servo");
 		
-		 ipAdressField=new TextField("127.0.0.1");
-		 ipPortField=new TextField("3001");
-		 minField=new TextField(""+Globals.servoLimitList[servo].getMinPos());
-		 maxField=new TextField(""+Globals.servoLimitList[servo].getMaxPos());
-		 restField=new TextField(""+Globals.servoLimitList[servo].getRestPos());
-		 
-		 
-		
+		ipAdressField=new TextField("127.0.0.1");
+		ipPortField=new TextField("3001");
+		minField=new TextField(""+Globals.servoLimitList[servo].getMinPos());
+		maxField=new TextField(""+Globals.servoLimitList[servo].getMaxPos());
+		restField=new TextField(""+Globals.servoLimitList[servo].getRestPos());
+
 		fieldGrid.add(minLabel, 0,0);
 		fieldGrid.add(restLabel, 0,1);
 		fieldGrid.add(maxLabel, 0,2);
@@ -125,8 +130,8 @@ public class ServoSlider extends GridPane
 		fieldGrid.add(ipPortLabel, 0, 4);
 		fieldGrid.add(servoLabel, 0, 5);
 		fieldGrid.add(actionName, 0, 6);
-		fieldGrid.add(servoNameLabel,0,7);
-		
+		fieldGrid.add(actionType, 0, 7);
+		fieldGrid.add(servoNameLabel,0,8);
 		
 		fieldGrid.add(minField, 1,0);
 		fieldGrid.add(restField, 1,1);
@@ -134,9 +139,9 @@ public class ServoSlider extends GridPane
 		fieldGrid.add(ipAdressField, 1, 3);
 		fieldGrid.add(ipPortField, 1, 4);
 		fieldGrid.add(servoDropDownList, 1, 5);
-		fieldGrid.add(actionDownDownList, 1, 6);
-		fieldGrid.add(servoName, 1, 7);
-		
+		fieldGrid.add(actionNamesList, 1, 6);
+		fieldGrid.add(actionTypesList, 1, 7);
+		fieldGrid.add(servoName, 1, 8);
 		
 		// colom , row, colspan, rowspan
 		buttonGrid.add(connect,0,0);
@@ -151,9 +156,6 @@ public class ServoSlider extends GridPane
 		
 		buttonGrid.add(dumpRecordingButton, 0, 3);
 		buttonGrid.add(playRecordingButton, 2, 3);
-		
-		
-				
 		
 		fieldGrid.setHgap(10);
 		fieldGrid.setVgap(10);
@@ -175,7 +177,7 @@ public class ServoSlider extends GridPane
 		slider.setOrientation(Orientation.VERTICAL);
 		slider.setShowTickLabels(true);
 		
-			
+		
 		minField.textProperty().addListener(new ChangeListener<String>(){
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -183,6 +185,7 @@ public class ServoSlider extends GridPane
 				Globals.servoLimitList[servo].setMinPos(Integer.parseInt(newValue));
 				rebuildSlider();
 			}});
+		
 		
 		maxField.textProperty().addListener(new ChangeListener<String>(){
 			@Override
@@ -204,7 +207,7 @@ public class ServoSlider extends GridPane
 					e.printStackTrace();
 				}
 			}});
-		
+	
 		
 		connect.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			public void handle(MouseEvent event) {
@@ -258,8 +261,8 @@ public class ServoSlider extends GridPane
 		createNewRecordButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				messageField.setText("New recording named "+actionDownDownList.getValue().toString());
-				sendUDP("c"+actionDownDownList.getValue().toString());
+				messageField.setText("New recording named "+actionNamesList.getValue().toString());
+				sendUDP("c"+actionNamesList.getValue().toString());
 			}
 		});
 		
@@ -267,15 +270,15 @@ public class ServoSlider extends GridPane
 		saveRecordingButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				messageField.setText("save sequence "+actionDownDownList.getValue().toString());
-				sendUDP("s"+actionDownDownList.getValue().toString());
+				messageField.setText("save sequence "+actionNamesList.getValue().toString());
+				sendUDP("s");
 			}
 		});
 		
 		uploadWavButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				messageField.setText("upload wae for "+actionDownDownList.getValue().toString());
+				messageField.setText("upload wae for "+actionNamesList.getValue().toString());
 				try {
 					waveUpload();
 				} catch (IOException e) {
@@ -302,11 +305,19 @@ public class ServoSlider extends GridPane
 			}});
 		
 		
-		actionDownDownList.setOnAction(new EventHandler<ActionEvent>(){
+		actionNamesList.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				messageField.setText("Set action to "+actionDownDownList.getValue().toString());
-				sendUDP("c"+actionDownDownList.getValue().toString());
+				messageField.setText("Set action to "+actionNamesList.getValue().toString());
+				sendUDP("c"+actionNamesList.getValue().toString());
+			}});
+		
+		
+		actionTypesList.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event) {
+				messageField.setText("Set action to "+actionNamesList.getValue().toString());
+				sendUDP("a"+actionTypesList.getValue().toString());
 			}});
 		
 		
@@ -334,7 +345,7 @@ public class ServoSlider extends GridPane
 			
 			actionNames.clear();
 			actionNames.addAll(Arrays.asList(receivedDataString.split(";")));
-			actionDownDownList.getSelectionModel().select(0);
+			actionNamesList.getSelectionModel().select(0);
 		}catch (SocketException e){
 			messageField.setText("Time out error");
 			e.printStackTrace();
@@ -382,7 +393,7 @@ public class ServoSlider extends GridPane
 		File selectedFile = fileChooser.showOpenDialog(this.getScene().getWindow());
 		if (selectedFile == null)return;
 		
-		sendUDP("u"+actionDownDownList.getValue().toString());
+		sendUDP("u"+actionNamesList.getValue().toString());
 		messageField.setText("Wait 2 seconds for the server to start");
 		try {
 			Thread.sleep(2000);

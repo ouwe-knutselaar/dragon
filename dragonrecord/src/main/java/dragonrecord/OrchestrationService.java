@@ -168,5 +168,10 @@ public class OrchestrationService {
 									.append(".seq");
 		return waveFile.toString();
 	}
+
+	public void setActionType(String actionTypename) {
+		movementRecorder.setActionType(actionTypename);
+		
+	}
 	
 }

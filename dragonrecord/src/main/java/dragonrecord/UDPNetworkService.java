@@ -51,6 +51,7 @@ public class UDPNetworkService implements Runnable{
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
 				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));
+				if(choice=='c')orchestrationService.setActionType(receivedDataString.substring(1));
 				if(choice=='r')orchestrationService.startTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='t')orchestrationService.stopTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
@@ -102,5 +103,6 @@ public class UDPNetworkService implements Runnable{
 		}
 		
 	}
+	
 
 }

@@ -19,6 +19,7 @@ public class MovementRecorder {
 	private int tracklist[][];							//[servo][step]
 	private boolean recorded[]=new boolean[MAXSTEPS];	
 	private int laststep=0;
+	private String actionType="myself";			// male , female , child , myself
 
 	
 	public MovementRecorder()
@@ -74,6 +75,7 @@ public class MovementRecorder {
 		File seqenueceFile=new File(sequenceFileName);
 		
 		BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(seqenueceFile));
+		bos.write(String.format("%s\n", actionType).getBytes());
 		for(int tel=0;tel<laststep;tel++)
 			{bos.write(String.format("%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d\n",
 					 		tracklist[0][tel],
@@ -109,8 +111,9 @@ public class MovementRecorder {
 		
 		log.info("Read sequencefile "+sequenceFileName);
 		List<String> sequenceLines = Files.readAllLines(Paths.get(sequenceFileName));
+		actionType=sequenceLines.get(0);
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
-		for (int lines=0;lines < sequenceLines.size();lines++) {
+		for (int lines=1;lines < sequenceLines.size();lines++) {
 			//log.debug("Parse " + line);
 			
 			for (int tel = 0; tel < NUM_OF_SERVOS; tel++) {
@@ -135,6 +138,7 @@ public class MovementRecorder {
 	@Override
 	public String toString() {
 		StringBuilder record = new StringBuilder();
+		record.append(actionType).append(System.lineSeparator());
 		for (int stepcount = 0; stepcount < laststep; stepcount++) {
 			for (int servocount = 0; servocount < NUM_OF_SERVOS; servocount++) {
 				record.append(tracklist[servocount][stepcount]).append('\t');
@@ -167,5 +171,10 @@ public class MovementRecorder {
 	
 	public void startRecording() {
 		recorded=new boolean[MAXSTEPS];
+	}
+
+	
+	public void setActionType(String actionTypename) {
+		actionType = actionTypename;
 	}
 }

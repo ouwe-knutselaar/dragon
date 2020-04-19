@@ -271,7 +271,7 @@ public class ServoSlider extends GridPane
 			@Override
 			public void handle(MouseEvent event) {
 				messageField.setText("save sequence "+actionNamesList.getValue().toString());
-				sendUDP("s");
+				sendUDP("s"+actionTypesList.getValue().toString());
 			}
 		});
 		
@@ -317,7 +317,6 @@ public class ServoSlider extends GridPane
 			@Override
 			public void handle(ActionEvent event) {
 				messageField.setText("Set action to "+actionNamesList.getValue().toString());
-				sendUDP("a"+actionTypesList.getValue().toString());
 			}});
 		
 		

@@ -80,9 +80,9 @@ public class OrchestrationService {
 		System.out.println(movementRecorder);
 	}
 
-	public void saveCurrentMotion() throws IOException {
+	public void saveCurrentMotion(String actionType) throws IOException {
 		log.info("Save current motion");
-		movementRecorder.writeSequenceFile(getSequenceFileName());
+		movementRecorder.writeSequenceFile(getSequenceFileName(),actionType);
 	}
 
 	public void createNewRecording(String recordingName) throws IOException {
@@ -169,9 +169,5 @@ public class OrchestrationService {
 		return waveFile.toString();
 	}
 
-	public void setActionType(String actionTypename) {
-		movementRecorder.setActionType(actionTypename);
-		
-	}
 	
 }

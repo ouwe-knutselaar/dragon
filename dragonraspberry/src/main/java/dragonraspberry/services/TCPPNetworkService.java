@@ -96,21 +96,8 @@ public class TCPPNetworkService implements Runnable{
 					eventHandler.forEach(handler -> handler.handle("random", 1, 1));
 					__write("OK RANDOM");
 					break;
-				case "lst":
-					__write(getMotionNameList());
-					break;
-				case "cur":
-					orchestrationService.setCurrentMotion(clientInputString.substring(4));
-					__write("OK SET CURRENT");
-					break;
 				case "hlp":
 					__write(help());
-					break;
-				case "pse":	
-					orchestrationService.pauseAllActivities();
-					break;	
-				case "nor":
-					orchestrationService.operateNormal();
 					break;
 				case "rst":
 					orchestrationService.totalReset();
@@ -151,12 +138,6 @@ public class TCPPNetworkService implements Runnable{
 		return help;
 	}
 
-	private String getMotionNameList() {
-		String actionList="";
-		for(String actionName:orchestrationService.getMotionNameList())actionList=actionList+actionName+"\n";
-		log.debug("Request for action list "+actionList);
-		return actionList;
-	}
 
 	/**
 	 * Stop the TCP networking service

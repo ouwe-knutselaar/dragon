@@ -27,29 +27,29 @@ public class I2CService {
 
 	
 	public I2CService() {
-		log.info("Make I2CService");
+		log.debug("Make I2CService");
 	}
 
 	
 	public void init(int frequency)  {
-		log.info("Init the PCA9685");
+		log.debug("Init the PCA9685");
 
 		try {
 			i2cbus = I2CFactory.getInstance(I2CBus.BUS_1);
 			i2cdev = i2cbus.getDevice(PCAADDR);
 
 			int settings_mode1 = i2cdev.read(MODE1);
-			log.info("Current settings MODE1 is B" + Integer.toBinaryString(settings_mode1));
+			log.debug("Current settings MODE1 is B" + Integer.toBinaryString(settings_mode1));
 
 			settings_mode1 = settings_mode1 & 0xEF | AI;
-			log.info("Enable auto increment B" + Integer.toBinaryString(settings_mode1));
+			log.debug("Enable auto increment B" + Integer.toBinaryString(settings_mode1));
 			i2cdev.write(MODE1, (byte) settings_mode1);
 
 			setFrequency(frequency);
-			log.info("Init done");
+			log.debug("Init done");
 			
 		} catch (UnsupportedBusNumberException e) {
-			log.info("UnsupportedBusNumberException switch to demo mode");
+			log.debug("UnsupportedBusNumberException switch to demo mode");
 			demoMode=true;
 		} catch (IOException e) {
 			log.error("IO Exception ");
@@ -60,9 +60,9 @@ public class I2CService {
 	
 	public void setFrequency(int frequency) {
 		try {
-			log.info("Set the frequencyof the  PCA9685 on " + frequency + "Hz");
+			log.debug("Set the frequencyof the  PCA9685 on " + frequency + "Hz");
 			int prescale = (25_000_000 / (4096 * frequency)) - 1;
-			log.info("Prescale set on " + prescale);
+			log.debug("Prescale set on " + prescale);
 			if (demoMode)return;
 			int settings_mode1 = i2cdev.read(MODE1);
 			i2cdev.write(MODE1, (byte) (settings_mode1 | SLEEP));
@@ -82,7 +82,7 @@ public class I2CService {
 	public void reset() {
 		
 		try {
-			log.info("Reset the PCA9685");
+			log.debug("Reset the PCA9685");
 			if(demoMode)return;
 			int settings_mode1 = i2cdev.read(MODE1);
 			i2cdev.write(MODE1, (byte) (settings_mode1 | 0x80));

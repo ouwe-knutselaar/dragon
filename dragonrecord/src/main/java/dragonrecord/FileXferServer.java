@@ -29,7 +29,7 @@ public class FileXferServer {
 			ServerSocket serversocket=new ServerSocket(5000);
 			outputFile = new FileOutputStream(receiveFile);
 			BufferedOutputStream os=new BufferedOutputStream(outputFile);
-			log.info("Wait for incoming connection");
+			log.debug("Wait for incoming connection");
 			Socket clntSock=serversocket.accept();
 			InputStream clntInputStream=clntSock.getInputStream();
 			
@@ -53,7 +53,7 @@ public class FileXferServer {
 			return -1;
 		}
 		
-		log.info("File Received of "+total+" bytes");
+		log.debug("File Received of "+total+" bytes");
 		return total;
 	}
 	
@@ -66,7 +66,7 @@ public class FileXferServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		log.info("Created new directory "+Paths.get(receiveFile).getParent().toString());
+		log.debug("Created new directory "+Paths.get(receiveFile).getParent().toString());
 	}
 	
 	

@@ -21,7 +21,7 @@ public class UDPNetworkService implements Runnable{
 	public UDPNetworkService() 
 	{
 		try {
-			log.info("Make the networking service");
+			log.debug("Make the networking service");
 			orchestrationService=OrchestrationService.GetInstance();
 			serverSocket = new DatagramSocket(3001);
 		} catch (SocketException e) {
@@ -33,14 +33,14 @@ public class UDPNetworkService implements Runnable{
 	
 	public void startUDPNetworkService()
 	{
-		log.info("Start UDPNetworkService on port 3001");
+		log.debug("Start UDPNetworkService on port 3001");
 		Thread thisThread=new Thread(this);
 		thisThread.start();
 	}
 	
 	@Override
 	public void run() {
-		log.info("UDPNetworkService thread started");
+		log.debug("UDPNetworkService thread started");
 		String receivedDataString = "";
 		while (running) {
 			try {
@@ -48,7 +48,7 @@ public class UDPNetworkService implements Runnable{
 				serverSocket.receive(receivePacket);
 				receivedDataString = new String(receivePacket.getData());
 				receivedDataString=receivedDataString.substring(0, receivePacket.getLength());
-				System.out.println(receivedDataString.trim());
+				log.debug(receivedDataString.trim());
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
 				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));
@@ -65,13 +65,13 @@ public class UDPNetworkService implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		log.info("UDPNetworkService stopped");
+		log.debug("UDPNetworkService stopped");
 	}
 
 	
 	public void stop()
 	{
-		log.info("Stopping the UDPNetworkService service");
+		log.debug("Stopping the UDPNetworkService service");
 		running=false;
 	}
 	

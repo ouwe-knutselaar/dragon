@@ -23,13 +23,13 @@ public class MovementRecorder {
 	
 	public MovementRecorder()
 	{
-		log.info("Init MovementRecorder()");
+		log.debug("Init MovementRecorder()");
 		reset();
 	}
 	
 	public void reset()
 	{
-		log.info("Reset the recorder to "+MAXSTEPS+" steps");
+		log.debug("Reset the recorder to "+MAXSTEPS+" steps");
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
 		recorded=new boolean[MAXSTEPS];
 		laststep=0;
@@ -56,7 +56,7 @@ public class MovementRecorder {
 				total++;
 			}
 		}
-		log.info("Number of autocorrected errors "+total +" for servo "+servo);		
+		log.debug("Number of autocorrected errors "+total +" for servo "+servo);		
 	}
 	
 	
@@ -70,7 +70,7 @@ public class MovementRecorder {
 	
 	public void writeSequenceFile(String sequenceFileName,String actionType) throws IOException
 	{
-		log.info("Write sequence file :"+sequenceFileName + " with actiontype "+actionType);
+		log.debug("Write sequence file :"+sequenceFileName + " with actiontype "+actionType);
 		File seqenueceFile=new File(sequenceFileName);
 		
 		BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(seqenueceFile));
@@ -102,17 +102,17 @@ public class MovementRecorder {
 		if(!Files.exists(Paths.get(sequenceFileName)))
 		{
 			Path sequencePath=Paths.get(sequenceFileName);
-			log.info("Created new recoding in "+sequenceFileName);
-			log.info("Recordng name is "+sequencePath.getFileName());
+			log.debug("Created new recoding in "+sequenceFileName);
+			log.debug("Recordng name is "+sequencePath.getFileName());
 	        Files.createDirectories(sequencePath.getParent());
 	        Files.createFile(Paths.get(sequenceFileName));
 		}
 		
-		log.info("Read sequencefile "+sequenceFileName);
+		log.debug("Read sequencefile "+sequenceFileName);
 		List<String> sequenceLines = Files.readAllLines(Paths.get(sequenceFileName));
 		if(sequenceLines.size()==0)
 		{
-			log.info("Empty file");
+			log.debug("Empty file");
 			return;
 		}
 		String actionType=sequenceLines.get(0);					// nu nog even loze code
@@ -125,7 +125,7 @@ public class MovementRecorder {
 			}
 		}
 		laststep = sequenceLines.size();
-		log.info("Parsed action file of " + laststep + " steps");
+		log.debug("Parsed action file of " + laststep + " steps");
 		
 	}
 	

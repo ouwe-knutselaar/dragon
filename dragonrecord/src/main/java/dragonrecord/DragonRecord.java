@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 
@@ -13,6 +14,12 @@ public class DragonRecord {
 	
 	public static void main(String[] argv)
 	{
+		if(argv.length != 0  && argv[0].equals("DEBUG"))
+		{
+			Logger.getRootLogger().setLevel(Level.DEBUG);
+			System.out.println("Debug level");
+		}
+		
 		DragonRecord dragonRecord=new DragonRecord();
 		dragonRecord.init();
 		dragonRecord.run();
@@ -31,7 +38,7 @@ public class DragonRecord {
 	}
 	
 	public void init()  {
-		log.info("Init Dragon Recorder");
+		log.debug("Init Dragon Recorder");
 		timerService=TimerService.getInstance();
 		timerService.startTimer();
 		udpNetworkService = new UDPNetworkService();

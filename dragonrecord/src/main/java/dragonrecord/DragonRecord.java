@@ -20,6 +20,12 @@ public class DragonRecord {
 			System.out.println("Debug level");
 		}
 		
+		if(argv.length != 0  && argv[0].equals("INFO"))
+		{
+			Logger.getRootLogger().setLevel(Level.INFO);
+			System.out.println("Debug level");
+		}
+		
 		DragonRecord dragonRecord=new DragonRecord();
 		dragonRecord.init();
 		dragonRecord.run();
@@ -38,7 +44,7 @@ public class DragonRecord {
 	}
 	
 	public void init()  {
-		log.debug("Init Dragon Recorder");
+		log.info("Init Dragon Recorder");
 		timerService=TimerService.getInstance();
 		timerService.startTimer();
 		udpNetworkService = new UDPNetworkService();

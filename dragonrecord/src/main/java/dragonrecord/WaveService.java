@@ -37,7 +37,7 @@ public class WaveService{
 	
 	private WaveService()
 	{
-		log.debug("Make the WaveService ");
+		log.info("Make the WaveService ");
 	}
 	
 	
@@ -60,7 +60,7 @@ public class WaveService{
 	public boolean loadWaveFile(String audioFile)
 	{
 		try {
-			log.debug("Load wave file "+audioFile);
+			log.info("Load wave file "+audioFile);
 			waveFile=new File(audioFile);
 			audioInputStream=AudioSystem.getAudioInputStream(waveFile);		// Open de audiofile naar een inputstream
 			format=audioInputStream.getFormat();								// Haal het formaat op
@@ -79,16 +79,16 @@ public class WaveService{
 			eightBitByteArray = new byte[(int) (frameLength * frameSize)];		// Maak een 8bits buffer om de ruwe wave data in op te slaan
 			int result 		  = audioInputStream.read(eightBitByteArray);		// Vul de 8bits buffer met ruwe data
 			
-			log.debug("SampleRate is "+sampleRate);				// Some logging
-			log.debug("Framelength is "+frameLength);
-			log.debug("Framesize is "+frameSize);
-			log.debug("Samplesize is "+sampleFormat);
-			log.debug("Duration is "+duration+" Seconds");
-			log.debug("Number of steps is "+steps);
-			log.debug("Number of channels is "+channels);
-			log.debug("Number of samples is "+samples.length);
-			log.debug("eightBitByteArray size is "+eightBitByteArray.length);
-			log.debug("There are "+result+" bytes read");
+			log.info("SampleRate is "+sampleRate);				// Some logging
+			log.info("Framelength is "+frameLength);
+			log.info("Framesize is "+frameSize);
+			log.info("Samplesize is "+sampleFormat);
+			log.info("Duration is "+duration+" Seconds");
+			log.info("Number of steps is "+steps);
+			log.info("Number of channels is "+channels);
+			log.info("Number of samples is "+samples.length);
+			log.info("eightBitByteArray size is "+eightBitByteArray.length);
+			log.info("There are "+result+" bytes read");
 			
 			if (sampleFormat == 8) {												// verwerk een 8 bits sample
 				for (int t = 0; t < eightBitByteArray.length; t++) {				// loop alle samples langs
@@ -117,8 +117,8 @@ public class WaveService{
 					sampleIndex++;
 				}
 			}
-			log.debug("Sample loaded size "+sampleIndex);
-			log.debug("Maximal volume is "+maxvol);
+			log.info("Sample loaded size "+sampleIndex);
+			log.info("Maximal volume is "+maxvol);
 			return true;
 			
 		} catch (UnsupportedAudioFileException | IOException e) {
@@ -134,10 +134,10 @@ public class WaveService{
 	 */
 	public void playWave(String waveFileName) {
 		try {
-			log.debug("Play wave file " + waveFileName);
+			log.info("Play wave file " + waveFileName);
 			waveFile = new File(waveFileName);
-			DataLine.Info debug = new DataLine.Info(Clip.class, format);
-			clip = (Clip) AudioSystem.getLine(debug);
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			clip = (Clip) AudioSystem.getLine(info);
 			audioInputStream = AudioSystem.getAudioInputStream(waveFile);
 			clip.open(audioInputStream);
 			clip.setMicrosecondPosition(0);

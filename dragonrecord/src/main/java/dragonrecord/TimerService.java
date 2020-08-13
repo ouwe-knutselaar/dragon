@@ -18,7 +18,7 @@ public class TimerService implements Runnable{
 	
 	private TimerService()
 	{
-		log.debug("Make TimerService");
+		log.info("Make TimerService");
 		this.startTimer();
 	}
 	
@@ -31,7 +31,7 @@ public class TimerService implements Runnable{
 	
 	public void startTimer()
 	{
-		log.debug("Start TimerService");
+		log.info("Start TimerService");
 		Thread thisThread=new Thread(this);
 		thisThread.start();
 	}
@@ -40,7 +40,7 @@ public class TimerService implements Runnable{
 	// HEt timer loop
 	@Override
 	public void run() {
-		log.debug("Start the timer");
+		log.info("Start the timer");
 		
 		long oldtime		= 0;									// laatste keer dat er een puls werdt gegeven
 		starttime		 	= System.currentTimeMillis();		// Nu in  milliseconds
@@ -68,28 +68,28 @@ public class TimerService implements Runnable{
 					e.printStackTrace();
 				}
 			}
-		log.debug("TimerThread is stopped");
+		log.info("TimerThread is stopped");
 		
 	}
 	
 	
 	public void addOnTimerEvent(DragonEvent event)
 	{
-		log.debug("Add timerListener from "+event);
+		log.info("Add timerListener from "+event);
 		eventHandlersList.add(event);
 	}
 	
 	
 	public void stepReset()
 	{
-		log.debug("Timer reset requested");
+		log.info("Timer reset requested");
 		step=0;
 		starttime=System.currentTimeMillis();
 	}
 	
 	public void stopService()
 	{
-		log.debug("Try to stop the Timer Service");
+		log.info("Try to stop the Timer Service");
 		running=false;
 	}
 

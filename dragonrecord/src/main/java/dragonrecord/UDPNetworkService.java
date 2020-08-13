@@ -21,7 +21,7 @@ public class UDPNetworkService implements Runnable{
 	public UDPNetworkService() 
 	{
 		try {
-			log.debug("Make the networking service");
+			log.info("Make the networking service");
 			orchestrationService=OrchestrationService.GetInstance();
 			serverSocket = new DatagramSocket(3001);
 		} catch (SocketException e) {
@@ -33,14 +33,14 @@ public class UDPNetworkService implements Runnable{
 	
 	public void startUDPNetworkService()
 	{
-		log.debug("Start UDPNetworkService on port 3001");
+		log.info("Start UDPNetworkService on port 3001");
 		Thread thisThread=new Thread(this);
 		thisThread.start();
 	}
 	
 	@Override
 	public void run() {
-		log.debug("UDPNetworkService thread started");
+		log.info("UDPNetworkService thread started");
 		String receivedDataString = "";
 		while (running) {
 			try {
@@ -65,13 +65,13 @@ public class UDPNetworkService implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		log.debug("UDPNetworkService stopped");
+		log.info("UDPNetworkService stopped");
 	}
 
 	
 	public void stop()
 	{
-		log.debug("Stopping the UDPNetworkService service");
+		log.info("Stopping the UDPNetworkService service");
 		running=false;
 	}
 	
@@ -83,7 +83,7 @@ public class UDPNetworkService implements Runnable{
 			orchestrationService.setSingleServo(servo, servoValue);
 			return "OK\n\r";
 		} catch (NumberFormatException e) {
-			log.debug("NumberFormatException " + e.getMessage());
+			log.error("NumberFormatException " + e.getMessage());
 			return "NumberFormatException\n\r";
 		}
 	}

@@ -25,7 +25,7 @@ public class OrchestrationService {
 	
 	private OrchestrationService()
 	{
-		log.debug("Init Orchestration service");
+		log.info("Init Orchestration service");
 		i2cService.init(50);
 		timerService=TimerService.getInstance();
 		
@@ -49,14 +49,14 @@ public class OrchestrationService {
 		movementRecorder.startRecording();
 		recording=true;
 		playing=true;
-		log.debug("Start recording of "+servo);
+		log.info("Start recording of "+servo);
 	}
 
 	public void stopTrackRecording(int servo) {
 		recording=false;
 		playing=false;
 		movementRecorder.stopRecording(servo);
-		log.debug("Stop recording at "+movementRecorder.getLastStep());
+		log.info("Stop recording at "+movementRecorder.getLastStep());
 	}
 
 	public void totalReset() {
@@ -66,7 +66,7 @@ public class OrchestrationService {
 	}
 
 	public void writeCurrentMotion() {
-		log.debug("Write current motion");
+		log.info("Write current motion");
 	}
 
 	public void setSingleServo(int servo, int servoValue) throws IOException {
@@ -76,24 +76,24 @@ public class OrchestrationService {
 	}
 
 	public void dumpCurrentMotion() {
-		log.debug("dump current motion");
+		log.info("dump current motion");
 		System.out.println(movementRecorder);
 	}
 
 	public void saveCurrentMotion(String actionType) throws IOException {
-		log.debug("Save current motion");
+		log.info("Save current motion");
 		movementRecorder.writeSequenceFile(getSequenceFileName(),actionType);
 	}
 
 	public void createNewRecording(String recordingName) throws IOException {
 		recordingName=recordingName.trim();
-		log.debug("Set on recording named '"+recordingName+"'");
+		log.info("Set on recording named '"+recordingName+"'");
 		currentActionName=recordingName;
 		movementRecorder.openNewSequence(getSequenceFileName());
 	}
 
 	public void executeCurrentMotion() {
-		log.debug("Play current motion");
+		log.info("Play current motion");
 		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
 		recording=false;
@@ -104,7 +104,7 @@ public class OrchestrationService {
 	public void receiveWaveFile(String waveName) {
 		waveName=waveName.trim();
 		String waveFile=String.format("%s\\actions\\%s\\%s.wav",selectRootDir(),waveName,waveName);
-		log.debug("Receive file "+waveFile);
+		log.info("Receive file "+waveFile);
 		xferServer.Serverloop(waveFile);
 		log.debug("File received");
 	}
@@ -112,13 +112,13 @@ public class OrchestrationService {
 	
 	public void sendActions(InetAddress inetAddress) {
 		try {
-			log.debug("Request to deliver the list of actions");
+			log.info("Request to deliver the list of actions");
 			DatagramSocket clientSocket = new DatagramSocket();
 			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
 			DatagramPacket sendPacket = new DatagramPacket(dirlist.getBytes(), dirlist.length(), inetAddress, 3003);
 			clientSocket.send(sendPacket);
 			clientSocket.close();
-			log.debug("List of actions send");
+			log.info("List of actions send");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -126,7 +126,7 @@ public class OrchestrationService {
 
 	
 	public void filterServo(int servo) {
-		log.debug("Run filter for servo "+servo);
+		log.info("Run filter for servo "+servo);
 		movementRecorder.filter(servo);
 	}
 	

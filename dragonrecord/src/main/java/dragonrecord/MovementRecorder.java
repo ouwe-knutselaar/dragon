@@ -23,13 +23,13 @@ public class MovementRecorder {
 	
 	public MovementRecorder()
 	{
-		log.debug("Init MovementRecorder()");
+		log.info("Init MovementRecorder()");
 		reset();
 	}
 	
 	public void reset()
 	{
-		log.debug("Reset the recorder to "+MAXSTEPS+" steps");
+		log.info("Reset the recorder to "+MAXSTEPS+" steps");
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
 		recorded=new boolean[MAXSTEPS];
 		laststep=0;
@@ -56,7 +56,7 @@ public class MovementRecorder {
 				total++;
 			}
 		}
-		log.debug("Number of autocorrected errors "+total +" for servo "+servo);		
+		log.info("Number of autocorrected errors "+total +" for servo "+servo);		
 	}
 	
 	
@@ -70,7 +70,7 @@ public class MovementRecorder {
 	
 	public void writeSequenceFile(String sequenceFileName,String actionType) throws IOException
 	{
-		log.debug("Write sequence file :"+sequenceFileName + " with actiontype "+actionType);
+		log.info("Write sequence file :"+sequenceFileName + " with actiontype "+actionType);
 		File seqenueceFile=new File(sequenceFileName);
 		
 		BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(seqenueceFile));
@@ -102,30 +102,29 @@ public class MovementRecorder {
 		if(!Files.exists(Paths.get(sequenceFileName)))
 		{
 			Path sequencePath=Paths.get(sequenceFileName);
-			log.debug("Created new recoding in "+sequenceFileName);
-			log.debug("Recordng name is "+sequencePath.getFileName());
+			log.info("Created new recoding in "+sequenceFileName);
+			log.info("Recordng name is "+sequencePath.getFileName());
 	        Files.createDirectories(sequencePath.getParent());
 	        Files.createFile(Paths.get(sequenceFileName));
 		}
 		
-		log.debug("Read sequencefile "+sequenceFileName);
+		log.info("Read sequencefile "+sequenceFileName);
 		List<String> sequenceLines = Files.readAllLines(Paths.get(sequenceFileName));
 		if(sequenceLines.size()==0)
 		{
-			log.debug("Empty file");
+			log.warn("Empty file");
 			return;
 		}
 		String actionType=sequenceLines.get(0);					// nu nog even loze code
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
 		for (int lines=1;lines < sequenceLines.size();lines++) {
-			//log.debug("Parse " + line);
 			
 			for (int tel = 0; tel < NUM_OF_SERVOS; tel++) {
 				tracklist[tel][lines] = Integer.parseInt(sequenceLines.get(lines).substring((tel * 4), 4 + (tel * 4)));
 			}
 		}
 		laststep = sequenceLines.size();
-		log.debug("Parsed action file of " + laststep + " steps");
+		log.info("Parsed action file of " + laststep + " steps");
 		
 	}
 	

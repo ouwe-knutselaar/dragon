@@ -9,6 +9,7 @@ public class DragonRecord {
 	private UDPNetworkService udpNetworkService;
 	private OrchestrationService orchestrationService;
 	private TimerService timerService;
+	private KeyboardService keyboardService;
 	private boolean RUNNING=true;
 	
 	public static void main(String[] argv)
@@ -34,8 +35,13 @@ public class DragonRecord {
 		log.info("Init Dragon Recorder");
 		timerService=TimerService.getInstance();
 		timerService.startTimer();
+
 		udpNetworkService = new UDPNetworkService();
 		udpNetworkService.startUDPNetworkService();
+
+		keyboardService=new KeyboardService();
+		keyboardService.startKeyBoardService();
+
 		orchestrationService = OrchestrationService.GetInstance();
 	}
 	

@@ -1,11 +1,12 @@
 package dragonraspberry.services;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import org.apache.log4j.Logger;
-import dragonraspberry.continuemovement.ContinueMovement;
+import dragonraspberry.connector.DragonFileDB;
 import dragonraspberry.pojo.DragonEvent;
 import dragonraspberry.pojo.Globals;
+import dragonraspberry.pojo.MovementPlayer;
 
 
 // The core of the robot
@@ -13,13 +14,13 @@ import dragonraspberry.pojo.Globals;
 
 public class OrchestrationService {
 
-	private Logger log=Logger.getLogger(this.getClass().getSimpleName());
-	
-	private boolean __normalOperation				= true;		// enable or disable normal operation
-	private ContinueMovement __continueMovement 	= new ContinueMovement();
+	private Logger log=Logger.getLogger(this.getClass().getSimpleName());	
+	private MovementPlayer movementPlayer			= new MovementPlayer();
 	private TimerService timerService				= TimerService.getInstance();
 	private I2CService i2cService					= new I2CService();
 	private static OrchestrationService INSTANCE	= new OrchestrationService();
+	private String currentAction;
+	private DragonFileDB dragonFileDB = DragonFileDB.getInstance();
 	
 	/**
 	 * This is a singleton
@@ -33,62 +34,39 @@ public class OrchestrationService {
 	private OrchestrationService() {
 		log.info("Make the OrchestrationService");
 		i2cService.init(Globals.servoFrequency);
-
+		selectNewMovement();
+		
 		// Voeg een actie aan de timer toe
 		timerService.addOnTimerEvent(new DragonEvent() {
 			@Override
-			public void handle(String msgFromTimer, int stepFromTimer, int val2) {
+			public void handle(String msgFromTimer, int step, int val2) {
 				try {
-					if (__normalOperation) i2cService.writeLedString(__continueMovement.nextStep(stepFromTimer));
-					return;
+					i2cService.writeAllLeds(movementPlayer.getServoValuesFromStep(step));
+					if(movementPlayer.isRunning() == false)
+						{selectNewMovement();
+						timerService.stepReset();
+						}
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+
+			
 		});
+		
+		timerService.stepReset();
 	}
 	
-	/**
-	 * Run an action based on an motion names
-	 * @param name
-	 */
-	public void runNamedMotion(String name)
-	{
-		 __continueMovement.setCurrentMotionFromName(name);
-	}
-	
-	/**
-	 * Het a list of motion names
-	 * @return
-	 */
-	public List<String> getMotionNameList()
-	{
-		return __continueMovement.getMotionNameList();
-	}
-
-	public void setCurrentMotion(String motionName) {
-		__continueMovement.setCurrentMotionFromName(motionName);
-		log.info("Current motion set to "+motionName);
-	}
-
 	
 	public void stopAll() {
 		timerService.stopService();
 	}
 
-	public void pauseAllActivities() {
-		__normalOperation = false;
-		log.info("Pause all activites");
-	}
 
-	public void operateNormal() {
-		__normalOperation = true;
-		log.info("Operate normal");
-	}
 
 	public void totalReset() {
 		try {
-			__normalOperation = false;
 			i2cService.reset();
 		} catch (IOException e) {
 			log.error("Reset operation failed");
@@ -97,5 +75,10 @@ public class OrchestrationService {
 	}
 
 
-	
+	private void selectNewMovement() {
+		
+		currentAction = dragonFileDB.selectRandomAction("male");
+		log.info("New selected action "+currentAction);
+		movementPlayer.openNewSequence(Globals.selectRootDir()+File.separator+currentAction+File.separator+currentAction+".seq");
+	}
 }

@@ -47,14 +47,15 @@ public class UDPNetworkService implements Runnable{
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				serverSocket.receive(receivePacket);
 				receivedDataString = new String(receivePacket.getData());
-				//System.out.println(receivedDataString);
+				receivedDataString=receivedDataString.substring(0, receivePacket.getLength());
+				System.out.println(receivedDataString.trim());
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
 				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));
 				if(choice=='r')orchestrationService.startTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
-				if(choice=='t')orchestrationService.stopTrackRecording();
+				if(choice=='t')orchestrationService.stopTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
-				if(choice=='s')orchestrationService.saveCurrentMotion();
+				if(choice=='s')orchestrationService.saveCurrentMotion(receivedDataString.substring(1));
 				if(choice=='e')orchestrationService.executeCurrentMotion();
 				if(choice=='u')orchestrationService.receiveWaveFile(receivedDataString.substring(1));
 				if(choice=='l')orchestrationService.sendActions(receivePacket.getAddress());
@@ -102,5 +103,6 @@ public class UDPNetworkService implements Runnable{
 		}
 		
 	}
+	
 
 }

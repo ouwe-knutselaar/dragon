@@ -43,7 +43,6 @@ public class DragonRaspberry {
 	public void testrun() {
 		log.info("Start the Dragon");
 		// orchestrationService.runRandomMotion();
-		orchestrationService.runNamedMotion("alive");
 
 		try {
 			Thread.sleep(30000);

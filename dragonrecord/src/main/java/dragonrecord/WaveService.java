@@ -146,7 +146,6 @@ public class WaveService{
 			e.printStackTrace();
 			log.error("Cannot play " + waveFileName);
 		} catch (IOException e) {
-			e.printStackTrace();
 			log.error("Cannot play " + waveFileName);
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();

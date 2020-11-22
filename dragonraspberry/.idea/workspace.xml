@@ -3,6 +3,7 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+<<<<<<< HEAD
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -37,21 +38,30 @@
       <change beforePath="$PROJECT_DIR$/../dragonrecord/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragonrecord/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
     </list>
+=======
+  <component name="ChangeListManager">
+    <list default="true" id="ee56f099-056b-4875-b0dd-fbcc810f63ad" name="Default Changelist" comment="" />
+>>>>>>> 38d9b4149d9fc82536a0d8b24ac3911d491a69b2
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1fnpyWxZAjknWawhQKX9Nfcb4sk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+=======
+  <component name="ProjectId" id="1fmVcfBlNl3VeMEesLll2I5fBIQ" />
+>>>>>>> 38d9b4149d9fc82536a0d8b24ac3911d491a69b2
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+<<<<<<< HEAD
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/target/dragonraspberry-0.0.1-SNAPSHOT.jar" />
@@ -153,5 +163,19 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="342" y="140" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1596880820910" />
+=======
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="WindowStateProjectService">
+    <state x="320" y="79" key="#Project_Structure" timestamp="1596823421013">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="320" y="79" key="#Project_Structure/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1596823421013" />
+>>>>>>> 38d9b4149d9fc82536a0d8b24ac3911d491a69b2
   </component>
 </project>

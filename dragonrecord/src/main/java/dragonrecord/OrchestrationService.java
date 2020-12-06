@@ -19,6 +19,7 @@ public class OrchestrationService {
 	private I2CService i2cService = new I2CService();
 	private WaveService waveService = WaveService.getInstance();
 	FileXferServer xferServer = new FileXferServer();
+	ConfigReader configReader = ConfigReader.GetInstance();
 	private int currentServo;
 	private int currentServoValue;
 	private String currentActionName;
@@ -169,5 +170,11 @@ public class OrchestrationService {
 		return waveFile.toString();
 	}
 
-	
+
+	public void dumpListOfAction() {
+		log.info("List of actions");
+		String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
+		String actions[]=dirlist.split(";");
+		for(int tel = 0;tel<actions.length;tel++)log.info(actions[tel]);
+	}
 }

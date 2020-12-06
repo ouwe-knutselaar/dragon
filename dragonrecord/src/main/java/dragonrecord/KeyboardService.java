@@ -45,12 +45,18 @@ public class KeyboardService implements Runnable{
         readedline=readedline.toUpperCase();
         if(readedline.equals("HELP"))PrintHelpText();
         if(readedline.charAt(0) == 'S')ToNewServoPosition(readedline);
+        if(readedline.charAt(0) == 'D')orchestrationService.configReader.dumpConfig();
+        if(readedline.charAt(0) == 'L')orchestrationService.dumpListOfAction();
     }
 
     private void PrintHelpText()
     {
         log.info("Helptext");
-        log.info("S [servonumber] [position]");
+        log.info("S [servonumber] [position]  Set a servo");
+        log.info("E [name]  Execute action");
+        log.info("D  Dump the config");
+        log.info("L  List all the actions");
+
     }
 
     public void ToNewServoPosition(String readedline)

@@ -1,5 +1,14 @@
 dragoncontrol/target/
 dragoncontrol/.settings/
+dragoncontrol/.idea/
+dragoncontrol/*.iml
+
 dragonraspberry/target/
 dragonraspbery/.settings/
+dragonraspbery/.idea/
+dragonraspbery/*.iml
 
+dragonrecord/target/
+dragonrecord/.settings/
+dragonrecord/.idea
+dragonrecord/.*.iml

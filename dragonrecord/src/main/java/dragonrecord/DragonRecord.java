@@ -33,6 +33,11 @@ public class DragonRecord {
 	
 	public void init()  {
 		log.info("Init Dragon Recorder");
+
+		ConfigReader configReader = ConfigReader.GetInstance();
+		configReader.setConfigFile("d:\\tmp\\config.conf");
+		configReader.readConfiguration();
+
 		timerService=TimerService.getInstance();
 		timerService.startTimer();
 

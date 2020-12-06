@@ -71,6 +71,14 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/target/dragoncontrol-0.0.1-SNAPSHOT.jar" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn install" />
+    </option>
   </component>
   <component name="RunManager" selected="JAR Application.Unnamed">
     <configuration name="Unnamed" type="JarApplication" nameIsGenerated="true">
@@ -133,29 +141,29 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596884350913">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1607266424880">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1596884350913" />
-    <state x="740" y="286" key="FileChooserDialogImpl" timestamp="1596884347754">
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1607266424880" />
+    <state width="930" height="572" key="GridCell.Tab.0.bottom" timestamp="1607267055592">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="286" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1596884347754" />
-    <state width="1860" height="572" key="GridCell.Tab.0.bottom" timestamp="1596884367072">
+    <state width="930" height="572" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607267055592" />
+    <state width="930" height="572" key="GridCell.Tab.0.center" timestamp="1607267055592">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="572" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596884367072" />
-    <state width="1860" height="572" key="GridCell.Tab.0.center" timestamp="1596884367072">
+    <state width="930" height="572" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607267055592" />
+    <state width="930" height="572" key="GridCell.Tab.0.left" timestamp="1607267055592">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="572" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596884367072" />
-    <state width="1860" height="572" key="GridCell.Tab.0.left" timestamp="1596884367072">
+    <state width="930" height="572" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607267055592" />
+    <state width="930" height="572" key="GridCell.Tab.0.right" timestamp="1607267055592">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="572" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596884367072" />
-    <state width="1860" height="572" key="GridCell.Tab.0.right" timestamp="1596884367072">
+    <state width="930" height="572" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607267055592" />
+    <state x="616" y="242" width="672" height="677" key="run.anything.popup" timestamp="1607266398880">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="572" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596884367072" />
+    <state x="616" y="242" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607266398880" />
   </component>
 </project>

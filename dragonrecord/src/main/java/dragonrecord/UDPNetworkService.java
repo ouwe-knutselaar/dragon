@@ -10,16 +10,15 @@ import org.apache.log4j.Logger;
 
 public class UDPNetworkService implements Runnable{
 	
-	OrchestrationService orchestrationService=OrchestrationService.GetInstance();
+	private OrchestrationService orchestrationService;
 
-	private Logger log=Logger.getLogger(UDPNetworkService.class.getSimpleName());
+	private final Logger log=Logger.getLogger(UDPNetworkService.class.getSimpleName());
 	private boolean running=true;
 	private byte[] receiveData = new byte[1024];
 	private DatagramSocket serverSocket;
 	
 	
-	public UDPNetworkService() 
-	{
+	public UDPNetworkService() throws InterruptedException {
 		try {
 			log.info("Make the networking service");
 			orchestrationService=OrchestrationService.GetInstance();
@@ -85,6 +84,9 @@ public class UDPNetworkService implements Runnable{
 		} catch (NumberFormatException e) {
 			log.debug("NumberFormatException " + e.getMessage());
 			return "NumberFormatException\n\r";
+		} catch (DragonException e) {
+			log.error(e.getMessage());
+			return "invalid number provided";
 		}
 	}
 	
@@ -96,12 +98,10 @@ public class UDPNetworkService implements Runnable{
 			DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), inetAddress, 3003);
 			clientSocket.send(sendPacket);
 			clientSocket.close();
-		} catch (SocketException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 	
 

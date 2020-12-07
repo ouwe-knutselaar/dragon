@@ -23,19 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonraspberry/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonraspberry/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dragonrecord/DragonRecord.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dragonrecord/DragonRecord.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/dragonrecord-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/dragonrecord-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/libs/commons-cli-1.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/libs/log4j-1.2.17.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/libs/pi4j-core-1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/libs/pi4j-device-1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/libs/pi4j-gpio-extension-1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/I2CService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/I2CService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +70,7 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="experimentalPlugin" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -178,26 +172,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1607266306346" />
-    <state width="1860" height="558" key="GridCell.Tab.0.bottom" timestamp="1607267050842">
+    <state width="1860" height="443" key="GridCell.Tab.0.bottom" timestamp="1607376612852">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="558" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607267050842" />
-    <state width="1860" height="558" key="GridCell.Tab.0.center" timestamp="1607267050842">
+    <state width="1860" height="443" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607376612852" />
+    <state width="1860" height="443" key="GridCell.Tab.0.center" timestamp="1607376612852">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="558" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607267050842" />
-    <state width="1860" height="558" key="GridCell.Tab.0.left" timestamp="1607267050842">
+    <state width="1860" height="443" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607376612852" />
+    <state width="1860" height="443" key="GridCell.Tab.0.left" timestamp="1607376612852">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="558" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607267050842" />
-    <state width="1860" height="558" key="GridCell.Tab.0.right" timestamp="1607267050842">
+    <state width="1860" height="443" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607376612852" />
+    <state width="1860" height="443" key="GridCell.Tab.0.right" timestamp="1607376612852">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="558" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607267050842" />
-    <state x="461" y="164" key="SettingsEditor" timestamp="1606025870057">
+    <state width="1860" height="443" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607376612852" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1607375806019">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1606025870057" />
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1607375806019" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/dragonrecord$DragonRecord.ic" NAME="DragonRecord Coverage Results" MODIFIED="1606026769654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

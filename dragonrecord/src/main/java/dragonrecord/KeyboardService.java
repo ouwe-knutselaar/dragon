@@ -6,24 +6,22 @@ import java.util.Scanner;
 
 public class KeyboardService implements Runnable{
 
-    private Logger log = Logger.getLogger(KeyboardService.class.getSimpleName());
+    private final Logger log = Logger.getLogger(KeyboardService.class.getSimpleName());
     private boolean isRunning = true;
-    OrchestrationService orchestrationService = OrchestrationService.GetInstance();
+    OrchestrationService orchestrationService;
 
-    public KeyboardService()
-    {
-
+    public KeyboardService() throws InterruptedException {
+        orchestrationService = OrchestrationService.GetInstance();
     }
 
     @Override
     public void run() {
-        String readedline = "";
+        String readedline;
         try {
             Scanner inkey = new Scanner(System.in);
             while(isRunning){
                 if ( System.in.available() > 0 ){
                     readedline = inkey.nextLine();
-                    log.info("Command :"+readedline);
                     ProcessStringCommand(readedline);
                 }
             }
@@ -42,11 +40,16 @@ public class KeyboardService implements Runnable{
 
     private void ProcessStringCommand(String readedline)
     {
-        readedline=readedline.toUpperCase();
-        if(readedline.equals("HELP"))PrintHelpText();
-        if(readedline.charAt(0) == 'S')ToNewServoPosition(readedline);
-        if(readedline.charAt(0) == 'D')orchestrationService.configReader.dumpConfig();
-        if(readedline.charAt(0) == 'L')orchestrationService.dumpListOfAction();
+        try {
+            readedline = readedline.toUpperCase();
+            if (readedline.equals("HELP")) PrintHelpText();
+            if (readedline.charAt(0) == 'S') ToNewServoPosition(readedline);
+            if (readedline.charAt(0) == 'D') orchestrationService.configReader.dumpConfig();
+            if (readedline.charAt(0) == 'L') orchestrationService.dumpListOfAction();
+        } catch (DragonException e)
+        {
+            log.error(e.getMessage());
+        }
     }
 
     private void PrintHelpText()
@@ -59,20 +62,23 @@ public class KeyboardService implements Runnable{
 
     }
 
-    public void ToNewServoPosition(String readedline)
+    public void ToNewServoPosition(String readedline) throws DragonException
     {
-        String[] paramlist = readedline.split("[\\s\\t]+");
-        if(paramlist.length == 3) {
+        try {
+            log.error("Execute "+readedline);
+            String[] paramlist = readedline.split("[\\s\\t]+");
+            if(paramlist.length != 3) throw new DragonException("invalid number of parameters: use S [x] [y]");
             int servonumber = Integer.parseInt(paramlist[1]);
             int value = Integer.parseInt(paramlist[2]);
-
-            log.info("Set servo "+servonumber+" at position "+value);
-            try {
-                orchestrationService.setSingleServo(servonumber,value);
-            } catch (IOException e) {
-                log.error("Cannot set the servo");
-                e.printStackTrace();
-            }
+            log.info("Set servo " + servonumber + " at position " + value);
+            orchestrationService.setSingleServo(servonumber, value);
+        } catch (IOException e) {
+            log.error("Cannot set the servo");
+             e.printStackTrace();
+        } catch (NumberFormatException e) {
+            log.error("number error in provided command "+e.getMessage() );
+        } catch (DragonException e) {
+            log.error(e.getMessage());
         }
     }
 }

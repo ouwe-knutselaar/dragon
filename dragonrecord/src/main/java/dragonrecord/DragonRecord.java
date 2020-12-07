@@ -5,15 +5,14 @@ import org.apache.log4j.Logger;
 
 public class DragonRecord {
 	
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
+	private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	private UDPNetworkService udpNetworkService;
 	private OrchestrationService orchestrationService;
 	private TimerService timerService;
 	private KeyboardService keyboardService;
 	private boolean RUNNING=true;
 	
-	public static void main(String[] argv)
-	{
+	public static void main(String[] argv) throws InterruptedException {
 		DragonRecord dragonRecord=new DragonRecord();
 		dragonRecord.init();
 		dragonRecord.run();
@@ -31,10 +30,10 @@ public class DragonRecord {
 		}
 	}
 	
-	public void init()  {
+	public void init() throws InterruptedException {
 		log.info("Init Dragon Recorder");
 
-		ConfigReader configReader = ConfigReader.GetInstance();
+		ConfigReader configReader = ConfigReader.getInstance();
 		configReader.setConfigFile("d:\\tmp\\config.conf");
 		configReader.readConfiguration();
 

@@ -10,8 +10,8 @@ import org.apache.log4j.Logger;
 
 public class OrchestrationService {
 
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-	private static OrchestrationService INSTANCE	= new OrchestrationService();
+	private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
+	private static OrchestrationService INSTANCE;
 	private TimerService timerService;
 	private boolean recording=false;
 	private boolean playing=false;
@@ -19,13 +19,12 @@ public class OrchestrationService {
 	private I2CService i2cService = new I2CService();
 	private WaveService waveService = WaveService.getInstance();
 	FileXferServer xferServer = new FileXferServer();
-	ConfigReader configReader = ConfigReader.GetInstance();
+	ConfigReader configReader = ConfigReader.getInstance();
 	private int currentServo;
 	private int currentServoValue;
 	private String currentActionName;
 	
-	private OrchestrationService()
-	{
+	private OrchestrationService() throws InterruptedException {
 		log.info("Init Orchestration service");
 		i2cService.init(50);
 		timerService=TimerService.getInstance();
@@ -38,8 +37,11 @@ public class OrchestrationService {
 			}});
 	}
 	
-	public static OrchestrationService GetInstance()
-	{
+	public static OrchestrationService GetInstance() throws InterruptedException {
+		if(INSTANCE == null)
+		{
+			INSTANCE = new OrchestrationService();
+		}
 		return INSTANCE;
 	}
 
@@ -70,7 +72,7 @@ public class OrchestrationService {
 		log.info("Write current motion");
 	}
 
-	public void setSingleServo(int servo, int servoValue) throws IOException {
+	public void setSingleServo(int servo, int servoValue) throws IOException, DragonException {
 		i2cService.writeSingleLed(servo, servoValue);
 		this.currentServo=servo;
 		this.currentServoValue=servoValue;
@@ -174,7 +176,7 @@ public class OrchestrationService {
 	public void dumpListOfAction() {
 		log.info("List of actions");
 		String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
-		String actions[]=dirlist.split(";");
-		for(int tel = 0;tel<actions.length;tel++)log.info(actions[tel]);
+		String[] actions =dirlist.split(";");
+		for (String action : actions) log.info(action);
 	}
 }

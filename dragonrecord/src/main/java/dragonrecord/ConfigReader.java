@@ -1,18 +1,16 @@
 package dragonrecord;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import org.apache.log4j.Logger;
-
 import java.io.*;
 import java.util.Scanner;
 
 public class ConfigReader {
 
-    private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-    private String configFile="config.conf";
-    private Servo[] servoList=new Servo[16];
-    private static ConfigReader INSTANCE = new ConfigReader();
-    public static ConfigReader GetInstance(){return INSTANCE;};
+    private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
+    private String configFile = "config.conf";
+    private final Servo[] servoList=new Servo[16];
+    private static final ConfigReader INSTANCE = new ConfigReader();
+    public static ConfigReader getInstance(){return INSTANCE;}
 
     public void setConfigFile(String newFileName)
     {
@@ -68,7 +66,7 @@ public class ConfigReader {
         {
             if(paramlist[0].equals("servo"+tel))
             {
-                servoList[tel]=new Servo();
+                servoList[tel] = new Servo();
                 servoList[tel].defaultValue= Integer.parseInt(paramlist[1]);
                 servoList[tel].minValue= Integer.parseInt(paramlist[2]);
                 servoList[tel].maxValue= Integer.parseInt(paramlist[3]);
@@ -80,13 +78,12 @@ public class ConfigReader {
     public void dumpConfig()
     {
         log.info("List the configuration");
-        for(int tel=0;tel<16;tel++)
-        {
+        for(int tel = 0 ; tel<16 ; tel++) {
             log.info("servo"+tel+" "+servoList[tel].toString());
         }
     }
 
-    private class Servo{
+    private static class Servo{
 
         int minValue;
         int maxValue;

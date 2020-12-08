@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 import org.apache.log4j.Logger;
 
 public class OrchestrationService {
 
 	private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
-	private static OrchestrationService INSTANCE;
+	private static OrchestrationService classInstance;
 	private TimerService timerService;
 	private boolean recording=false;
 	private boolean playing=false;
@@ -37,12 +38,12 @@ public class OrchestrationService {
 			}});
 	}
 	
-	public static OrchestrationService GetInstance() throws InterruptedException {
-		if(INSTANCE == null)
+	public static OrchestrationService getInstance() throws InterruptedException {
+		if(classInstance == null)
 		{
-			INSTANCE = new OrchestrationService();
+			classInstance = new OrchestrationService();
 		}
-		return INSTANCE;
+		return classInstance;
 	}
 
 	public void startTrackRecording(int servo) 
@@ -80,7 +81,7 @@ public class OrchestrationService {
 
 	public void dumpCurrentMotion() {
 		log.info("dump current motion");
-		System.out.println(movementRecorder);
+		log.info(movementRecorder);
 	}
 
 	public void saveCurrentMotion(String actionType) throws IOException {
@@ -114,16 +115,19 @@ public class OrchestrationService {
 
 	
 	public void sendActions(InetAddress inetAddress) {
+
 		try {
-			log.info("Reqeust to deliver the list of actions");
 			DatagramSocket clientSocket = new DatagramSocket();
+			log.info("Reqeust to deliver the list of actions");
 			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
 			DatagramPacket sendPacket = new DatagramPacket(dirlist.getBytes(), dirlist.length(), inetAddress, 3003);
 			clientSocket.send(sendPacket);
 			clientSocket.close();
 			log.info("List of actions send");
+		} catch (SocketException e) {
+			log.error("Socket opening issue "+e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("IO exception "+e.getMessage());
 		}
 	}
 
@@ -135,9 +139,9 @@ public class OrchestrationService {
 	
 	
 	public String selectRootDir() {
-		String OS = System.getProperty("os.name").toLowerCase();
-		if(OS.contains("win"))return "D:\\erwin\\dragon\\";
-		if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))return "/var/dragon/";
+		String operatingSystem = System.getProperty("os.name").toLowerCase();
+		if(operatingSystem.contains("win"))return "D:\\erwin\\dragon\\";
+		if(operatingSystem.contains("nix") || operatingSystem.contains("nux") || operatingSystem.contains("aix"))return "/var/dragon/";
 		return "unknown";
 	}
 	

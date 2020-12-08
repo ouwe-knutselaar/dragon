@@ -21,7 +21,7 @@ public class UDPNetworkService implements Runnable{
 	public UDPNetworkService() throws InterruptedException {
 		try {
 			log.info("Make the networking service");
-			orchestrationService=OrchestrationService.GetInstance();
+			orchestrationService=OrchestrationService.getInstance();
 			serverSocket = new DatagramSocket(3001);
 		} catch (SocketException e) {
 			log.fatal("UDP Socket Error "+e.getMessage());

@@ -15,22 +15,22 @@ public class ConfigReader {
     public void setConfigFile(String newFileName)
     {
         configFile = newFileName;
-        processLineForServer("servo0 200 100 400 servo0");
-        processLineForServer("servo1 200 100 400 servo1");
-        processLineForServer("servo2 200 100 400 servo2");
-        processLineForServer("servo3 200 100 400 servo3");
-        processLineForServer("servo4 200 100 400 servo4");
-        processLineForServer("servo5 200 100 400 servo5");
-        processLineForServer("servo6 200 100 400 servo6");
-        processLineForServer("servo7 200 100 400 servo7");
-        processLineForServer("servo8 200 100 400 servo8");
-        processLineForServer("servo9 200 100 400 servo9");
-        processLineForServer("servo10 200 100 400 servo10");
-        processLineForServer("servo11 200 100 400 servo11");
-        processLineForServer("servo12 200 100 400 servo12");
-        processLineForServer("servo13 200 100 400 servo13");
-        processLineForServer("servo14 200 100 400 servo14");
-        processLineForServer("servo15 200 100 400 servo15");
+        processLineForServer("servo0 0 0 0 servo0");
+        processLineForServer("servo1 0 0 0 servo1");
+        processLineForServer("servo2 0 0 0 servo2");
+        processLineForServer("servo3 0 0 0 servo3");
+        processLineForServer("servo4 0 0 0 servo4");
+        processLineForServer("servo5 0 0 0 servo5");
+        processLineForServer("servo6 0 0 0 servo6");
+        processLineForServer("servo7 0 0 0 servo7");
+        processLineForServer("servo8 0 0 0 servo8");
+        processLineForServer("servo9 0 0 0 servo9");
+        processLineForServer("servo10 0 0 0 servo10");
+        processLineForServer("servo11 0 0 0 servo11");
+        processLineForServer("servo12 0 0 0 servo12");
+        processLineForServer("servo13 0 0 0 servo13");
+        processLineForServer("servo14 0 0 0 servo14");
+        processLineForServer("servo15 0 0 0 servo15");
     }
 
     public void readConfiguration()

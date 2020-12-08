@@ -11,7 +11,7 @@ public class KeyboardService implements Runnable{
     OrchestrationService orchestrationService;
 
     public KeyboardService() throws InterruptedException {
-        orchestrationService = OrchestrationService.GetInstance();
+        orchestrationService = OrchestrationService.getInstance();
     }
 
     @Override
@@ -22,7 +22,7 @@ public class KeyboardService implements Runnable{
             while(isRunning){
                 if ( System.in.available() > 0 ){
                     readedline = inkey.nextLine();
-                    ProcessStringCommand(readedline);
+                    processStringCommand(readedline);
                 }
             }
         }
@@ -38,12 +38,12 @@ public class KeyboardService implements Runnable{
         thisThread.start();
     }
 
-    private void ProcessStringCommand(String readedline)
+    private void processStringCommand(String readedline)
     {
         try {
             readedline = readedline.toUpperCase();
-            if (readedline.equals("HELP")) PrintHelpText();
-            if (readedline.charAt(0) == 'S') ToNewServoPosition(readedline);
+            if (readedline.equals("HELP")) printHelpText();
+            if (readedline.charAt(0) == 'S') toNewServoPosition(readedline);
             if (readedline.charAt(0) == 'D') orchestrationService.configReader.dumpConfig();
             if (readedline.charAt(0) == 'L') orchestrationService.dumpListOfAction();
         } catch (DragonException e)
@@ -52,17 +52,17 @@ public class KeyboardService implements Runnable{
         }
     }
 
-    private void PrintHelpText()
+    private void printHelpText()
     {
         log.info("Helptext");
         log.info("S [servonumber] [position]  Set a servo");
         log.info("E [name]  Execute action");
         log.info("D  Dump the config");
         log.info("L  List all the actions");
-
+        log.info("A  Automovement");
     }
 
-    public void ToNewServoPosition(String readedline) throws DragonException
+    public void toNewServoPosition(String readedline) throws DragonException
     {
         try {
             log.error("Execute "+readedline);

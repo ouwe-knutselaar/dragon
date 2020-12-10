@@ -11,34 +11,37 @@ import org.apache.log4j.Logger;
 
 public class OrchestrationService {
 
-	private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
+	private static final Logger log = Logger.getLogger(OrchestrationService.class.getSimpleName());
 	private static OrchestrationService classInstance;
-	private TimerService timerService;
-	private boolean recording=false;
-	private boolean playing=false;
-	private MovementRecorder movementRecorder =new MovementRecorder();
-	private I2CService i2cService = new I2CService();
-	private WaveService waveService = WaveService.getInstance();
-	FileXferServer xferServer = new FileXferServer();
-	ConfigReader configReader = ConfigReader.getInstance();
-	private int currentServo;
-	private int currentServoValue;
-	private String currentActionName;
+	private static TimerService timerService =TimerService.getInstance();
+	private static boolean recording=false;
+	private static boolean playing=false;
+	private static boolean moving=false;
+	private static MovementRecorder movementRecorder =new MovementRecorder();
+	private static I2CService i2cService = new I2CService();
+	private static WaveService waveService = WaveService.getInstance();
+	private static RandomMovementService randomMovementService = RandomMovementService.getInstance();
+	private static FileXferServer xferServer = new FileXferServer();
+	private static ConfigReader configReader = ConfigReader.getInstance();
+	private static final String ACTIONS_DIR="action";
+	private static int currentServo;
+	private static int currentServoValue;
+	private static String currentActionName;
 	
-	private OrchestrationService() throws InterruptedException {
+	private OrchestrationService() {
 		log.info("Init Orchestration service");
 		i2cService.init(50);
-		timerService=TimerService.getInstance();
 		
 		timerService.addOnTimerEvent(new DragonEvent(){
 			@Override
-			public void handle(String msg, int step, int val2) {
+			public void handle(String msg, int step, int val2) throws InterruptedException, DragonException, IOException {
 				if(recording)movementRecorder.record(currentServo,currentServoValue,step);
 				if(playing)i2cService.writeAllServos(movementRecorder.getServoValuesFromStep(step));
+				if(moving)randomMovementService.nextStep();
 			}});
 	}
 	
-	public static OrchestrationService getInstance() throws InterruptedException {
+	public static OrchestrationService getInstance(){
 		if(classInstance == null)
 		{
 			classInstance = new OrchestrationService();
@@ -46,57 +49,66 @@ public class OrchestrationService {
 		return classInstance;
 	}
 
-	public void startTrackRecording(int servo) 
+	public static void startTrackRecording(int servo)
 	{
 		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
 		movementRecorder.startRecording();
 		recording=true;
 		playing=true;
+		moving = false;
 		log.info("Start recording of "+servo);
 	}
 
-	public void stopTrackRecording(int servo) {
+	public static void stopTrackRecording(int servo) {
 		recording=false;
 		playing=false;
+		moving = false;
 		movementRecorder.stopRecording(servo);
 		log.info("Stop recording at "+movementRecorder.getLastStep());
 	}
 
-	public void totalReset() {
+	public static void startRandomMoving(){
+		recording = false;
+		playing = false;
+		moving = true;
+		log.info("Switch to random movements");
+	}
+
+	public static void totalReset() {
 		log.info("Reset current recording");
 		movementRecorder.reset();
 		i2cService.reset();
 	}
 
-	public void writeCurrentMotion() {
+	public static void writeCurrentMotion() {
+
 		log.info("Write current motion");
 	}
 
-	public void setSingleServo(int servo, int servoValue) throws IOException, DragonException {
+	public static void setSingleServo(int servo, int servoValue) throws DragonException {
 		i2cService.writeSingleLed(servo, servoValue);
-		this.currentServo=servo;
-		this.currentServoValue=servoValue;
+		currentServo=servo;
+		currentServoValue=servoValue;
 	}
 
-	public void dumpCurrentMotion() {
+	public static void dumpCurrentMotion() {
 		log.info("dump current motion");
 		log.info(movementRecorder);
 	}
 
-	public void saveCurrentMotion(String actionType) throws IOException {
+	public static void saveCurrentMotion(String actionType) throws IOException {
 		log.info("Save current motion");
 		movementRecorder.writeSequenceFile(getSequenceFileName(),actionType);
 	}
-
-	public void createNewRecording(String recordingName) throws IOException {
+	public static void createNewRecording(String recordingName) throws IOException {
 		recordingName=recordingName.trim();
 		log.info("Set on recording named '"+recordingName+"'");
 		currentActionName=recordingName;
 		movementRecorder.openNewSequence(getSequenceFileName());
 	}
 
-	public void executeCurrentMotion() {
+	public static void executeCurrentMotion() {
 		log.info("Play current motion");
 		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
@@ -138,7 +150,7 @@ public class OrchestrationService {
 	}
 	
 	
-	public String selectRootDir() {
+	public static String selectRootDir() {
 		String operatingSystem = System.getProperty("os.name").toLowerCase();
 		if(operatingSystem.contains("win"))return "D:\\erwin\\dragon\\";
 		if(operatingSystem.contains("nix") || operatingSystem.contains("nux") || operatingSystem.contains("aix"))return "/var/dragon/";
@@ -149,14 +161,14 @@ public class OrchestrationService {
 	private String getActionsDir()
 	{
 		StringBuilder actionDir=new StringBuilder(selectRootDir())
-								.append("actions");
+								.append(ACTIONS_DIR);
 		return actionDir.toString();
 	}
 	
 	
-	private String getRecordingWaveName() {
+	private static String getRecordingWaveName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
-									.append("actions")
+									.append(ACTIONS_DIR)
 									.append(File.separatorChar)
 									.append(currentActionName)
 									.append(File.separatorChar)
@@ -165,9 +177,9 @@ public class OrchestrationService {
 		return waveFile.toString();
 	}
 
-	private String getSequenceFileName() {
+	private static String getSequenceFileName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
-									.append("actions")
+									.append(ACTIONS_DIR)
 									.append(File.separatorChar)
 									.append(currentActionName)
 									.append(File.separatorChar)
@@ -182,5 +194,9 @@ public class OrchestrationService {
 		String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
 		String[] actions =dirlist.split(";");
 		for (String action : actions) log.info(action);
+	}
+
+	public void dumpConfig() {
+		configReader.dumpConfig();
 	}
 }

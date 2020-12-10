@@ -30,7 +30,7 @@ public class I2CService {
 	}
 
 	
-	public void init(int frequency) throws InterruptedException {
+	public void init(int frequency) {
 		log.info("Init the PCA9685");
 
 		try {
@@ -57,7 +57,7 @@ public class I2CService {
 	}
 
 	
-	public void setFrequency(int frequency) throws InterruptedException {
+	public void setFrequency(int frequency) {
 		try {
 			log.info("Set the frequencyof the  PCA9685 on " + frequency + "Hz");
 			int prescale = (25_000_000 / (4096 * frequency)) - 1;
@@ -71,6 +71,9 @@ public class I2CService {
 		} catch (IOException e) {
 			log.error("Error cannot write to the I2C device");
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -89,7 +92,7 @@ public class I2CService {
 		
 	}
 	
-	public void writeSingleLed(int lednumber, int data) throws IOException, DragonException {
+	public void writeSingleLed(int lednumber, int data) throws DragonException {
 
 		if(lednumber < SERVOMIN)throw new DragonException ("led or servo number cannot be less then 0");
 		if(lednumber > SERVOMAX)throw new DragonException("led or servo number cannot be more then 15");
@@ -103,7 +106,11 @@ public class I2CService {
         result[2] = (byte) ((data & 0x000000FF) >> 0);		// LED OFF_H
             
 		if(demoMode)return;
-		i2cdev.write(LEDBASELIST[lednumber],result);
+		try {
+			i2cdev.write(LEDBASELIST[lednumber],result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	

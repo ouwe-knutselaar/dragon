@@ -10,7 +10,11 @@ public class ConfigReader {
     private String configFile = "config.conf";
     private final Servo[] servoList=new Servo[16];
     private static final ConfigReader INSTANCE = new ConfigReader();
-    public static ConfigReader getInstance(){return INSTANCE;}
+    private static final String SERVO_NAME="servo";
+
+    public static ConfigReader getInstance(){
+        return INSTANCE;
+    }
 
     public void setConfigFile(String newFileName)
     {
@@ -56,7 +60,7 @@ public class ConfigReader {
         if(configString.charAt(0)=='#')return;
 
         configString = configString.replaceAll("[\\t\\s]+"," ");
-        if(configString.startsWith("servo"))processLineForServer(configString);
+        if(configString.startsWith(SERVO_NAME))processLineForServer(configString);
     }
 
     private void processLineForServer(String configString) {
@@ -64,12 +68,12 @@ public class ConfigReader {
         if(paramlist.length!=5)return;
         for(int tel=0;tel<16;tel++)
         {
-            if(paramlist[0].equals("servo"+tel))
+            if(paramlist[0].equals(SERVO_NAME+tel))
             {
                 servoList[tel] = new Servo();
-                servoList[tel].defaultValue= Integer.parseInt(paramlist[1]);
-                servoList[tel].minValue= Integer.parseInt(paramlist[2]);
-                servoList[tel].maxValue= Integer.parseInt(paramlist[3]);
+                servoList[tel].defaultValue= Integer.parseInt(paramlist[3]);
+                servoList[tel].minValue= Integer.parseInt(paramlist[1]);
+                servoList[tel].maxValue= Integer.parseInt(paramlist[2]);
                 servoList[tel].name=paramlist[4];
             }
         }
@@ -79,7 +83,7 @@ public class ConfigReader {
     {
         log.info("List the configuration");
         for(int tel = 0 ; tel<16 ; tel++) {
-            log.info("servo"+tel+" "+servoList[tel].toString());
+            log.info(SERVO_NAME+tel+" "+servoList[tel].toString());
         }
     }
 
@@ -96,4 +100,24 @@ public class ConfigReader {
         }
     }
 
+    public boolean isValidServo(int servoNumber){
+        log.info("Check if "+servoNumber+" and "+servoList[servoNumber].maxValue);
+        return servoList[servoNumber].maxValue!=0;
+    }
+
+    public int getServoMinValue(int servoNumber){
+        return servoList[servoNumber].minValue;
+    }
+
+    public int getServoMaxValue(int servoNumber){
+        return servoList[servoNumber].maxValue;
+    }
+
+    public int getServoDefaultValue(int servoNumber){
+        return servoList[servoNumber].defaultValue;
+    }
+
+    public String getServoName(int servoNumber){
+        return servoList[servoNumber].name;
+    }
 }

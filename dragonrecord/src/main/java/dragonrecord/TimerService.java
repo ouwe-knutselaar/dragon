@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -12,7 +13,7 @@ public class TimerService implements Runnable{
 	private int interval=20;
 	private int step;
 	private long starttime;
-	private static TimerService INSTANCE=new TimerService();
+	private static final TimerService INSTANCE=new TimerService();
 	private List<DragonEvent> eventHandlersList=new ArrayList<>();		// Lijst met eventhandlers
 	
 	
@@ -54,7 +55,16 @@ public class TimerService implements Runnable{
 				{
 					for(DragonEvent handler:eventHandlersList)	// Genereer events
 					{
-						handler.handle("timer", step,0);
+						try {
+							handler.handle("timer", step,0);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							Thread.currentThread().interrupt();
+						} catch (DragonException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 					oldtime=currentTime;							// Reset de laatste keer
 					difftime=(int) (currentTime-starttime);			// Maak het verschil
@@ -66,6 +76,7 @@ public class TimerService implements Runnable{
 				} catch (InterruptedException e) {
 					log.fatal("Error in Timerthread");
 					e.printStackTrace();
+					Thread.currentThread().interrupt();
 				}
 			}
 		log.info("TimerThread is stopped");

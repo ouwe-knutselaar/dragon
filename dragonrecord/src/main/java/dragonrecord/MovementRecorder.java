@@ -8,34 +8,29 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 
 public class MovementRecorder {
 	
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-	private final int NUM_OF_SERVOS=16;
-	private final int MAXSTEPS=300*50;					// 50 hz x 300 seconden
+	private static final int NUM_OF_SERVOS=16;
+	private static final int MAXSTEPS=300*50;					// 50 hz x 300 seconden
 	private int tracklist[][];							//[servo][step]
 	private boolean recorded[]=new boolean[MAXSTEPS];	
 	private int laststep=0;
 
-	
-	public MovementRecorder()
-	{
+	public MovementRecorder(){
 		log.info("Init MovementRecorder()");
 		reset();
 	}
 	
-	public void reset()
-	{
+	public void reset()	{
 		log.info("Reset the recorder to "+MAXSTEPS+" steps");
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
 		recorded=new boolean[MAXSTEPS];
 		laststep=0;
 	}
 
-	
 	public void record(int servo, int servoValue, int step) {
 		if(step>MAXSTEPS)return;
 		tracklist[servo][step]=servoValue;
@@ -43,13 +38,10 @@ public class MovementRecorder {
 		laststep=Math.max(step, laststep);
 		log.debug("record servo "+servo+" value "+servoValue+" step "+step);
 	}
-	
-	
-	public void stopRecording(int servo)
-	{
+
+	public void stopRecording(int servo){
 		int total=0;
-		for(int tel=1;tel<laststep;tel++)
-		{
+		for(int tel=1;tel<laststep;tel++){
 			if(recorded[tel]==false)
 			{
 				tracklist[servo][tel]=(int)(tracklist[servo][tel-1]+tracklist[servo][tel+1])/2;
@@ -58,25 +50,20 @@ public class MovementRecorder {
 		}
 		log.info("Number of autocorrected errors "+total +" for servo "+servo);		
 	}
-	
-	
-	
-	public int getLastStep()
-	{
+
+	public int getLastStep(){
 		return laststep;
 	}
-		
-	
-	
+
 	public void writeSequenceFile(String sequenceFileName,String actionType) throws IOException
 	{
 		log.info("Write sequence file :"+sequenceFileName + " with actiontype "+actionType);
 		File seqenueceFile=new File(sequenceFileName);
 		
 		BufferedOutputStream bos=new BufferedOutputStream(new FileOutputStream(seqenueceFile));
-		bos.write(String.format("%s\n", actionType).getBytes());
+		bos.write(String.format("%s%n", actionType).getBytes());
 		for(int tel=0;tel<laststep;tel++)
-			{bos.write(String.format("%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d\n",
+			{bos.write(String.format("%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%n",
 					 		tracklist[0][tel],
 					 		tracklist[1][tel],
 					 		tracklist[2][tel],
@@ -96,11 +83,9 @@ public class MovementRecorder {
 			}
 		bos.close();
 	}
-	
 
 	public void openNewSequence(String sequenceFileName) throws IOException {
-		if(!Files.exists(Paths.get(sequenceFileName)))
-		{
+		if(!Files.exists(Paths.get(sequenceFileName))){
 			Path sequencePath=Paths.get(sequenceFileName);
 			log.info("Created new recoding in "+sequenceFileName);
 			log.info("Recordng name is "+sequencePath.getFileName());
@@ -110,35 +95,28 @@ public class MovementRecorder {
 		
 		log.info("Read sequencefile "+sequenceFileName);
 		List<String> sequenceLines = Files.readAllLines(Paths.get(sequenceFileName));
-		if(sequenceLines.size()==0)
-		{
+		if(sequenceLines.isEmpty()){
 			log.info("Empty file");
 			return;
 		}
 		String actionType=sequenceLines.get(0);					// nu nog even loze code
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
 		for (int lines=1;lines < sequenceLines.size();lines++) {
-			//log.debug("Parse " + line);
-			
 			for (int tel = 0; tel < NUM_OF_SERVOS; tel++) {
 				tracklist[tel][lines] = Integer.parseInt(sequenceLines.get(lines).substring((tel * 4), 4 + (tel * 4)));
 			}
 		}
 		laststep = sequenceLines.size();
 		log.info("Parsed action file of " + laststep + " steps");
-		
 	}
-	
-	
-	public int[] getServoValuesFromStep(int step)
-	{
+
+	public int[] getServoValuesFromStep(int step){
 		int result[]=new int[NUM_OF_SERVOS];
 		if(step>MAXSTEPS-1) return result;
 		for(int tel=0;tel<NUM_OF_SERVOS;tel++)result[tel]=tracklist[tel][step];
 		return result;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		StringBuilder record = new StringBuilder();
@@ -151,30 +129,22 @@ public class MovementRecorder {
 		}
 		return record.toString();
 	}
-	
-	
-	public void filter(int servo)
-	{
+
+	public void filter(int servo) {
 		int tempTrack[]=new int[MAXSTEPS];
-		for(int tel=1;tel<MAXSTEPS-1;tel++)
-		{
+		for(int tel=1;tel<MAXSTEPS-1;tel++)	{
 			int sub = tracklist[servo][tel - 1] + tracklist[servo][tel] + tracklist[servo][tel + 1];
 			sub = sub/3;
 			tempTrack[tel]=sub;
 		}
 		
-		for(int tel=0;tel<MAXSTEPS;tel++)
-		{
+		for(int tel=0;tel<MAXSTEPS;tel++) {
 			tracklist[servo][tel]=tempTrack[tel];
 		}
 	}
 
-	
-	
-	
 	public void startRecording() {
 		recorded=new boolean[MAXSTEPS];
 	}
-
 
 }

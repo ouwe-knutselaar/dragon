@@ -44,8 +44,9 @@ public class KeyboardService implements Runnable{
             readedline = readedline.toUpperCase();
             if (readedline.equals("HELP")) printHelpText();
             if (readedline.charAt(0) == 'S') toNewServoPosition(readedline);
-            if (readedline.charAt(0) == 'D') orchestrationService.configReader.dumpConfig();
+            if (readedline.charAt(0) == 'D') orchestrationService.dumpConfig();
             if (readedline.charAt(0) == 'L') orchestrationService.dumpListOfAction();
+            if (readedline.charAt(0) == 'A') orchestrationService.startRandomMoving();
         } catch (DragonException e)
         {
             log.error(e.getMessage());
@@ -59,7 +60,9 @@ public class KeyboardService implements Runnable{
         log.info("E [name]  Execute action");
         log.info("D  Dump the config");
         log.info("L  List all the actions");
-        log.info("A  Automovement");
+        log.info("A  Automovement start");
+        log.info("B  Automovement stop");
+        log.info("R  Reset all to default");
     }
 
     public void toNewServoPosition(String readedline) throws DragonException
@@ -72,9 +75,6 @@ public class KeyboardService implements Runnable{
             int value = Integer.parseInt(paramlist[2]);
             log.info("Set servo " + servonumber + " at position " + value);
             orchestrationService.setSingleServo(servonumber, value);
-        } catch (IOException e) {
-            log.error("Cannot set the servo");
-             e.printStackTrace();
         } catch (NumberFormatException e) {
             log.error("number error in provided command "+e.getMessage() );
         } catch (DragonException e) {

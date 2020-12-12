@@ -7,10 +7,11 @@ public class RandomMovementService {
 
     private static final Logger log = Logger.getLogger(RandomMovementService.class.getSimpleName());
     private static boolean running = false;
+    private static boolean stopFlag= false;
     private static RandomMovementService classInstance;
     private static final int NUM_OF_SERVOS = 16;
     private static final Random rand = new Random();
-    private static ConfigReader configRead=ConfigReader.getInstance();
+    private static final ConfigReader configRead=ConfigReader.getInstance();
     private static int minValue;
     private static int maxValue;
     private static int defaultValue;
@@ -55,7 +56,8 @@ public class RandomMovementService {
     {
         // Bepaal waar naar toe wordt bewogen
         int boundary = maxValue - minValue;
-        targetValue= rand.nextInt(boundary) + minValue;
+        log.info("boundry "+boundary);
+        targetValue= rand.nextInt(boundary-1) +1+ minValue;     // prevent 0 values
 
         // Bepaal de richting
         moveStep=1;
@@ -64,19 +66,27 @@ public class RandomMovementService {
     }
 
     public static void nextStep() {
-        try {
-            OrchestrationService orchestrationService = OrchestrationService.getInstance();
-            if(!running)selectServoToMove();
-            log.info("newpos "+servoName+ " at "+currentPositionOfServo);
-            orchestrationService.setSingleServo(selectedServo,currentPositionOfServo);
-            currentPositionOfServo += moveStep;
-            if(currentPositionOfServo == targetValue )moveStep = moveStep * -1;
-            if(currentPositionOfServo == defaultValue)running = false;
-        } catch (DragonException e) {
-            log.error("Error "+e.getMessage());
-            e.printStackTrace();
+        OrchestrationService orchestrationService = OrchestrationService.getInstance();
+        if(!running)selectServoToMove();
+        log.debug("newpos "+servoName+ " at "+currentPositionOfServo);
+        orchestrationService.setSingleServo(selectedServo,currentPositionOfServo);
+        currentPositionOfServo += moveStep;
+        if(currentPositionOfServo == targetValue )moveStep = moveStep * -1;
+        if(stopFlag && currentPositionOfServo == defaultValue) {
+            orchestrationService.stopAll();
+            stopFlag=false;
+            running=false;
+            log.info("Random movement stopped");
         }
+        if( !stopFlag && currentPositionOfServo == defaultValue ) {
+            running = false;
+        }
+
     }
 
+    public static void stopRandomMovement() {
+        log.info("stop random movement");
+        stopFlag=true;
+    }
 
 }

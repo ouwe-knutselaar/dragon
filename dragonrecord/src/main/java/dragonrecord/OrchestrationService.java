@@ -13,16 +13,16 @@ public class OrchestrationService {
 
 	private static final Logger log = Logger.getLogger(OrchestrationService.class.getSimpleName());
 	private static OrchestrationService classInstance;
-	private static TimerService timerService =TimerService.getInstance();
+	private static final TimerService timerService =TimerService.getInstance();
 	private static boolean recording=false;
 	private static boolean playing=false;
 	private static boolean moving=false;
-	private static MovementRecorder movementRecorder =new MovementRecorder();
-	private static I2CService i2cService = new I2CService();
-	private static WaveService waveService = WaveService.getInstance();
-	private static RandomMovementService randomMovementService = RandomMovementService.getInstance();
-	private static FileXferServer xferServer = new FileXferServer();
-	private static ConfigReader configReader = ConfigReader.getInstance();
+	private static final MovementRecorder movementRecorder =new MovementRecorder();
+	private static final I2CService i2cService = new I2CService();
+	private static final WaveService waveService = WaveService.getInstance();
+	private static final RandomMovementService randomMovementService = RandomMovementService.getInstance();
+	private static final FileXferServer xferServer = new FileXferServer();
+	private static final ConfigReader configReader = ConfigReader.getInstance();
 	private static final String ACTIONS_DIR="action";
 	private static int currentServo;
 	private static int currentServoValue;
@@ -41,16 +41,14 @@ public class OrchestrationService {
 			}});
 	}
 	
-	public static OrchestrationService getInstance(){
-		if(classInstance == null)
-		{
+	public static OrchestrationService getInstance() {
+		if(classInstance == null) {
 			classInstance = new OrchestrationService();
 		}
 		return classInstance;
 	}
 
-	public static void startTrackRecording(int servo)
-	{
+	public static void startTrackRecording(int servo) {
 		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
 		movementRecorder.startRecording();
@@ -75,6 +73,18 @@ public class OrchestrationService {
 		log.info("Switch to random movements");
 	}
 
+	public void stopAll() {
+		recording = false;
+		playing = false;
+		moving = false;
+		log.info("Stop all activities");
+	}
+
+	public static void stopRandomMoving() {
+		log.info("Stop random moving");
+		randomMovementService.stopRandomMovement();
+	}
+
 	public static void totalReset() {
 		log.info("Reset current recording");
 		movementRecorder.reset();
@@ -82,14 +92,19 @@ public class OrchestrationService {
 	}
 
 	public static void writeCurrentMotion() {
-
 		log.info("Write current motion");
 	}
 
-	public static void setSingleServo(int servo, int servoValue) throws DragonException {
-		i2cService.writeSingleLed(servo, servoValue);
-		currentServo=servo;
-		currentServoValue=servoValue;
+	public static void setSingleServo(int servo, int servoValue) {
+		try {
+			i2cService.writeSingleLed(servo, servoValue);
+			currentServo=servo;
+			currentServoValue=servoValue;
+		} catch (DragonException e) {
+			log.fatal("Value "+servoValue+" is invalid for servo "+servo);
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 	public static void dumpCurrentMotion() {
@@ -127,7 +142,6 @@ public class OrchestrationService {
 
 	
 	public void sendActions(InetAddress inetAddress) {
-
 		try {
 			DatagramSocket clientSocket = new DatagramSocket();
 			log.info("Reqeust to deliver the list of actions");
@@ -158,8 +172,7 @@ public class OrchestrationService {
 	}
 	
 	
-	private String getActionsDir()
-	{
+	private String getActionsDir() {
 		StringBuilder actionDir=new StringBuilder(selectRootDir())
 								.append(ACTIONS_DIR);
 		return actionDir.toString();
@@ -199,4 +212,6 @@ public class OrchestrationService {
 	public void dumpConfig() {
 		configReader.dumpConfig();
 	}
+
+
 }

@@ -42,11 +42,14 @@ public class KeyboardService implements Runnable{
     {
         try {
             readedline = readedline.toUpperCase();
+            if(readedline.isEmpty())return;
             if (readedline.equals("HELP")) printHelpText();
             if (readedline.charAt(0) == 'S') toNewServoPosition(readedline);
             if (readedline.charAt(0) == 'D') orchestrationService.dumpConfig();
             if (readedline.charAt(0) == 'L') orchestrationService.dumpListOfAction();
             if (readedline.charAt(0) == 'A') orchestrationService.startRandomMoving();
+            if (readedline.charAt(0) == 'B') orchestrationService.stopRandomMoving();
+            if (readedline.charAt(0) == 'R') orchestrationService.totalReset();
         } catch (DragonException e)
         {
             log.error(e.getMessage());
@@ -77,8 +80,6 @@ public class KeyboardService implements Runnable{
             orchestrationService.setSingleServo(servonumber, value);
         } catch (NumberFormatException e) {
             log.error("number error in provided command "+e.getMessage() );
-        } catch (DragonException e) {
-            log.error(e.getMessage());
         }
     }
 }

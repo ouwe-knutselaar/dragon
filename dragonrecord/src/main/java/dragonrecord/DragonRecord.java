@@ -43,6 +43,7 @@ public class DragonRecord {
 		configReader.readConfiguration();
 
 		timerService=TimerService.getInstance();
+		timerService.setTimeStep(configReader.getTimeStep());
 		timerService.startTimer();
 
 		udpNetworkService = new UDPNetworkService();

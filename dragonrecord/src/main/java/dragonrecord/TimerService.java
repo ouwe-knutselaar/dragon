@@ -104,4 +104,8 @@ public class TimerService implements Runnable{
 		running=false;
 	}
 
+	public void setTimeStep(int timeStep) {
+		interval=timeStep;
+		log.info("interval is set to "+interval+" ms");
+	}
 }

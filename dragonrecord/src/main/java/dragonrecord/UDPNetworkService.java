@@ -84,9 +84,6 @@ public class UDPNetworkService implements Runnable{
 		} catch (NumberFormatException e) {
 			log.debug("NumberFormatException " + e.getMessage());
 			return "NumberFormatException\n\r";
-		} catch (DragonException e) {
-			log.error(e.getMessage());
-			return "invalid number provided";
 		}
 	}
 	

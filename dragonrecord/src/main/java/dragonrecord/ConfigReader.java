@@ -8,9 +8,11 @@ public class ConfigReader {
 
     private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
     private String configFile = "config.conf";
-    private final Servo[] servoList=new Servo[16];
     private static final ConfigReader INSTANCE = new ConfigReader();
-    private static final String SERVO_NAME="servo";
+    private static final String SERVO_NAME = "servo";
+
+    private final Servo[] servoList = new Servo[16];
+    private static int timestep = 20;
 
     public static ConfigReader getInstance(){
         return INSTANCE;
@@ -40,7 +42,7 @@ public class ConfigReader {
     public void readConfiguration()
     {
         try {
-            File inFile=new File(configFile);
+            File inFile = new File(configFile);
             Scanner scan = new Scanner(inFile);
             log.info("Read "+configFile);
             while(scan.hasNextLine())
@@ -77,6 +79,11 @@ public class ConfigReader {
                 servoList[tel].name=paramlist[4];
             }
         }
+
+        if(paramlist[0].equals("timestep")) {
+            timestep=Integer.parseInt(paramlist[1]);
+        }
+
     }
 
     public void dumpConfig()
@@ -85,6 +92,10 @@ public class ConfigReader {
         for(int tel = 0 ; tel<16 ; tel++) {
             log.info(SERVO_NAME+tel+" "+servoList[tel].toString());
         }
+    }
+
+    public int getTimeStep() {
+        return timestep;
     }
 
     private static class Servo{
@@ -101,7 +112,6 @@ public class ConfigReader {
     }
 
     public boolean isValidServo(int servoNumber){
-        log.info("Check if "+servoNumber+" and "+servoList[servoNumber].maxValue);
         return servoList[servoNumber].maxValue!=0;
     }
 

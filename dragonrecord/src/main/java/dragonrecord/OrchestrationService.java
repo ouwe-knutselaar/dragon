@@ -23,7 +23,7 @@ public class OrchestrationService {
 	private static final RandomMovementService randomMovementService = RandomMovementService.getInstance();
 	private static final FileXferServer xferServer = new FileXferServer();
 	private static final ConfigReader configReader = ConfigReader.getInstance();
-	private static final String ACTIONS_DIR="action";
+	private static final String ACTIONS_DIR="actions";
 	private static int currentServo;
 	private static int currentServoValue;
 	private static String currentActionName;
@@ -110,6 +110,7 @@ public class OrchestrationService {
 	public static void dumpCurrentMotion() {
 		log.info("dump current motion");
 		log.info(movementRecorder);
+
 	}
 
 	public static void saveCurrentMotion(String actionType) throws IOException {

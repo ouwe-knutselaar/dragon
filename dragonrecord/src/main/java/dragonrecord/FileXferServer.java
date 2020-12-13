@@ -1,15 +1,10 @@
 package dragonrecord;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
+
 import org.apache.log4j.Logger;
 
 public class FileXferServer {
@@ -69,16 +64,13 @@ public class FileXferServer {
 		log.info("Created new directory "+Paths.get(receiveFile).getParent().toString());
 	}
 	
-	
 	public String getSemiColonSeparatedDirectoryListing(String source) {
 		StringBuilder tempSb = new StringBuilder();
-		try {
-			Files.newDirectoryStream(Paths.get(source))
-					.forEach(item -> tempSb.append(item.getFileName().toString()).append(';'));
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			File[] dirlist=new File(source).listFiles(File::isDirectory);
+			for(File directoryPath : dirlist) {
+				tempSb.append(directoryPath.getName()).append(';');
+			}
 		return tempSb.deleteCharAt(tempSb.length()-1).toString();
 
 	}

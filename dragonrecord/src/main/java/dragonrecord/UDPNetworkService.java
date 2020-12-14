@@ -47,7 +47,7 @@ public class UDPNetworkService implements Runnable{
 				serverSocket.receive(receivePacket);
 				receivedDataString = new String(receivePacket.getData());
 				receivedDataString=receivedDataString.substring(0, receivePacket.getLength());
-				System.out.println(receivedDataString.trim());
+				log.info("UDP data received:"+(receivedDataString.trim()));
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
 				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));
@@ -58,6 +58,7 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='e')orchestrationService.executeCurrentMotion();
 				if(choice=='u')orchestrationService.receiveWaveFile(receivedDataString.substring(1));
 				if(choice=='l')orchestrationService.sendActions(receivePacket.getAddress());
+				if(choice=='v')orchestrationService.sendServoValues(receivePacket.getAddress());
 				if(choice=='f')orchestrationService.filterServo(Integer.parseInt(receivedDataString.substring(2,4)));
 				receiveData = new byte[1024];	// reset the buffer
 			} catch (IOException e) {

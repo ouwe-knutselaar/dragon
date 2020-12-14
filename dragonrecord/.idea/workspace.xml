@@ -23,10 +23,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../actions/config.conf.org" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/DragonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/DragonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/DragonFileConnector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/Globals.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/Globals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/Servo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/Servo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/FileXferServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/FileXferServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,10 +161,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1607777164247">
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1607972227684">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607777164247" />
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607972227684" />
     <state x="701" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606024585861">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -174,22 +181,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1607266306346" />
-    <state width="1860" height="335" key="GridCell.Tab.0.bottom" timestamp="1607878664194">
+    <state width="1877" height="397" key="GridCell.Tab.0.bottom" timestamp="1607975883529">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="335" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607878664194" />
-    <state width="1860" height="335" key="GridCell.Tab.0.center" timestamp="1607878664194">
+    <state width="1877" height="397" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607975883529" />
+    <state width="1877" height="397" key="GridCell.Tab.0.center" timestamp="1607975883529">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="335" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607878664194" />
-    <state width="1860" height="335" key="GridCell.Tab.0.left" timestamp="1607878664194">
+    <state width="1877" height="397" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607975883529" />
+    <state width="1877" height="397" key="GridCell.Tab.0.left" timestamp="1607975883529">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="335" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607878664194" />
-    <state width="1860" height="335" key="GridCell.Tab.0.right" timestamp="1607878664194">
+    <state width="1877" height="397" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607975883529" />
+    <state width="1877" height="397" key="GridCell.Tab.0.right" timestamp="1607975883529">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="335" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607878664194" />
+    <state width="1877" height="397" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607975883529" />
     <state width="1860" height="335" key="GridCell.Tab.1.bottom" timestamp="1607878664194">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

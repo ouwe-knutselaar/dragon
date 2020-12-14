@@ -7,19 +7,16 @@ public class Servo {
 	private int maxPos;
 	private int restPos;
 	private int servoValue;
-	
-	
-	public Servo(int servoValue,String inputStringToParse)
+
+	public Servo(String servoName,int minpPos,int maxPos,int restPos,int ServoValue)
 	{
-		String valueList[]=inputStringToParse.split(",");
-		this.servoName = valueList[0];
-		this.minPos = Integer.parseInt(valueList[1]);
-		this.maxPos = Integer.parseInt(valueList[2]);
-		this.restPos = Integer.parseInt(valueList[3]);
-		this.servoValue = servoValue;
+		this.servoName = servoName;
+		this.minPos = minpPos;
+		this.maxPos = maxPos;
+		this.restPos = restPos;
+		this.servoValue = ServoValue;
 	}
-	
-	
+
 	public int correctToLimits(int value) {
 		if (value < minPos)
 			value = minPos;
@@ -27,8 +24,7 @@ public class Servo {
 			value = maxPos;
 		return value;
 	}
-	
-	
+
 	public String getServoName() {
 		return servoName;
 	}
@@ -60,7 +56,6 @@ public class Servo {
 		this.servoValue = servoValue;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Servo servoName=" + servoName 
@@ -69,8 +64,5 @@ public class Servo {
 				+ ", restPos=" + restPos
 				+ ", servoValue=" + servoValue ;
 	}
-	
-	
-	
 
 }

@@ -7,12 +7,8 @@ import javafx.stage.Stage;
 
 public class DragonController extends Application{
 
-	private DragonFileConnector fileReader=new DragonFileConnector();
-
-	private BorderPane mainPane=new BorderPane();
-	private ServoSlider servoSlider=new ServoSlider();	
-	//private DragonTerm terminal = new DragonTerm();
-	
+	private final BorderPane mainPane=new BorderPane();
+	private final ServoSlider servoSlider=new ServoSlider();
 	
 	public static void main(String argv[])
 	{
@@ -29,8 +25,5 @@ public class DragonController extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.show();			// Show the GUI
 	}
-	
-	
-
 
 }

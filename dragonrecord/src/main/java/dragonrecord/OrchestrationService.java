@@ -158,7 +158,24 @@ public class OrchestrationService {
 		}
 	}
 
-	
+	public void sendServoValues(InetAddress inetAddress) {
+		try {
+			DatagramSocket clientSocket = new DatagramSocket();
+			log.info("Reqeust to deliver the list of servo values");
+			String servolist = configReader.getSemiColonSeparatedServoValuesListing();
+			DatagramPacket sendPacket = new DatagramPacket(servolist.getBytes(), servolist.length(), inetAddress, 3003);
+			clientSocket.send(sendPacket);
+			clientSocket.close();
+			log.info("List of servo's send");
+			log.info(servolist);
+		} catch (SocketException e) {
+			log.error("Socket opening issue "+e.getMessage());
+		} catch (IOException e) {
+			log.error("IO exception "+e.getMessage());
+		}
+	}
+
+
 	public void filterServo(int servo) {
 		log.info("Run filter for servo "+servo);
 		movementRecorder.filter(servo);

@@ -2,7 +2,9 @@ package dragonrecord;
 
 import org.apache.log4j.Logger;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class ConfigReader {
 
@@ -18,8 +20,7 @@ public class ConfigReader {
         return INSTANCE;
     }
 
-    public void setConfigFile(String newFileName)
-    {
+    public void setConfigFile(String newFileName) {
         configFile = newFileName;
         processLineForServer("servo0 0 0 0 servo0");
         processLineForServer("servo1 0 0 0 servo1");
@@ -39,14 +40,12 @@ public class ConfigReader {
         processLineForServer("servo15 0 0 0 servo15");
     }
 
-    public void readConfiguration()
-    {
+    public void readConfiguration() {
         try {
             File inFile = new File(configFile);
             Scanner scan = new Scanner(inFile);
             log.info("Read "+configFile);
-            while(scan.hasNextLine())
-            {
+            while(scan.hasNextLine()) {
                 processReadedLine(scan.nextLine());
             }
             log.info("Finished reading config file");
@@ -68,10 +67,8 @@ public class ConfigReader {
     private void processLineForServer(String configString) {
         String[] paramlist  = configString.split(" ");
         if(paramlist.length!=5)return;
-        for(int tel=0;tel<16;tel++)
-        {
-            if(paramlist[0].equals(SERVO_NAME+tel))
-            {
+        for(int tel=0;tel<16;tel++) {
+            if(paramlist[0].equals(SERVO_NAME+tel)) {
                 servoList[tel] = new Servo();
                 servoList[tel].defaultValue= Integer.parseInt(paramlist[3]);
                 servoList[tel].minValue= Integer.parseInt(paramlist[1]);
@@ -86,30 +83,26 @@ public class ConfigReader {
 
     }
 
-    public void dumpConfig()
-    {
+    public void dumpConfig() {
         log.info("List the configuration");
         for(int tel = 0 ; tel<16 ; tel++) {
-            log.info(SERVO_NAME+tel+" "+servoList[tel].toString());
+            log.info(SERVO_NAME+" "+tel+" "+servoList[tel].toString());
         }
+    }
+
+    public String getSemiColonSeparatedServoValuesListing() {
+        StringBuilder servovalueList = new StringBuilder();
+        for(int tel=0 ; tel<servoList.length ; tel++) {
+            servovalueList.append(servoList[tel].toString()).append(' ').append(tel).append(';');
+        }
+        return servovalueList.toString();
     }
 
     public int getTimeStep() {
         return timestep;
     }
 
-    private static class Servo{
 
-        int minValue;
-        int maxValue;
-        int defaultValue;
-        String name;
-
-        public String toString()
-        {
-            return " "+defaultValue+" "+minValue+" "+maxValue+" "+name;
-        }
-    }
 
     public boolean isValidServo(int servoNumber){
         return servoList[servoNumber].maxValue!=0;
@@ -129,5 +122,16 @@ public class ConfigReader {
 
     public String getServoName(int servoNumber){
         return servoList[servoNumber].name;
+    }
+
+    private static class Servo{
+        int minValue;
+        int maxValue;
+        int defaultValue;
+        String name;
+        public String toString()
+        {
+            return name+" "+minValue+" "+maxValue+" "+defaultValue+" "+name;
+        }
     }
 }

@@ -12,6 +12,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
@@ -255,8 +257,17 @@ public class ServoSlider extends GridPane
 			messageField.setText("Smooth recording for servo "+servo);
 			sendUDP(String.format("f %02d", servo));
 		});
-		
-		servoDropDownList.setOnAction(event -> selectNewServo(servoDropDownList.getValue().toString()));
+
+
+
+		servoDropDownList.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("event "+event.toString());
+				selectNewServo(servoDropDownList.getValue().toString());
+
+			}
+		});
 		
 		
 		actionNamesList.setOnAction(event -> {
@@ -350,7 +361,7 @@ public class ServoSlider extends GridPane
 		System.out.println("Selected servo is "+servoName);
 		Servo servo = Globals.getServoByName(servoName);
 		if( servo == null )return;
-
+		System.out.println(servo.toString());
 		slider.setPrefHeight(servo.getMaxPos()-servo.getMinPos());
 		slider.setValue(servo.getRestPos());
 		slider.setMax(servo.getMaxPos());

@@ -23,17 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56f6f735-ca85-47c1-96b0-b58f6a7dff3b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../actions/config.conf.org" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonFileConnector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/Globals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/Globals.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/Servo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/Servo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/OrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/OrchestrationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +61,20 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="JAR Application.Unnamed">
+  <component name="RunManager" selected="Application.DragonController">
+    <configuration name="DragonController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="dragoncontrol.DragonController" />
+      <module name="dragoncontrol" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dragoncontrol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Unnamed" type="JarApplication" nameIsGenerated="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/target/dragoncontrol-0.0.1-SNAPSHOT.jar" />
       <option name="WORKING_DIRECTORY" value="D:\onze_projecten\dragon\dragoncontrol" />
@@ -103,7 +109,13 @@
     <list>
       <item itemvalue="JAR Application.Unnamed" />
       <item itemvalue="Maven.dragoncontrol [install]" />
+      <item itemvalue="Application.DragonController" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.DragonController" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -137,42 +149,42 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607892948899" />
-    <state width="1877" height="338" key="GridCell.Tab.0.bottom" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.0.bottom" timestamp="1608066702032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state width="1877" height="338" key="GridCell.Tab.0.center" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702032" />
+    <state width="1877" height="338" key="GridCell.Tab.0.center" timestamp="1608066702032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state width="1877" height="338" key="GridCell.Tab.0.left" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702032" />
+    <state width="1877" height="338" key="GridCell.Tab.0.left" timestamp="1608066702031">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state width="1877" height="338" key="GridCell.Tab.0.right" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702031" />
+    <state width="1877" height="338" key="GridCell.Tab.0.right" timestamp="1608066702032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state width="1877" height="338" key="GridCell.Tab.1.bottom" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702032" />
+    <state width="1877" height="338" key="GridCell.Tab.1.bottom" timestamp="1608066702033">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state width="1877" height="338" key="GridCell.Tab.1.center" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702033" />
+    <state width="1877" height="338" key="GridCell.Tab.1.center" timestamp="1608066702032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state width="1877" height="338" key="GridCell.Tab.1.left" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702032" />
+    <state width="1877" height="338" key="GridCell.Tab.1.left" timestamp="1608066702032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state width="1877" height="338" key="GridCell.Tab.1.right" timestamp="1607975868481">
+    <state width="1877" height="338" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702032" />
+    <state width="1877" height="338" key="GridCell.Tab.1.right" timestamp="1608066702033">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607975868481" />
-    <state x="470" y="255" width="980" height="630" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1607973424627">
+    <state width="1877" height="338" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608066702033" />
+    <state x="470" y="255" width="980" height="630" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1608066354722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="470" y="255" width="980" height="630" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040@0.0.1920.1040" timestamp="1607973424627" />
+    <state x="470" y="255" width="980" height="630" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040@0.0.1920.1040" timestamp="1608066354722" />
     <state x="616" y="242" width="672" height="677" key="run.anything.popup" timestamp="1607266398880">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -181,7 +193,7 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
+        <breakpoint type="java-exception">
           <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>

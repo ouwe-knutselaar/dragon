@@ -2,9 +2,7 @@ package dragonrecord;
 
 import org.apache.log4j.Logger;
 import java.io.*;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class ConfigReader {
 

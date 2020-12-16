@@ -8,11 +8,7 @@ public class KeyboardService implements Runnable{
 
     private final Logger log = Logger.getLogger(KeyboardService.class.getSimpleName());
     private boolean isRunning = true;
-    OrchestrationService orchestrationService;
 
-    public KeyboardService() throws InterruptedException {
-        orchestrationService = OrchestrationService.getInstance();
-    }
 
     @Override
     public void run() {
@@ -41,15 +37,16 @@ public class KeyboardService implements Runnable{
     private void processStringCommand(String readedline)
     {
         try {
-            readedline = readedline.toUpperCase();
+            OrchestrationService orchestrationService = OrchestrationService.getInstance();
             if(readedline.isEmpty())return;
-            if (readedline.equals("HELP")) printHelpText();
-            if (readedline.charAt(0) == 'S') toNewServoPosition(readedline);
-            if (readedline.charAt(0) == 'D') orchestrationService.dumpConfig();
-            if (readedline.charAt(0) == 'L') orchestrationService.dumpListOfAction();
-            if (readedline.charAt(0) == 'A') orchestrationService.startRandomMoving();
-            if (readedline.charAt(0) == 'B') orchestrationService.stopRandomMoving();
-            if (readedline.charAt(0) == 'R') orchestrationService.totalReset();
+            if (readedline.equals("help")) printHelpText();
+            if (readedline.charAt(0) == 's') toNewServoPosition(readedline);
+            if (readedline.charAt(0) == 'd') orchestrationService.dumpConfig();
+            if (readedline.charAt(0) == 'l') orchestrationService.dumpListOfAction();
+            if (readedline.charAt(0) == 'a') orchestrationService.startRandomMoving();
+            if (readedline.charAt(0) == 'b') orchestrationService.stopRandomMoving();
+            if (readedline.charAt(0) == 'w') waveFilepay(readedline);
+            if (readedline.charAt(0) == 'r') orchestrationService.totalReset();
         } catch (DragonException e)
         {
             log.error(e.getMessage());
@@ -59,19 +56,21 @@ public class KeyboardService implements Runnable{
     private void printHelpText()
     {
         log.info("Helptext");
-        log.info("S [servonumber] [position]  Set a servo");
-        log.info("E [name]  Execute action");
-        log.info("D  Dump the config");
-        log.info("L  List all the actions");
-        log.info("A  Automovement start");
-        log.info("B  Automovement stop");
-        log.info("R  Reset all to default");
+        log.info("s [servonumber] [position]  Set a servo");
+        log.info("e [name]  Execute action");
+        log.info("d  Dump the config");
+        log.info("l  List all the actions");
+        log.info("a  Automovement start");
+        log.info("b  Automovement stop");
+        log.info("r  Reset all to default");
+        log.info("w  [name] Play the wave file");
     }
 
     public void toNewServoPosition(String readedline) throws DragonException
     {
         try {
             log.error("Execute "+readedline);
+            OrchestrationService orchestrationService = OrchestrationService.getInstance();
             String[] paramlist = readedline.split("[\\s\\t]+");
             if(paramlist.length != 3) throw new DragonException("invalid number of parameters: use S [x] [y]");
             int servonumber = Integer.parseInt(paramlist[1]);
@@ -81,6 +80,14 @@ public class KeyboardService implements Runnable{
         } catch (NumberFormatException e) {
             log.error("number error in provided command "+e.getMessage() );
         }
+    }
+
+    private void waveFilepay(String readedline) throws DragonException{
+        log.info("Execute "+readedline);
+        OrchestrationService orchestrationService = OrchestrationService.getInstance();
+        String[] paramlist = readedline.split("[\\s\\t]+");
+        if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use S [x] [y]");
+        orchestrationService.playWaveFile(paramlist[1]);
     }
 }
 

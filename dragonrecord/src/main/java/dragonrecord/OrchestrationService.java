@@ -1,13 +1,13 @@
 package dragonrecord;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-
-import org.apache.log4j.Logger;
 
 public class OrchestrationService {
 
@@ -77,6 +77,7 @@ public class OrchestrationService {
 		recording = false;
 		playing = false;
 		moving = false;
+		i2cService.reset();
 		log.info("Stop all activities");
 	}
 
@@ -232,4 +233,15 @@ public class OrchestrationService {
 	}
 
 
+	public void playWaveFile(String waveName) {
+		StringBuilder waveFile=new StringBuilder(selectRootDir())
+				.append(ACTIONS_DIR)
+				.append(File.separatorChar)
+				.append(waveName)
+				.append(File.separatorChar)
+				.append(waveName)
+				.append(".wav");
+
+		waveService.playWave(waveFile.toString());
+	}
 }

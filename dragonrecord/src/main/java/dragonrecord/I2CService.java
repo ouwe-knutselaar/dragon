@@ -50,11 +50,12 @@ public class I2CService {
 			log.info("Init done");
 			
 		} catch (UnsupportedBusNumberException e) {
-			log.info("UnsupportedBusNumberException switch to demo mode");
-			demoMode=true;
+			log.info("UnsupportedBusNumberException switch to demo mode"+e.getMessage());
+			demoMode = true;
 		} catch (IOException e) {
-			log.error("IO Exception ");
+			log.error("IO Exception, switch to demo mode"+e.getMessage());
 			e.printStackTrace();
+			demoMode = true;
 		} 
 	}
 

@@ -11,7 +11,7 @@ public class WaveService{
 	
 	Logger log=Logger.getLogger(WaveService.class);
 
-	private AudioInputStream audioInputStream;
+	//private AudioInputStream audioInputStream;
 	private AudioFormat format;
 	private static WaveService instance;
 	private File waveFile;
@@ -44,7 +44,7 @@ public class WaveService{
 		try {
 			log.info("Load wave file "+audioFile);
 			waveFile=new File(audioFile);
-			audioInputStream=AudioSystem.getAudioInputStream(waveFile);		// Open de audiofile naar een inputstream
+			AudioInputStream audioInputStream= AudioSystem.getAudioInputStream(waveFile);		// Open de audiofile naar een inputstream
 			format=audioInputStream.getFormat();								// Haal het formaat op
 			
 			float sampleRate	= format.getSampleRate();							// Zet de varaibelen
@@ -115,13 +115,16 @@ public class WaveService{
 	 */
 	public void playWave(String waveFileName) {
 		try {
+
 			log.info("Play wave file " + waveFileName);
 			waveFile = new File(waveFileName);
-			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			Clip clip = (Clip) AudioSystem.getLine(info);
-			audioInputStream = AudioSystem.getAudioInputStream(waveFile);
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(waveFile);
+			//DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioInputStream.getFormat());
+
+			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.setMicrosecondPosition(0);
+
 			clip.start();
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();

@@ -24,7 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/I2CService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/I2CService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/WaveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/WaveService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,6 +150,28 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1877" height="397" key="GridCell.Tab.0.bottom" timestamp="1608303385587">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="397" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608303385587" />
+    <state width="1877" height="397" key="GridCell.Tab.0.center" timestamp="1608303385587">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="397" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608303385587" />
+    <state width="1877" height="397" key="GridCell.Tab.0.left" timestamp="1608303385587">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="397" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608303385587" />
+    <state width="1877" height="397" key="GridCell.Tab.0.right" timestamp="1608303385587">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="397" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608303385587" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1608302435627">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1608302435627" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

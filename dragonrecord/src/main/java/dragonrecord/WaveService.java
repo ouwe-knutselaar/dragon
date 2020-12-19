@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class WaveService{
 	
-	Logger log=Logger.getLogger(WaveService.class);
+	private static final Logger  log=Logger.getLogger(WaveService.class);
 
 	//private AudioInputStream audioInputStream;
 	private AudioFormat format;
@@ -29,6 +29,16 @@ public class WaveService{
 	 */
 	public static WaveService getInstance()
 	{
+        Mixer.Info[] infos = AudioSystem.getMixerInfo();
+        for(Mixer.Info minfo : infos)
+        {
+            log.info("mixer info");
+            log.info("--"+minfo.getName());
+            log.info("--"+minfo.getDescription());
+            log.info("--"+minfo.getVendor());
+            log.info("--"+minfo.getVersion());
+            log.info("--"+minfo.hashCode());
+        }
 		if(instance ==null) instance =new WaveService();
 		return instance;
 	}
@@ -120,6 +130,8 @@ public class WaveService{
 			waveFile = new File(waveFileName);
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(waveFile);
 			//DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioInputStream.getFormat());
+
+
 
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);

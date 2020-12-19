@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -11,24 +12,25 @@ import java.net.SocketException;
 
 public class OrchestrationService {
 
-	private static final Logger log = Logger.getLogger(OrchestrationService.class.getSimpleName());
+	private final Logger log = Logger.getLogger(OrchestrationService.class.getSimpleName());
 	private static OrchestrationService classInstance;
 	private static final TimerService timerService =TimerService.getInstance();
-	private static boolean recording=false;
-	private static boolean playing=false;
-	private static boolean moving=false;
-	private static final MovementRecorder movementRecorder =new MovementRecorder();
-	private static final I2CService i2cService = new I2CService();
-	private static final WaveService waveService = WaveService.getInstance();
-	private static final RandomMovementService randomMovementService = RandomMovementService.getInstance();
-	private static final FileXferServer xferServer = new FileXferServer();
-	private static final ConfigReader configReader = ConfigReader.getInstance();
-	private static final String ACTIONS_DIR="actions";
-	private static int currentServo;
-	private static int currentServoValue;
-	private static String currentActionName;
+	private boolean recording=false;
+	private boolean playing=false;
+	private boolean moving=false;
+	private final MovementRecorder movementRecorder =new MovementRecorder();
+	private final I2CService i2cService = new I2CService();
+	private final WaveService waveService = WaveService.getInstance();
+	private final RandomMovementService randomMovementService = RandomMovementService.getInstance();
+	private final FileXferServer xferServer = new FileXferServer();
+	private final ConfigReader configReader = ConfigReader.getInstance();
+	private final String ACTIONS_DIR="actions";
+	private int currentServo;
+	private int currentServoValue;
+	private String currentActionName;
 	
 	private OrchestrationService() {
+		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 		log.info("Init Orchestration service");
 		i2cService.init(50);
 		
@@ -48,7 +50,7 @@ public class OrchestrationService {
 		return classInstance;
 	}
 
-	public static void startTrackRecording(int servo) {
+	public void startTrackRecording(int servo) {
 		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
 		movementRecorder.startRecording();
@@ -58,7 +60,7 @@ public class OrchestrationService {
 		log.info("Start recording of "+servo);
 	}
 
-	public static void stopTrackRecording(int servo) {
+	public void stopTrackRecording(int servo) {
 		recording=false;
 		playing=false;
 		moving = false;
@@ -66,7 +68,7 @@ public class OrchestrationService {
 		log.info("Stop recording at "+movementRecorder.getLastStep());
 	}
 
-	public static void startRandomMoving(){
+	public void startRandomMoving(){
 		recording = false;
 		playing = false;
 		moving = true;
@@ -81,22 +83,22 @@ public class OrchestrationService {
 		log.info("Stop all activities");
 	}
 
-	public static void stopRandomMoving() {
+	public void stopRandomMoving() {
 		log.info("Stop random moving");
 		randomMovementService.stopRandomMovement();
 	}
 
-	public static void totalReset() {
+	public void totalReset() {
 		log.info("Reset current recording");
 		movementRecorder.reset();
 		i2cService.reset();
 	}
 
-	public static void writeCurrentMotion() {
+	public void writeCurrentMotion() {
 		log.info("Write current motion");
 	}
 
-	public static void setSingleServo(int servo, int servoValue) {
+	public void setSingleServo(int servo, int servoValue) {
 		try {
 			i2cService.writeSingleLed(servo, servoValue);
 			currentServo=servo;
@@ -108,31 +110,30 @@ public class OrchestrationService {
 		}
 	}
 
-	public static void dumpCurrentMotion() {
+	public void dumpCurrentMotion() {
 		log.info("dump current motion");
 		log.info(movementRecorder);
 
 	}
 
-	public static void saveCurrentMotion(String actionType) throws IOException {
+	public void saveCurrentMotion(String actionType) throws IOException {
 		log.info("Save current motion");
 		movementRecorder.writeSequenceFile(getSequenceFileName(),actionType);
 	}
-	public static void createNewRecording(String recordingName) throws IOException {
+	public void createNewRecording(String recordingName) throws IOException {
 		recordingName=recordingName.trim();
 		log.info("Set on recording named '"+recordingName+"'");
 		currentActionName=recordingName;
 		movementRecorder.openNewSequence(getSequenceFileName());
 	}
 
-	public static void executeCurrentMotion() {
+	public void executeCurrentMotion() {
 		log.info("Play current motion");
 		waveService.playWave(getRecordingWaveName());
 		timerService.stepReset();
 		recording=false;
 		playing=true;
 	}
-
 
 	public void receiveWaveFile(String waveName) {
 		waveName=waveName.trim();
@@ -198,7 +199,7 @@ public class OrchestrationService {
 	}
 	
 	
-	private static String getRecordingWaveName() {
+	private String getRecordingWaveName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
 									.append(ACTIONS_DIR)
 									.append(File.separatorChar)
@@ -209,7 +210,7 @@ public class OrchestrationService {
 		return waveFile.toString();
 	}
 
-	private static String getSequenceFileName() {
+	private String getSequenceFileName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
 									.append(ACTIONS_DIR)
 									.append(File.separatorChar)

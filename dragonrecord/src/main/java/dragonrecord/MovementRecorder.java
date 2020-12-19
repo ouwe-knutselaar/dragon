@@ -1,5 +1,8 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import org.apache.log4j.Logger;
 
 public class MovementRecorder {
 	
@@ -20,6 +22,7 @@ public class MovementRecorder {
 	private int laststep=0;
 
 	public MovementRecorder(){
+		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 		log.info("Init MovementRecorder()");
 		reset();
 	}

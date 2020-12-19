@@ -1,9 +1,11 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 
 
 public class TimerService implements Runnable{
@@ -19,6 +21,7 @@ public class TimerService implements Runnable{
 	
 	private TimerService()
 	{
+		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 		log.info("Make TimerService");
 		this.startTimer();
 	}
@@ -62,8 +65,10 @@ public class TimerService implements Runnable{
 							Thread.currentThread().interrupt();
 						} catch (DragonException e) {
 							e.printStackTrace();
+							log.error(e.getMessage());
 						} catch (IOException e) {
 							e.printStackTrace();
+							log.error(e.getMessage());
 						}
 					}
 					oldtime=currentTime;							// Reset de laatste keer

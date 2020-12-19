@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.Scanner;
@@ -8,6 +9,11 @@ public class KeyboardService implements Runnable{
 
     private final Logger log = Logger.getLogger(KeyboardService.class.getSimpleName());
     private boolean isRunning = true;
+
+    public KeyboardService()
+    {
+        if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+    }
 
 
     @Override
@@ -47,11 +53,13 @@ public class KeyboardService implements Runnable{
             if (readedline.charAt(0) == 'b') orchestrationService.stopRandomMoving();
             if (readedline.charAt(0) == 'w') waveFilepay(readedline);
             if (readedline.charAt(0) == 'r') orchestrationService.totalReset();
+            if (readedline.charAt(0) == 'e') playSequence(readedline);
         } catch (DragonException e)
         {
             log.error(e.getMessage());
         }
     }
+
 
     private void printHelpText()
     {
@@ -64,6 +72,7 @@ public class KeyboardService implements Runnable{
         log.info("b  Automovement stop");
         log.info("r  Reset all to default");
         log.info("w  [name] Play the wave file");
+        log.info("e  [name] execute sequence");
     }
 
     public void toNewServoPosition(String readedline) throws DragonException
@@ -86,8 +95,23 @@ public class KeyboardService implements Runnable{
         log.info("Execute "+readedline);
         OrchestrationService orchestrationService = OrchestrationService.getInstance();
         String[] paramlist = readedline.split("[\\s\\t]+");
-        if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use S [x] [y]");
+        if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use w [name]");
         orchestrationService.playWaveFile(paramlist[1]);
     }
+
+    private void playSequence(String readedline) throws DragonException{
+        try {
+            String[] paramlist = readedline.split("[\\s\\t]+");
+            if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use e [name]");
+
+            OrchestrationService orchestrationService = OrchestrationService.getInstance();
+            orchestrationService.createNewRecording(paramlist[1]);
+            orchestrationService.executeCurrentMotion();
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("IO excpetion "+e.getMessage());
+        }
+    }
+
 }
 

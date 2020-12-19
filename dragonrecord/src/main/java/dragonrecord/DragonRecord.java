@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 
@@ -41,6 +42,7 @@ public class DragonRecord {
 		ConfigReader configReader = ConfigReader.getInstance();
 		configReader.setConfigFile(configfile);
 		configReader.readConfiguration();
+		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 
 		timerService=TimerService.getInstance();
 		timerService.setTimeStep(configReader.getTimeStep());

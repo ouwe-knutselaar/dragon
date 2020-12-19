@@ -307,7 +307,7 @@ public class ServoSlider extends GridPane
 			// get list of servo's
 			sendUDP("v ");
 			 serverSocket = new DatagramSocket(3003);
-			serverSocket.setSoTimeout(1000);
+			serverSocket.setSoTimeout(10000);
 			receiveData = new byte[9128];
 			receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			serverSocket.receive(receivePacket);

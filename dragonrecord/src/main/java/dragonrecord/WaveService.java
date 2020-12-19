@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import javax.sound.sampled.*;
@@ -15,6 +16,7 @@ public class WaveService{
 
 	private WaveService()
 	{
+		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 		log.info("Make the WaveService ");
 	}
 
@@ -27,12 +29,12 @@ public class WaveService{
         Mixer.Info[] infos = AudioSystem.getMixerInfo();
         for(Mixer.Info minfo : infos)
         {
-            log.info("mixer info");
-            log.info("--"+minfo.getName());
-            log.info("--"+minfo.getDescription());
-            log.info("--"+minfo.getVendor());
-            log.info("--"+minfo.getVersion());
-            log.info("--"+minfo.hashCode());
+            log.debug("mixer info");
+            log.debug("--"+minfo.getName());
+            log.debug("--"+minfo.getDescription());
+            log.debug("--"+minfo.getVendor());
+            log.debug("--"+minfo.getVersion());
+            log.debug("--"+minfo.hashCode());
         }
 
 
@@ -68,16 +70,16 @@ public class WaveService{
 			byte[]eightBitByteArray = new byte[(int) (frameLength * frameSize)];		// Maak een 8bits buffer om de ruwe wave data in op te slaan
 			int result 		  = audioInputStream.read(eightBitByteArray);		// Vul de 8bits buffer met ruwe data
 			
-			log.info("SampleRate is "+sampleRate);				// Some logging
-			log.info("Framelength is "+frameLength);
-			log.info("Framesize is "+frameSize);
-			log.info("Samplesize is "+sampleFormat);
-			log.info("Duration is "+duration+" Seconds");
-			log.info("Number of steps is "+steps);
-			log.info("Number of channels is "+channels);
-			log.info("Number of samples is "+samples.length);
-			log.info("eightBitByteArray size is "+eightBitByteArray.length);
-			log.info("There are "+result+" bytes read");
+			log.debug("SampleRate is "+sampleRate);				// Some logging
+			log.debug("Framelength is "+frameLength);
+			log.debug("Framesize is "+frameSize);
+			log.debug("Samplesize is "+sampleFormat);
+			log.debug("Duration is "+duration+" Seconds");
+			log.debug("Number of steps is "+steps);
+			log.debug("Number of channels is "+channels);
+			log.debug("Number of samples is "+samples.length);
+			log.debug("eightBitByteArray size is "+eightBitByteArray.length);
+			log.debug("There are "+result+" bytes read");
 			
 			if (sampleFormat == 8) {												// verwerk een 8 bits sample
 				for (int t = 0; t < eightBitByteArray.length; t++) {				// loop alle samples langs

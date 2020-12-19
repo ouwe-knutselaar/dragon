@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.net.SocketException;
 
 public class UDPNetworkService implements Runnable{
 	
-	private static OrchestrationService orchestrationService=OrchestrationService.getInstance();
+	private OrchestrationService orchestrationService=OrchestrationService.getInstance();
 	private final Logger log=Logger.getLogger(UDPNetworkService.class.getSimpleName());
 	private boolean running=true;
 	private byte[] receiveData = new byte[1024];
@@ -20,6 +21,7 @@ public class UDPNetworkService implements Runnable{
 	
 	public UDPNetworkService() throws InterruptedException {
 		try {
+			if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 			log.info("Make the networking service");
 			serverSocket = new DatagramSocket(3001);
 		} catch (SocketException e) {
@@ -46,7 +48,7 @@ public class UDPNetworkService implements Runnable{
 				serverSocket.receive(receivePacket);
 				receivedDataString = new String(receivePacket.getData());
 				receivedDataString=receivedDataString.substring(0, receivePacket.getLength());
-				log.info("UDP data received:"+(receivedDataString.trim()));
+				log.debug("UDP data received:"+(receivedDataString.trim()));
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
 				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));
@@ -82,7 +84,7 @@ public class UDPNetworkService implements Runnable{
 			orchestrationService.setSingleServo(servo, servoValue);
 			return "OK\n\r";
 		} catch (NumberFormatException e) {
-			log.debug("NumberFormatException " + e.getMessage());
+			log.error("NumberFormatException " + e.getMessage());
 			return "NumberFormatException\n\r";
 		}
 	}

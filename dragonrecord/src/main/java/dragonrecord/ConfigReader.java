@@ -8,6 +8,7 @@ public class ConfigReader {
 
     private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
     private String configFile = "config.conf";
+    private static boolean debug=false;
     private static final ConfigReader INSTANCE = new ConfigReader();
     private static final String SERVO_NAME = "servo";
 
@@ -17,6 +18,8 @@ public class ConfigReader {
     public static ConfigReader getInstance(){
         return INSTANCE;
     }
+
+    private ConfigReader(){};
 
     public void setConfigFile(String newFileName) {
         configFile = newFileName;
@@ -79,6 +82,14 @@ public class ConfigReader {
             timestep=Integer.parseInt(paramlist[1]);
         }
 
+        if(paramlist[0].equals("debug")) {
+            if(paramlist[1].equals("true")) {
+                debug = true;
+                log.info("Set to debug");
+            }
+
+        }
+
     }
 
     public void dumpConfig() {
@@ -121,6 +132,8 @@ public class ConfigReader {
     public String getServoName(int servoNumber){
         return servoList[servoNumber].name;
     }
+
+    public static boolean isDebug(){ return debug; };
 
     private static class Servo{
         int minValue;

@@ -15,8 +15,8 @@ public class MovementRecorder {
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	private static final int NUM_OF_SERVOS=16;
 	private static final int MAXSTEPS=300*50;					// 50 hz x 300 seconden
-	private int tracklist[][];							//[servo][step]
-	private boolean recorded[]=new boolean[MAXSTEPS];	
+	private int[][] tracklist;							//[servo][step]
+	private boolean[] recorded=new boolean[MAXSTEPS];
 	private int laststep=0;
 
 	public MovementRecorder(){
@@ -42,7 +42,7 @@ public class MovementRecorder {
 	public void stopRecording(int servo){
 		int total=0;
 		for(int tel=1;tel<laststep;tel++){
-			if(recorded[tel]==false)
+			if(!recorded[tel])
 			{
 				tracklist[servo][tel]=(int)(tracklist[servo][tel-1]+tracklist[servo][tel+1])/2;
 				total++;
@@ -111,7 +111,7 @@ public class MovementRecorder {
 	}
 
 	public int[] getServoValuesFromStep(int step){
-		int result[]=new int[NUM_OF_SERVOS];
+		int[] result=new int[NUM_OF_SERVOS];
 		if(step>MAXSTEPS-1) return result;
 		for(int tel=0;tel<NUM_OF_SERVOS;tel++)result[tel]=tracklist[tel][step];
 		return result;
@@ -131,7 +131,7 @@ public class MovementRecorder {
 	}
 
 	public void filter(int servo) {
-		int tempTrack[]=new int[MAXSTEPS];
+		int[] tempTrack=new int[MAXSTEPS];
 		for(int tel=1;tel<MAXSTEPS-1;tel++)	{
 			int sub = tracklist[servo][tel - 1] + tracklist[servo][tel] + tracklist[servo][tel + 1];
 			sub = sub/3;

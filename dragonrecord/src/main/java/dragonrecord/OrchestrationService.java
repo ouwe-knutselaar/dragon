@@ -138,7 +138,7 @@ public class OrchestrationService {
 		waveName=waveName.trim();
 		String waveFile=String.format("%s\\actions\\%s\\%s.wav",selectRootDir(),waveName,waveName);
 		log.info("Receive file "+waveFile);
-		xferServer.Serverloop(waveFile);
+		xferServer.serverloop(waveFile);
 		log.info("File received");
 	}
 

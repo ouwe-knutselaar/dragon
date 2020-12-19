@@ -1,18 +1,19 @@
 package dragonrecord;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.*;
-
-import org.apache.log4j.Logger;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileXferServer {
 
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	
-	public int Serverloop(String receiveFile) 
-	{
+	public int serverloop(String receiveFile){
 		int total=0;
 		int bytesRead=0;
 		byte[] buffer=new byte[1024];
@@ -20,7 +21,7 @@ public class FileXferServer {
 		
 		try {
 			make_sure_the_receiveing_directory_exists(receiveFile);
-			
+
 			ServerSocket serversocket=new ServerSocket(5000);
 			outputFile = new FileOutputStream(receiveFile);
 			BufferedOutputStream os=new BufferedOutputStream(outputFile);
@@ -41,13 +42,13 @@ public class FileXferServer {
 			serversocket.close();
 			
 		} catch (FileNotFoundException e) {
+			log.error("File "+receiveFile+" not found");
 			e.printStackTrace();
 			return -1;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return -1;
 		}
-		
 		log.info("File Received of "+total+" bytes");
 		return total;
 	}
@@ -66,12 +67,10 @@ public class FileXferServer {
 	
 	public String getSemiColonSeparatedDirectoryListing(String source) {
 		StringBuilder tempSb = new StringBuilder();
-
-			File[] dirlist=new File(source).listFiles(File::isDirectory);
-			for(File directoryPath : dirlist) {
-				tempSb.append(directoryPath.getName()).append(';');
-			}
+		File[] dirlist=new File(source).listFiles(File::isDirectory);
+		for(File directoryPath : dirlist) {
+			tempSb.append(directoryPath.getName()).append(';');
+		}
 		return tempSb.deleteCharAt(tempSb.length()-1).toString();
-
 	}
 }

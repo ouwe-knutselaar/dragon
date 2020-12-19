@@ -12,7 +12,7 @@ public class ConfigReader {
     private static final String SERVO_NAME = "servo";
 
     private final Servo[] servoList = new Servo[16];
-    private static int timestep = 20;
+    private int timestep = 20;
 
     public static ConfigReader getInstance(){
         return INSTANCE;

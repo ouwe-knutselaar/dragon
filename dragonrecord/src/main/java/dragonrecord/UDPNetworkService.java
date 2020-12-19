@@ -1,17 +1,17 @@
 package dragonrecord;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import org.apache.log4j.Logger;
 
 
 public class UDPNetworkService implements Runnable{
 	
-	private OrchestrationService orchestrationService;
-
+	private static OrchestrationService orchestrationService=OrchestrationService.getInstance();
 	private final Logger log=Logger.getLogger(UDPNetworkService.class.getSimpleName());
 	private boolean running=true;
 	private byte[] receiveData = new byte[1024];
@@ -21,7 +21,6 @@ public class UDPNetworkService implements Runnable{
 	public UDPNetworkService() throws InterruptedException {
 		try {
 			log.info("Make the networking service");
-			orchestrationService=OrchestrationService.getInstance();
 			serverSocket = new DatagramSocket(3001);
 		} catch (SocketException e) {
 			log.fatal("UDP Socket Error "+e.getMessage());
@@ -76,7 +75,7 @@ public class UDPNetworkService implements Runnable{
 	}
 	
 	
-	private String positionServo(String clientSentence) throws IOException {
+	private String positionServo(String clientSentence) {
 		try {
 			int servo = Integer.parseInt(clientSentence.substring(2, 4));
 			int servoValue = Integer.parseInt(clientSentence.substring(5, 9));

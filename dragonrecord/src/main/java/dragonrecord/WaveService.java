@@ -10,19 +10,14 @@ import java.io.IOException;
 public class WaveService{
 	
 	private static final Logger  log=Logger.getLogger(WaveService.class);
-
-	//private AudioInputStream audioInputStream;
-	private AudioFormat format;
 	private static WaveService instance;
 	private File waveFile;
 
-	
 	private WaveService()
 	{
 		log.info("Make the WaveService ");
 	}
-	
-	
+
 	/**
 	 * Singleton initializer
 	 * @return
@@ -39,6 +34,8 @@ public class WaveService{
             log.info("--"+minfo.getVersion());
             log.info("--"+minfo.hashCode());
         }
+
+
 		if(instance ==null) instance =new WaveService();
 		return instance;
 	}
@@ -55,7 +52,7 @@ public class WaveService{
 			log.info("Load wave file "+audioFile);
 			waveFile=new File(audioFile);
 			AudioInputStream audioInputStream= AudioSystem.getAudioInputStream(waveFile);		// Open de audiofile naar een inputstream
-			format=audioInputStream.getFormat();								// Haal het formaat op
+            AudioFormat format=audioInputStream.getFormat();								// Haal het formaat op
 			
 			float sampleRate	= format.getSampleRate();							// Zet de varaibelen
 			int frameLength		= (int)audioInputStream.getFrameLength();
@@ -113,6 +110,7 @@ public class WaveService{
 			return true;
 			
 		} catch (UnsupportedAudioFileException | IOException e) {
+            log.error(e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -125,14 +123,9 @@ public class WaveService{
 	 */
 	public void playWave(String waveFileName) {
 		try {
-
 			log.info("Play wave file " + waveFileName);
 			waveFile = new File(waveFileName);
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(waveFile);
-			//DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioInputStream.getFormat());
-
-
-
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.setMicrosecondPosition(0);
@@ -141,11 +134,15 @@ public class WaveService{
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 			log.error("Cannot play, line unavailable " + waveFileName);
+			log.error(e.getMessage());
 		} catch (IOException e) {
+            e.printStackTrace();
 			log.error("Cannot play IO exception" + waveFileName);
+            log.error(e.getMessage());
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 			log.error("Cannot play this audio file " + waveFileName);
+            log.error(e.getMessage());
 		}
 	}
 	

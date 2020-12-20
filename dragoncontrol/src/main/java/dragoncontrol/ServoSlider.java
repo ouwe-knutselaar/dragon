@@ -34,16 +34,16 @@ public class ServoSlider extends GridPane
 {
 	int servo = 0;
 	private int udpPort=80;
-	private String host="127.0.0.1";
-	InetAddress IPAddress;
-	
-	Slider slider=new Slider();
+	private String host="192.168.2.216";
+	private InetAddress IPAddress;
 
-	Label ipAdressLabel=new Label("ip adres");
-	Label ipPortLabel=new Label("port");
-	Label minLabel=new Label("min");
-	Label maxLabel=new Label("max");
-	Label restLabel=new Label("rest");
+	private Slider slider=new Slider();
+
+	private Label ipAdressLabel=new Label("ip adres");
+	private Label ipPortLabel=new Label("port");
+	private Label minLabel=new Label("min");
+	private Label maxLabel=new Label("max");
+	private Label restLabel=new Label("rest");
 	Label servoLabel=new Label("servo");
 	Label actionName=new Label("sequence name");
 	Label actionType=new Label("sequence type");
@@ -111,7 +111,7 @@ public class ServoSlider extends GridPane
 		restLabel=new Label("rest");
 		servoLabel=new Label("servo");
 		
-		ipAdressField=new TextField("127.0.0.1");
+		ipAdressField=new TextField(host);
 		ipPortField=new TextField("3001");
 		minField=new TextField("0");
 		maxField=new TextField("0");
@@ -186,13 +186,9 @@ public class ServoSlider extends GridPane
 		
 		
 		slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			try {
-				String sendString=String.format("p %02d %04d", servo,newValue.intValue());
-				DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), IPAddress, udpPort);
-				clientSocket.send(sendPacket);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			String sendString=String.format("p %02d %04d", servo,newValue.intValue());
+			sendUDP(sendString);
+			System.out.print(".");
 		});
 	
 		
@@ -201,7 +197,7 @@ public class ServoSlider extends GridPane
 				host=ipAdressField.getText();
 				IPAddress = InetAddress.getByName(host);
 				udpPort=Integer.parseInt(ipPortField.getText());
-				messageField.setText("Host is "+host+"at port "+ipPortField.getText());
+				System.out.println("Host is "+host+" at port "+ipPortField.getText()+" at "+IPAddress.toString());
 				receiveListOfActions();
 
 			} catch (UnknownHostException e) {

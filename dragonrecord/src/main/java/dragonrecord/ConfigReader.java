@@ -62,32 +62,29 @@ public class ConfigReader {
         if(configString.charAt(0)=='#')return;
 
         configString = configString.replaceAll("[\\t\\s]+"," ");
-        if(configString.startsWith(SERVO_NAME))processLineForServer(configString);
+        processLineForServer(configString);
     }
 
     private void processLineForServer(String configString) {
-        String[] paramlist  = configString.split(" ");
-        if(paramlist.length!=5)return;
-        for(int tel=0;tel<16;tel++) {
-            if(paramlist[0].equals(SERVO_NAME+tel)) {
-                servoList[tel] = new Servo();
-                servoList[tel].defaultValue= Integer.parseInt(paramlist[3]);
-                servoList[tel].minValue= Integer.parseInt(paramlist[1]);
-                servoList[tel].maxValue= Integer.parseInt(paramlist[2]);
-                servoList[tel].name=paramlist[4];
+        String[] paramlist = configString.split(" ");
+        if (paramlist[0].startsWith(SERVO_NAME) && paramlist.length == 5) {
+            for (int tel = 0; tel < 16; tel++) {
+                if (paramlist[0].equals(SERVO_NAME + tel)) {
+                    servoList[tel] = new Servo();
+                    servoList[tel].defaultValue = Integer.parseInt(paramlist[3]);
+                    servoList[tel].minValue = Integer.parseInt(paramlist[1]);
+                    servoList[tel].maxValue = Integer.parseInt(paramlist[2]);
+                    servoList[tel].name = paramlist[4];
+                }
             }
+       }
+
+        if (paramlist[0].equals("timestep")) {
+            timestep = Integer.parseInt(paramlist[1]);
         }
 
-        if(paramlist[0].equals("timestep")) {
-            timestep=Integer.parseInt(paramlist[1]);
-        }
-
-        if(paramlist[0].equals("debug")) {
-            if(paramlist[1].equals("true")) {
-                debug = true;
-                log.info("Set to debug");
-            }
-
+        if (paramlist[0].equals("debug") && paramlist.length == 2 && paramlist[1].equals("true")) {
+            debug = true;
         }
 
     }

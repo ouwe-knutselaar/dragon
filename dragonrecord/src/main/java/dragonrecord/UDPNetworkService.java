@@ -21,7 +21,11 @@ public class UDPNetworkService implements Runnable{
 	
 	public UDPNetworkService() throws InterruptedException {
 		try {
-			if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+			if(ConfigReader.isDebug()) {
+				log.info("Set level to debug");
+				log.setLevel(Level.DEBUG);
+			}
+			log.debug("loglevel set tot debug");
 			log.info("Make the networking service");
 			serverSocket = new DatagramSocket(3001);
 		} catch (SocketException e) {

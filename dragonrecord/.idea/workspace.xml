@@ -23,11 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../actions/config.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../actions/config.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +46,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="2" />
+  </component>
   <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="jdkForImporter" value="1.8" />
@@ -155,6 +162,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="320" y="79" key="#Project_Structure" timestamp="1608548911122">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="320" y="79" key="#Project_Structure/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548911122" />
     <state width="1877" height="338" key="GridCell.Tab.0.bottom" timestamp="1608457044117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -207,10 +218,5 @@
         <watch expression="configReader.configFile" />
       </configuration>
     </watches-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/dragonrecord$DragonRecord.ic" NAME="DragonRecord Coverage Results" MODIFIED="1606026769654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>dragonrecord.*</FILTER>
-    </SUITE>
   </component>
 </project>

@@ -66,13 +66,14 @@ public class ServoSlider extends GridPane
 
 	private Button connect=new Button("Connect");
 	private Button createNewRecordButton=new Button("Create");
-	private Button startRecordingButton = new Button("record");
+	private Button startRecordingButton = new Button("record [F1]");
 	private Button stopRecordingButton = new Button("stop");
 	private Button playRecordingButton = new Button("play");
 	private Button dumpRecordingButton = new Button("dump");
 	private Button saveRecordingButton = new Button("save");
 	private Button smoothRecordingButton = new Button("smooth*");
 	private Button uploadWavButton = new Button("wav upload");
+	private Button resetButton = new Button("reset");
 
 	private GridPane fieldGrid = new GridPane();
 	private GridPane buttonGrid = new GridPane();
@@ -143,6 +144,7 @@ public class ServoSlider extends GridPane
 		buttonGrid.add(startRecordingButton, 2, 0);
 		
 		buttonGrid.add(createNewRecordButton, 0, 1);
+		buttonGrid.add(resetButton,1,1);
 		buttonGrid.add(stopRecordingButton, 2, 1);
 		
 		buttonGrid.add(saveRecordingButton, 0, 2);
@@ -355,18 +357,19 @@ public class ServoSlider extends GridPane
 	private void selectNewServo(String servoName)
 	{
 		System.out.println("Selected servo is "+servoName);
-		Servo servo = Globals.getServoByName(servoName);
-		if( servo == null )return;
-		System.out.println(servo.toString());
-		slider.setPrefHeight(servo.getMaxPos()-servo.getMinPos());
-		slider.setValue(servo.getRestPos());
-		slider.setMax(servo.getMaxPos());
-		slider.setMin(servo.getMinPos());
-		minField.setText(""+servo.getMinPos());
-		maxField.setText(""+servo.getMaxPos());
-		restField.setText(""+servo.getRestPos());
-		messageField.setText("Switch to servo "+servo.getServoName());
-		this.servoName.setText(servo.getServoName());
+		Servo selectedServo = Globals.getServoByName(servoName);
+		if( selectedServo == null )return;
+		servo=selectedServo.getServoValue();
+		System.out.println(selectedServo.toString());
+		slider.setPrefHeight(selectedServo.getMaxPos()-selectedServo.getMinPos());
+		slider.setValue(selectedServo.getRestPos());
+		slider.setMax(selectedServo.getMaxPos());
+		slider.setMin(selectedServo.getMinPos());
+		minField.setText(""+selectedServo.getMinPos());
+		maxField.setText(""+selectedServo.getMaxPos());
+		restField.setText(""+selectedServo.getRestPos());
+		messageField.setText("Switch to servo "+selectedServo.getServoName());
+		this.servoName.setText(selectedServo.getServoName());
 	}
 
 

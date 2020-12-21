@@ -25,6 +25,8 @@
     <list default="true" id="56f6f735-ca85-47c1-96b0-b58f6a7dff3b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,10 +36,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="2" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="D:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2\plugins\maven\lib\maven3" />
+        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2\plugins\maven\lib\maven3" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -49,7 +54,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/target/dragoncontrol-0.0.1-SNAPSHOT.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dragonrecord" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -147,21 +152,29 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607892948899" />
-    <state width="1877" height="338" key="GridCell.Tab.0.bottom" timestamp="1608478153659">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="620" y="259" key="FileChooserDialogImpl" timestamp="1608548218692">
+      <screen x="0" y="0" width="1680" height="1010" />
     </state>
+    <state x="620" y="259" key="FileChooserDialogImpl/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548218692" />
+    <state width="1637" height="272" key="GridCell.Tab.0.bottom" timestamp="1608548356387">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state width="1637" height="272" key="GridCell.Tab.0.bottom/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356387" />
     <state width="1877" height="338" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153659" />
-    <state width="1877" height="338" key="GridCell.Tab.0.center" timestamp="1608478153658">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1637" height="272" key="GridCell.Tab.0.center" timestamp="1608548356386">
+      <screen x="0" y="0" width="1680" height="1010" />
     </state>
+    <state width="1637" height="272" key="GridCell.Tab.0.center/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356386" />
     <state width="1877" height="338" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153658" />
-    <state width="1877" height="338" key="GridCell.Tab.0.left" timestamp="1608478153658">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1637" height="272" key="GridCell.Tab.0.left" timestamp="1608548356386">
+      <screen x="0" y="0" width="1680" height="1010" />
     </state>
+    <state width="1637" height="272" key="GridCell.Tab.0.left/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356386" />
     <state width="1877" height="338" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153658" />
-    <state width="1877" height="338" key="GridCell.Tab.0.right" timestamp="1608478153658">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1637" height="272" key="GridCell.Tab.0.right" timestamp="1608548356386">
+      <screen x="0" y="0" width="1680" height="1010" />
     </state>
+    <state width="1637" height="272" key="GridCell.Tab.0.right/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356386" />
     <state width="1877" height="338" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153658" />
     <state width="1877" height="338" key="GridCell.Tab.1.bottom" timestamp="1608478153659">
       <screen x="0" y="0" width="1920" height="1040" />

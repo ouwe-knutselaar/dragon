@@ -9,7 +9,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
-
+import org.apache.log4j.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,6 +32,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ServoSlider extends GridPane
 {
+	private final Logger log = Logger.getLogger(ServoSlider.class.getSimpleName());
+
 	int servo = 0;
 	private int udpPort=80;
 	private String host="192.168.2.216";
@@ -67,7 +69,7 @@ public class ServoSlider extends GridPane
 	private Button connect=new Button("Connect");
 	private Button createNewRecordButton=new Button("Create");
 	private Button startRecordingButton = new Button("record [F1]");
-	private Button stopRecordingButton = new Button("stop");
+	private Button stopRecordingButton = new Button("stop [F2]");
 	private Button playRecordingButton = new Button("play");
 	private Button dumpRecordingButton = new Button("dump");
 	private Button saveRecordingButton = new Button("save");
@@ -176,14 +178,14 @@ public class ServoSlider extends GridPane
 		
 		minField.textProperty().addListener((observable, oldValue, newValue) -> {
 			Globals.servoLimitList.get(servo).setMinPos(Integer.parseInt(newValue));
-			rebuildSlider();
+			//rebuildSlider();
 		});
 		
 		
 		maxField.textProperty().addListener((observable, oldValue, newValue) -> {
 			if(newValue.equals(""))return;
 			Globals.servoLimitList.get(servo).setMaxPos(Integer.parseInt(newValue));
-			rebuildSlider();
+			//rebuildSlider();
 		});
 		
 		
@@ -199,7 +201,7 @@ public class ServoSlider extends GridPane
 				host=ipAdressField.getText();
 				IPAddress = InetAddress.getByName(host);
 				udpPort=Integer.parseInt(ipPortField.getText());
-				System.out.println("Host is "+host+" at port "+ipPortField.getText()+" at "+IPAddress.toString());
+				log.info("Host is "+host+" at port "+ipPortField.getText()+" at "+IPAddress.toString());
 				receiveListOfActions();
 
 			} catch (UnknownHostException e) {
@@ -261,7 +263,7 @@ public class ServoSlider extends GridPane
 		servoDropDownList.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("event "+event.toString());
+				log.info("event "+event.toString()+" to "+servoDropDownList.getValue().toString());
 				selectNewServo(servoDropDownList.getValue().toString());
 
 			}
@@ -278,11 +280,14 @@ public class ServoSlider extends GridPane
 		
 		
 		this.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-			  System.out.println("keypressed "+key.getText()+" "+key.getCode());
 		      if(key.getCode()==KeyCode.F1) {
 		    	  messageField.setText("Start recording for servo "+servo);
 		    	  sendUDP(String.format("r %02d", servo));
 		      }
+			if(key.getCode()==KeyCode.F2) {
+				messageField.setText("Stop recording for servo "+servo);
+				sendUDP(String.format("t %02d", servo));
+			}
 		});
 	}
 	
@@ -312,7 +317,7 @@ public class ServoSlider extends GridPane
 			receivedDataString = new String(receivePacket.getData());
 			serverSocket.close();
 
-			System.out.println("Received servo's "+receivedDataString);
+			log.info("Received servo's "+receivedDataString);
 			List<String> servoList = Arrays.asList(receivedDataString.split(";"));
 			Globals.servoLimitList.clear();
 			servoList.forEach(servo -> {String valueList[]=servo.split("[ \t]");
@@ -350,17 +355,18 @@ public class ServoSlider extends GridPane
 	
 	
 	private void rebuildSlider() {
+		log.info("rebuild slider");
 		servoDropDownList.getItems().clear();
 		Globals.servoLimitList.forEach(item -> servoDropDownList.getItems().add(item.getServoName()));
 	}
 
 	private void selectNewServo(String servoName)
 	{
-		System.out.println("Selected servo is "+servoName);
+		log.info("Selected servo is "+servoName);
 		Servo selectedServo = Globals.getServoByName(servoName);
 		if( selectedServo == null )return;
 		servo=selectedServo.getServoValue();
-		System.out.println(selectedServo.toString());
+		log.info(selectedServo.toString());
 		slider.setPrefHeight(selectedServo.getMaxPos()-selectedServo.getMinPos());
 		slider.setValue(selectedServo.getRestPos());
 		slider.setMax(selectedServo.getMaxPos());

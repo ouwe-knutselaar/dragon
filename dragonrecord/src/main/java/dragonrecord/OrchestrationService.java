@@ -37,7 +37,10 @@ public class OrchestrationService {
 		timerService.addOnTimerEvent(new DragonEvent(){
 			@Override
 			public void handle(String msg, int step, int val2) throws InterruptedException, DragonException, IOException {
-				if(recording)movementRecorder.record(currentServo,currentServoValue,step);
+				if(recording) {
+					movementRecorder.record(currentServo, currentServoValue, step);
+					i2cService.writeSingleLed(currentServo,currentServoValue);
+				}
 				if(playing)i2cService.writeAllServos(movementRecorder.getServoValuesFromStep(step));
 				if(moving)randomMovementService.nextStep();
 			}});
@@ -99,27 +102,20 @@ public class OrchestrationService {
 	}
 
 	public void setSingleServo(int servo, int servoValue) {
-		try {
-			i2cService.writeSingleLed(servo, servoValue);
-			currentServo=servo;
-			currentServoValue=servoValue;
-		} catch (DragonException e) {
-			log.fatal("Value "+servoValue+" is invalid for servo "+servo);
-			e.printStackTrace();
-			System.exit(1);
-		}
+		currentServo=servo;
+		currentServoValue=servoValue;
 	}
 
 	public void dumpCurrentMotion() {
 		log.info("dump current motion");
 		log.info(movementRecorder);
-
 	}
 
 	public void saveCurrentMotion(String actionType) throws IOException {
 		log.info("Save current motion");
 		movementRecorder.writeSequenceFile(getSequenceFileName(),actionType);
 	}
+
 	public void createNewRecording(String recordingName) throws IOException {
 		recordingName=recordingName.trim();
 		log.info("Set on recording named '"+recordingName+"'");
@@ -143,7 +139,6 @@ public class OrchestrationService {
 		log.info("File received");
 	}
 
-	
 	public void sendActions(InetAddress inetAddress) {
 		try {
 			DatagramSocket clientSocket = new DatagramSocket();
@@ -177,28 +172,24 @@ public class OrchestrationService {
 		}
 	}
 
-
 	public void filterServo(int servo) {
 		log.info("Run filter for servo "+servo);
 		movementRecorder.filter(servo);
 	}
-	
-	
+
 	public static String selectRootDir() {
 		String operatingSystem = System.getProperty("os.name").toLowerCase();
 		if(operatingSystem.contains("win"))return "D:\\erwin\\dragon\\";
 		if(operatingSystem.contains("nix") || operatingSystem.contains("nux") || operatingSystem.contains("aix"))return "/var/dragon/";
 		return "unknown";
 	}
-	
-	
+
 	private String getActionsDir() {
 		StringBuilder actionDir=new StringBuilder(selectRootDir())
 								.append(ACTIONS_DIR);
 		return actionDir.toString();
 	}
-	
-	
+
 	private String getRecordingWaveName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
 									.append(ACTIONS_DIR)
@@ -233,7 +224,6 @@ public class OrchestrationService {
 		configReader.dumpConfig();
 	}
 
-
 	public void playWaveFile(String waveName) {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
 				.append(ACTIONS_DIR)
@@ -242,7 +232,6 @@ public class OrchestrationService {
 				.append(File.separatorChar)
 				.append(waveName)
 				.append(".wav");
-
 		waveService.playWave(waveFile.toString());
 	}
 }

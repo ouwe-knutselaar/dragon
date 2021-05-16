@@ -24,10 +24,15 @@
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragoncontrol/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/DragonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/DragonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/OSValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/OSValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/FileXferServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/FileXferServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/I2CService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/I2CService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/MovementRecorder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/MovementRecorder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +77,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SONARLINT_ANALYSIS_RESULTS_SPLIT_PROPORTION" value="0.53409094" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -80,15 +86,32 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\onze_projecten\dragon\dragonrecord\src\main\resources" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="dragonrecord" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DragonRecord">
+  <component name="RunManager" selected="Application.DragonRecord_clear">
     <configuration name="DragonRecord" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dragonrecord.DragonRecord" />
       <module name="dragonrecord" />
       <option name="PROGRAM_PARAMETERS" value="-config=D:\onze_projecten\dragon\actions\config.conf" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dragonrecord.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DragonRecord_clear" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="dragonrecord.DragonRecord" />
+      <module name="dragonrecord" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/target" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="dragonrecord.*" />
@@ -130,6 +153,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.DragonRecord_clear" />
       <item itemvalue="Application.DragonRecord" />
       <item itemvalue="JAR Application.dragonrecord-0.0.1-SNAPSHOT.jar" />
       <item itemvalue="Maven.dragonrecord [install]" />
@@ -169,22 +193,26 @@
     </state>
     <state x="320" y="79" key="#Project_Structure/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548911122" />
     <state x="366" y="81" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1608565584164" />
-    <state width="1877" height="338" key="GridCell.Tab.0.bottom" timestamp="1608457044117">
+    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608634817635">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608457044117" />
-    <state width="1877" height="338" key="GridCell.Tab.0.center" timestamp="1608457044116">
+    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608634817635" />
+    <state width="1877" height="352" key="GridCell.Tab.0.bottom" timestamp="1608876815674">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608457044116" />
-    <state width="1877" height="338" key="GridCell.Tab.0.left" timestamp="1608457044116">
+    <state width="1877" height="352" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608876815674" />
+    <state width="1877" height="352" key="GridCell.Tab.0.center" timestamp="1608876815674">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608457044116" />
-    <state width="1877" height="338" key="GridCell.Tab.0.right" timestamp="1608457044116">
+    <state width="1877" height="352" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608876815674" />
+    <state width="1877" height="352" key="GridCell.Tab.0.left" timestamp="1608876815674">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608457044116" />
+    <state width="1877" height="352" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608876815674" />
+    <state width="1877" height="352" key="GridCell.Tab.0.right" timestamp="1608876815674">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="352" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608876815674" />
     <state width="1877" height="338" key="GridCell.Tab.1.bottom" timestamp="1608457044117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

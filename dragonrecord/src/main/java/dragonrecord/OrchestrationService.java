@@ -14,7 +14,7 @@ public class OrchestrationService {
 
 	private final Logger log = Logger.getLogger(OrchestrationService.class.getSimpleName());
 	private static OrchestrationService classInstance;
-	private static final TimerService timerService =TimerService.getInstance();
+	private final TimerService timerService =TimerService.getInstance();
 	private boolean recording=false;
 	private boolean playing=false;
 	private boolean moving=false;
@@ -28,18 +28,24 @@ public class OrchestrationService {
 	private int currentServo;
 	private int currentServoValue;
 	private String currentActionName;
+	private DatagramSocket clientSocket;
 	
-	private OrchestrationService() {
+	private OrchestrationService() throws SocketException {
 		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 		log.info("Init Orchestration service");
 		i2cService.init(50);
+		clientSocket=new DatagramSocket();
 		
 		timerService.addOnTimerEvent(new DragonEvent(){
 			@Override
 			public void handle(String msg, int step, int val2) throws InterruptedException, DragonException, IOException {
 				if(recording) {
 					movementRecorder.record(currentServo, currentServoValue, step);
+<<<<<<< HEAD
 					i2cService.writeSingleLed(currentServo,currentServoValue);					
+=======
+					i2cService.writeAllServos(movementRecorder.getServoValuesFromStep(step));
+>>>>>>> 0458ed1666ae2ccf061c0adaefb839f3cf0059a1
 				}
 				if(playing)i2cService.writeAllServos(movementRecorder.getServoValuesFromStep(step));
 				if(moving)randomMovementService.nextStep();
@@ -49,7 +55,12 @@ public class OrchestrationService {
 	
 	public static OrchestrationService getInstance() {
 		if(classInstance == null) {
-			classInstance = new OrchestrationService();
+			try {
+				classInstance = new OrchestrationService();
+			} catch (SocketException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 		return classInstance;
 	}
@@ -59,7 +70,7 @@ public class OrchestrationService {
 		timerService.stepReset();
 		movementRecorder.startRecording();
 		recording=true;
-		playing=true;
+		playing=false;
 		moving = false;
 		log.info("Start recording of "+servo);
 	}
@@ -77,6 +88,15 @@ public class OrchestrationService {
 		playing = false;
 		moving = true;
 		log.info("Switch to random movements");
+	}
+
+	public void executeCurrentMotion() {
+		log.info("Play current motion");
+		waveService.playWave(getRecordingWaveName());
+		timerService.stepReset();
+		recording=false;
+		playing=true;
+		moving=false;
 	}
 
 	public void stopAll() {
@@ -109,7 +129,7 @@ public class OrchestrationService {
 
 	public void dumpCurrentMotion() {
 		log.info("dump current motion");
-		log.info(movementRecorder);
+		log.info(System.lineSeparator()+movementRecorder);
 	}
 
 	public void saveCurrentMotion(String actionType) throws IOException {
@@ -124,13 +144,7 @@ public class OrchestrationService {
 		movementRecorder.openNewSequence(getSequenceFileName());
 	}
 
-	public void executeCurrentMotion() {
-		log.info("Play current motion");
-		waveService.playWave(getRecordingWaveName());
-		timerService.stepReset();
-		recording=false;
-		playing=true;
-	}
+
 
 	public void receiveWaveFile(String waveName) {
 		waveName=waveName.trim();
@@ -142,12 +156,10 @@ public class OrchestrationService {
 
 	public void sendActions(InetAddress inetAddress) {
 		try {
-			DatagramSocket clientSocket = new DatagramSocket();
 			log.info("Reqeust to deliver the list of actions");
 			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
 			DatagramPacket sendPacket = new DatagramPacket(dirlist.getBytes(), dirlist.length(), inetAddress, 3003);
 			clientSocket.send(sendPacket);
-			clientSocket.close();
 			log.info("List of actions send");
 		} catch (SocketException e) {
 			log.error("Socket opening issue "+e.getMessage());
@@ -158,12 +170,11 @@ public class OrchestrationService {
 
 	public void sendServoValues(InetAddress inetAddress) {
 		try {
-			DatagramSocket clientSocket = new DatagramSocket();
+
 			log.info("Reqeust to deliver the list of servo values");
 			String servolist = configReader.getSemiColonSeparatedServoValuesListing();
 			DatagramPacket sendPacket = new DatagramPacket(servolist.getBytes(), servolist.length(), inetAddress, 3003);
 			clientSocket.send(sendPacket);
-			clientSocket.close();
 			log.info("List of servo's send");
 			log.info(servolist);
 		} catch (SocketException e) {
@@ -174,7 +185,7 @@ public class OrchestrationService {
 	}
 
 	public void filterServo(int servo) {
-		log.info("Run filter for servo "+servo);
+		log.info("Run smooth filter for servo "+servo);
 		movementRecorder.filter(servo);
 	}
 
@@ -234,5 +245,10 @@ public class OrchestrationService {
 				.append(waveName)
 				.append(".wav");
 		waveService.playWave(waveFile.toString());
+	}
+
+	public void cleanCurrentServoTrack() {
+		log.info("clear servo track "+currentServo);
+		movementRecorder.servoTrackClean(currentServo);
 	}
 }

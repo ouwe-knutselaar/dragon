@@ -2,7 +2,6 @@ package dragonrecord;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +33,10 @@ public class MovementRecorder {
 		laststep=0;
 	}
 
+	public void servoTrackClean(int servoTrackToClean)	{
+		for(int tel=0;tel<laststep;tel++)tracklist[servoTrackToClean][tel]=0;
+	}
+
 	public void record(int servo, int servoValue, int step) {
 		if(step>MAXSTEPS)return;
 		tracklist[servo][step]=servoValue;
@@ -45,13 +48,13 @@ public class MovementRecorder {
 	public void stopRecording(int servo){
 		int total=0;
 		for(int tel=1;tel<laststep;tel++){
-			if(!recorded[tel])
-			{
+			if(!recorded[tel]) {
 				tracklist[servo][tel]=(int)(tracklist[servo][tel-1]+tracklist[servo][tel+1])/2;
 				total++;
+				log.info("Number of autocorrected errors "+total +" for servo "+servo);
+				log.info("last step is "+laststep);
 			}
 		}
-		log.info("Number of autocorrected errors "+total +" for servo "+servo);		
 	}
 
 	public int getLastStep(){
@@ -102,7 +105,6 @@ public class MovementRecorder {
 			log.info("Empty file");
 			return;
 		}
-		String actionType=sequenceLines.get(0);					// nu nog even loze code
 		tracklist=new int[NUM_OF_SERVOS][MAXSTEPS];
 		for (int lines=1;lines < sequenceLines.size();lines++) {
 			for (int tel = 0; tel < NUM_OF_SERVOS; tel++) {

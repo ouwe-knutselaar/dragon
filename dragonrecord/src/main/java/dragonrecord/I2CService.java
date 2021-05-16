@@ -21,12 +21,10 @@ public class I2CService {
 	private static final int SLEEP = 0b00010000;
 	private static final int AI = 0b00100000;
 	private static final int LEDBASE = 0x06;
-	private static final int[] LEDBASELIST = { 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66 };
+	//private static final int[] LEDBASELIST = { 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66 };
 	private static final int[] FULLZERO={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	private I2CDevice i2cdev;
 	private boolean demoMode=false;
-	private static final int SERVOMIN=0;
-	private static final int SERVOMAX=15;
 
 	public I2CService() {
 		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
@@ -97,7 +95,7 @@ public class I2CService {
 		
 	}
 	
-	public void writeSingleLed(int lednumber, int data) throws DragonException {
+	/*public void writeSingleLed(int lednumber, int data) throws DragonException {
 
 		if(lednumber < SERVOMIN)throw new DragonException ("led or servo number cannot be less then 0");
 		if(lednumber > SERVOMAX)throw new DragonException("led or servo number cannot be more then 15");
@@ -116,7 +114,7 @@ public class I2CService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	
 	public void writeAllServos(int[] valueList) {

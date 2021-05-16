@@ -10,9 +10,8 @@ public class DragonController extends Application{
 	private final BorderPane mainPane=new BorderPane();
 	private final ServoSlider servoSlider=new ServoSlider();
 	
-	public static void main(String argv[])
+	public static void main(String[] argv)
 	{
-		DragonController dragonController=new DragonController();
 		launch();
 	}
 	

@@ -39,10 +39,11 @@ public class OrchestrationService {
 			public void handle(String msg, int step, int val2) throws InterruptedException, DragonException, IOException {
 				if(recording) {
 					movementRecorder.record(currentServo, currentServoValue, step);
-					i2cService.writeSingleLed(currentServo,currentServoValue);
+					i2cService.writeSingleLed(currentServo,currentServoValue);					
 				}
 				if(playing)i2cService.writeAllServos(movementRecorder.getServoValuesFromStep(step));
 				if(moving)randomMovementService.nextStep();
+				if(!moving & !playing & !recording)i2cService.writeSingleLed(currentServo,currentServoValue);
 			}});
 	}
 	

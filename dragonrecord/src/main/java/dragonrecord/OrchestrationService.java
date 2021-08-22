@@ -89,7 +89,7 @@ public class OrchestrationService {
 		recording = false;
 		playing = false;
 		moving = false;
-		i2cService.reset();
+		//i2cService.reset();
 		log.info("Stop all activities");
 	}
 

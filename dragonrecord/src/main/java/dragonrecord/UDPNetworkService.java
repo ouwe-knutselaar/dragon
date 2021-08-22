@@ -65,8 +65,6 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='l')orchestrationService.sendActions(receivePacket.getAddress());
 				if(choice=='v')orchestrationService.sendServoValues(receivePacket.getAddress());
 				if(choice=='f')orchestrationService.filterServo(Integer.parseInt(receivedDataString.substring(2,4)));
-				if(choice=='w')orchestrationService.cleanCurrentServoTrack();
-				if(choice=='x')orchestrationService.totalReset();
 				receiveData = new byte[1024];	// reset the buffer
 			} catch (IOException e) {
 				e.printStackTrace();

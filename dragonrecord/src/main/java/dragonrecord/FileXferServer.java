@@ -12,8 +12,6 @@ import java.nio.file.Paths;
 public class FileXferServer {
 
 	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
-
-
 	
 	public int serverloop(String receiveFile){
 		int total=0;
@@ -22,7 +20,7 @@ public class FileXferServer {
 		FileOutputStream outputFile;
 		
 		try {
-			makeSureTheReceiveingDirectoryExists(receiveFile);
+			make_sure_the_receiveing_directory_exists(receiveFile);
 
 			ServerSocket serversocket=new ServerSocket(5000);
 			outputFile = new FileOutputStream(receiveFile);
@@ -56,7 +54,7 @@ public class FileXferServer {
 	}
 	
 	
-	private void makeSureTheReceiveingDirectoryExists(String receiveFile) {
+	private void make_sure_the_receiveing_directory_exists(String receiveFile) {
 		try {
 			Files.createDirectory(Paths.get(receiveFile).getParent());
 		} catch (FileAlreadyExistsException e) {

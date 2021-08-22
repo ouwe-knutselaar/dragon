@@ -19,7 +19,7 @@ public class ConfigReader {
         return INSTANCE;
     }
 
-    private ConfigReader(){}
+    private ConfigReader(){};
 
     public void setConfigFile(String newFileName) {
         configFile = newFileName;
@@ -130,7 +130,7 @@ public class ConfigReader {
         return servoList[servoNumber].name;
     }
 
-    public static boolean isDebug(){ return debug; }
+    public static boolean isDebug(){ return debug; };
 
     private static class Servo{
         int minValue;

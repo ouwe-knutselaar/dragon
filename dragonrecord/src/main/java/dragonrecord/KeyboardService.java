@@ -54,9 +54,21 @@ public class KeyboardService implements Runnable{
             if (readedline.charAt(0) == 'w') waveFilepay(readedline);
             if (readedline.charAt(0) == 'r') orchestrationService.totalReset();
             if (readedline.charAt(0) == 'e') playSequence(readedline);
+            if (readedline.charAt(0) == 't') toggleDebug();
         } catch (DragonException e)
         {
             log.error(e.getMessage());
+        }
+    }
+
+    private void toggleDebug() {
+        if(Logger.getRootLogger().isDebugEnabled()){
+            Logger.getRootLogger().setLevel(Level.INFO);
+            log.info("Loglevel is set to INFO");
+        }
+        else{
+            Logger.getRootLogger().setLevel(Level.DEBUG);
+            log.info("Loglevel is set to DEBUG");
         }
     }
 
@@ -73,6 +85,7 @@ public class KeyboardService implements Runnable{
         log.info("r  Reset all to default");
         log.info("w  [name] Play the wave file");
         log.info("e  [name] execute sequence");
+        log.info("t  toggle debug mode");
     }
 
     public void toNewServoPosition(String readedline) throws DragonException

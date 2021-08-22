@@ -114,8 +114,12 @@ public class MovementRecorder {
 	}
 
 	public int[] getServoValuesFromStep(int step){
+		log.info("Execute step "+step+" with max "+MAXSTEPS+" and laststep "+laststep);
 		int[] result=new int[NUM_OF_SERVOS];
-		if(step>MAXSTEPS-1) return result;
+		if(step>MAXSTEPS-1 || step>laststep) {
+			result[0] = -1;			// Flag for end of movement
+			return result;
+		}
 		for(int tel=0;tel<NUM_OF_SERVOS;tel++)result[tel]=tracklist[tel][step];
 		return result;
 	}

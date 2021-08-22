@@ -125,6 +125,7 @@ public class I2CService {
 			if (demoMode)return;
 			byte[] byteValueList = new byte[valueList.length * 4];
 			for (int tel = 0; tel < valueList.length; tel++) {
+				if(valueList[tel] == 0) return;					// Do not execute 0 values
 				byte[] result = intToBytes(valueList[tel]);
 				byteValueList[tel * 4] = result[0];
 				byteValueList[1 + tel * 4] = result[1];

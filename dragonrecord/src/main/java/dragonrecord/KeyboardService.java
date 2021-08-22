@@ -91,7 +91,7 @@ public class KeyboardService implements Runnable{
     public void toNewServoPosition(String readedline) throws DragonException
     {
         try {
-            log.error("Execute "+readedline);
+            log.info("Execute "+readedline);
             OrchestrationService orchestrationService = OrchestrationService.getInstance();
             String[] paramlist = readedline.split("[\\s\\t]+");
             if(paramlist.length != 3) throw new DragonException("invalid number of parameters: use S [x] [y]");

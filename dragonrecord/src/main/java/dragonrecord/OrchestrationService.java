@@ -111,6 +111,11 @@ public class OrchestrationService {
 	public void setSingleServo(int servo, int servoValue) {
 		currentServo=servo;
 		currentServoValue=servoValue;
+		try {
+			i2cService.writeSingleLed(currentServo,currentServoValue);
+		} catch (DragonException e) {
+			log.error("Cannot set sible servo "+e.getMessage());
+		}
 	}
 
 	public void dumpCurrentMotion() {

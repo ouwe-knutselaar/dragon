@@ -147,6 +147,9 @@ public class I2CService {
 							(byte) ((data >> 8) & 0xff), };
 	}
 
-	
+	public void dumpPCA9685(){
+		log.info("dump PCA9685");
+
+	}
 
 }

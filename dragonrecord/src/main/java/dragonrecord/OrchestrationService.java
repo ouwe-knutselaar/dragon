@@ -90,6 +90,11 @@ public class OrchestrationService {
 		playing = false;
 		moving = false;
 		//i2cService.reset();
+		int valueList[]=new int[16];
+		for(int i = 0 ; i<16;i++){
+			valueList[i] = configReader.getServoDefaultValue(i);
+		}
+		i2cService.writeAllServos(valueList);
 		log.info("Stop all activities");
 	}
 

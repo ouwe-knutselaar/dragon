@@ -150,6 +150,16 @@ public class I2CService {
 	public void dumpPCA9685(){
 		log.info("dump PCA9685");
 
+		byte[] result=new byte[256];
+		try {
+			i2cdev.read(0,result,0,256);
+			for(byte bite : result){
+				log.info("s:"+bite);
+			}
+		} catch (IOException e) {
+			log.error("Error during read "+e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }

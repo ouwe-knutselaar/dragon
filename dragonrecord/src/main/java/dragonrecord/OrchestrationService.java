@@ -234,6 +234,7 @@ public class OrchestrationService {
 
 	public void dumpConfig() {
 		configReader.dumpConfig();
+		i2cService.dumpPCA9685();
 	}
 
 	public void playWaveFile(String waveName) {

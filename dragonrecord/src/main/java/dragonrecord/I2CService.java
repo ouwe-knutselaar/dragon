@@ -153,9 +153,17 @@ public class I2CService {
 		byte[] result=new byte[256];
 		try {
 			i2cdev.read(0,result,0,256);
-			for(byte bite : result){
-				log.info("s:"+bite);
+			log.info("MODE1      "+Integer.toBinaryString(result[0])+" "+result[0]);
+			log.info("MODE2      "+Integer.toBinaryString(result[1])+" "+result[1]);
+			log.info("SUBADR1    "+Integer.toBinaryString(result[2])+" "+result[2]);
+			log.info("SUBADR2    "+Integer.toBinaryString(result[3])+" "+result[3]);
+			log.info("SUBADR3    "+Integer.toBinaryString(result[4])+" "+result[4]);
+			log.info("ALLCALLADR "+Integer.toBinaryString(result[5])+" "+result[5]);
+
+			for(int tel =0 ;tel <16 ;tel++){
+				log.info("LED"+tel+"\t"+result[6+(tel*4)]+" "+result[7+(tel*4)]+" "+result[8+(tel*4)]+" "+result[9+(tel*4)]+" ");
 			}
+
 		} catch (IOException e) {
 			log.error("Error during read "+e.getMessage());
 			e.printStackTrace();

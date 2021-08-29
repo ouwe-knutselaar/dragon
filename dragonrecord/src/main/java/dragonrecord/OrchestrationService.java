@@ -101,7 +101,12 @@ public class OrchestrationService {
 	public void totalReset() {
 		log.info("Reset current recording");
 		movementRecorder.reset();
-		i2cService.reset();
+		// i2cService.reset();
+		int valueList[]=new int[16];
+		for(int i = 0 ; i<16;i++){
+			valueList[i] = configReader.getServoDefaultValue(i);
+		}
+		i2cService.writeAllServos(valueList);
 	}
 
 	public void writeCurrentMotion() {

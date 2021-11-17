@@ -9,7 +9,6 @@ public class KeyboardService implements Runnable{
 
     private final Logger log = Logger.getLogger(KeyboardService.class.getSimpleName());
     private boolean isRunning = true;
-
     public KeyboardService()
     {
         if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
@@ -33,32 +32,37 @@ public class KeyboardService implements Runnable{
         }
     }
 
-    public void startKeyBoardService()
-    {
+    public void startKeyBoardService() {
         log.info("Start keyboardservice");
         Thread thisThread = new Thread(this);
         thisThread.start();
     }
 
-    private void processStringCommand(String readedline)
-    {
+    private void processStringCommand(String readedline) {
         try {
             OrchestrationService orchestrationService = OrchestrationService.getInstance();
             if(readedline.isEmpty())return;
-            if (readedline.equals("help")) printHelpText();
-            if (readedline.charAt(0) == 's') toNewServoPosition(readedline);
-            if (readedline.charAt(0) == 'd') orchestrationService.dumpConfig();
-            if (readedline.charAt(0) == 'l') orchestrationService.dumpListOfAction();
-            if (readedline.charAt(0) == 'a') orchestrationService.startRandomMoving();
-            if (readedline.charAt(0) == 'b') orchestrationService.stopRandomMoving();
-            if (readedline.charAt(0) == 'w') waveFilepay(readedline);
-            if (readedline.charAt(0) == 'r') orchestrationService.totalReset();
-            if (readedline.charAt(0) == 'e') playSequence(readedline);
-            if (readedline.charAt(0) == 't') toggleDebug();
+            if (compareCommand(readedline,"help")) printHelpText();
+            if (compareCommand(readedline,"ss")) toNewServoPosition(readedline);
+            if (compareCommand(readedline,"dc")) orchestrationService.dumpConfig();
+            if (compareCommand(readedline,"dm")) orchestrationService.dumpCurrentMotion();
+            if (compareCommand(readedline,"la")) orchestrationService.dumpListOfMotion();
+            if (compareCommand(readedline,"as")) orchestrationService.startRandomMoving();
+            if (compareCommand(readedline,"bs")) orchestrationService.stopRandomMoving();
+            if (compareCommand(readedline,"wa")) waveFilepay(readedline);
+            if (compareCommand(readedline,"rd")) orchestrationService.totalReset();
+            if (compareCommand(readedline,"em")) playMotion(readedline);
+            if (compareCommand(readedline,"tm")) toggleDebug();
         } catch (DragonException e)
         {
             log.error(e.getMessage());
         }
+    }
+
+    private boolean compareCommand(String inputLine, String command) {
+        String[] paramlist = inputLine.split("[\\s\\t]+");
+        if(paramlist.length == 0)return false;
+        return paramlist[0].equals(command);
     }
 
     private void toggleDebug() {
@@ -72,24 +76,22 @@ public class KeyboardService implements Runnable{
         }
     }
 
-
-    private void printHelpText()
-    {
+    private void printHelpText() {
         log.info("Helptext");
-        log.info("s [servonumber] [position]  Set a servo");
-        log.info("e [name]  Execute action");
-        log.info("d  Dump the config");
-        log.info("l  List all the actions");
-        log.info("a  Automovement start");
-        log.info("b  Automovement stop");
-        log.info("r  Reset all to default");
-        log.info("w  [name] Play the wave file");
-        log.info("e  [name] execute sequence");
-        log.info("t  toggle debug mode");
+        log.info("ss [servonumber] [position]  Set a servo");
+        log.info("em [name]  Execute motion");
+        log.info("dc  Dump the config");
+        log.info("dm  dump current motion");
+        log.info("la  List all the motions");
+        log.info("as  Automovement start");
+        log.info("bs  Automovement stop");
+        log.info("rd  Reset all to default");
+        log.info("wa  [name] Play the wave file");
+        log.info("es  [name] execute motion");
+        log.info("tm  toggle debug mode");
     }
 
-    public void toNewServoPosition(String readedline) throws DragonException
-    {
+    public void toNewServoPosition(String readedline) throws DragonException {
         try {
             log.info("Execute "+readedline);
             OrchestrationService orchestrationService = OrchestrationService.getInstance();
@@ -112,18 +114,13 @@ public class KeyboardService implements Runnable{
         orchestrationService.playWaveFile(paramlist[1]);
     }
 
-    private void playSequence(String readedline) throws DragonException{
-        try {
-            String[] paramlist = readedline.split("[\\s\\t]+");
-            if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use e [name]");
+    private void playMotion(String readedline) throws DragonException {
+        String[] paramlist = readedline.split("[\\s\\t]+");
+        if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use e [name]");
 
-            OrchestrationService orchestrationService = OrchestrationService.getInstance();
-            orchestrationService.createNewRecording(paramlist[1]);
-            orchestrationService.executeCurrentMotion();
-        } catch (IOException e) {
-            e.printStackTrace();
-            log.error("IO excpetion "+e.getMessage());
-        }
+        OrchestrationService orchestrationService = OrchestrationService.getInstance();
+        orchestrationService.setCurrentMotion(paramlist[1]);
+        orchestrationService.executeCurrentMotion();
     }
 
 }

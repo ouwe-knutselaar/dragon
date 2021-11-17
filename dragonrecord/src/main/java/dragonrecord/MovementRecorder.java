@@ -58,8 +58,7 @@ public class MovementRecorder {
 		return laststep;
 	}
 
-	public void writeSequenceFile(String sequenceFileName,String actionType) throws IOException
-	{
+	public void writeSequenceFile(String sequenceFileName,String actionType) throws IOException {
 		log.info("Write sequence file :"+sequenceFileName + " with actiontype "+actionType);
 		File seqenueceFile=new File(sequenceFileName);
 		
@@ -126,13 +125,16 @@ public class MovementRecorder {
 
 	@Override
 	public String toString() {
+		int counter = 0;
 		StringBuilder record = new StringBuilder();
 		for (int stepcount = 0; stepcount < laststep; stepcount++) {
 			for (int servocount = 0; servocount < NUM_OF_SERVOS; servocount++) {
 				record.append(tracklist[servocount][stepcount]).append('\t');
 			}
-			record.append(recorded[stepcount]);
-			record.append(System.lineSeparator());
+			record.append(recorded[stepcount])
+				  .append("\t").append(counter)
+				  .append(System.lineSeparator());
+			counter++;
 		}
 		return record.toString();
 	}

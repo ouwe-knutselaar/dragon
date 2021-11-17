@@ -27,12 +27,19 @@ public class OrchestrationService {
 	private final String ACTIONS_DIR="actions";
 	private int currentServo;
 	private int currentServoValue;
-	private String currentActionName;
+	private String currentMotionName;
+	private String[] listOfMotions;
 	
 	private OrchestrationService() {
 		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
 		log.info("Init Orchestration service");
 		i2cService.init(50);
+
+		String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getMotionsDir());
+		listOfMotions =dirlist.split(";");
+		currentMotionName = listOfMotions[0];
+		setCurrentMotion(currentMotionName);
+		log.info("Current motion is: " + currentMotionName);
 		
 		timerService.addOnTimerEvent(new DragonEvent(){
 			@Override
@@ -114,10 +121,6 @@ public class OrchestrationService {
 		i2cService.writeAllServos(valueList);
 	}
 
-	public void writeCurrentMotion() {
-		log.info("Write current motion");
-	}
-
 	public void setSingleServo(int servo, int servoValue) {
 		currentServo=servo;
 		currentServoValue=servoValue;
@@ -129,8 +132,8 @@ public class OrchestrationService {
 	}
 
 	public void dumpCurrentMotion() {
-		log.info("dump current motion");
-		log.info(movementRecorder);
+		log.info("dump current motion " + currentMotionName);
+		log.info(System.lineSeparator()+movementRecorder);
 	}
 
 	public void saveCurrentMotion(String actionType) throws IOException {
@@ -138,11 +141,16 @@ public class OrchestrationService {
 		movementRecorder.writeSequenceFile(getSequenceFileName(),actionType);
 	}
 
-	public void createNewRecording(String recordingName) throws IOException {
-		recordingName=recordingName.trim();
-		log.info("Set on recording named '"+recordingName+"'");
-		currentActionName=recordingName;
-		movementRecorder.openNewSequence(getSequenceFileName());
+	public void setCurrentMotion(String recordingName)  {
+		try {
+			recordingName=recordingName.trim();
+			log.info("Set on motion named '"+recordingName+"'");
+			currentMotionName =recordingName;
+			movementRecorder.openNewSequence(getSequenceFileName());
+		} catch (IOException e) {
+			log.error("Cannot open " + currentMotionName + "caused by "+ e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void executeCurrentMotion() {
@@ -161,15 +169,15 @@ public class OrchestrationService {
 		log.info("File received");
 	}
 
-	public void sendActions(InetAddress inetAddress) {
+	public void sendMotions(InetAddress inetAddress) {
 		try {
 			DatagramSocket clientSocket = new DatagramSocket();
 			log.info("Reqeust to deliver the list of actions");
-			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
+			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getMotionsDir());
 			DatagramPacket sendPacket = new DatagramPacket(dirlist.getBytes(), dirlist.length(), inetAddress, 3003);
 			clientSocket.send(sendPacket);
 			clientSocket.close();
-			log.info("List of actions send");
+			log.info("List of motions send");
 		} catch (SocketException e) {
 			log.error("Socket opening issue "+e.getMessage());
 		} catch (IOException e) {
@@ -206,19 +214,19 @@ public class OrchestrationService {
 		return "unknown";
 	}
 
-	private String getActionsDir() {
-		StringBuilder actionDir=new StringBuilder(selectRootDir())
+	private String getMotionsDir() {
+		StringBuilder motionsDir=new StringBuilder(selectRootDir())
 								.append(ACTIONS_DIR);
-		return actionDir.toString();
+		return motionsDir.toString();
 	}
 
 	private String getRecordingWaveName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
 									.append(ACTIONS_DIR)
 									.append(File.separatorChar)
-									.append(currentActionName)
+									.append(currentMotionName)
 									.append(File.separatorChar)
-									.append(currentActionName)
+									.append(currentMotionName)
 									.append(".wav");
 		return waveFile.toString();
 	}
@@ -227,19 +235,17 @@ public class OrchestrationService {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
 									.append(ACTIONS_DIR)
 									.append(File.separatorChar)
-									.append(currentActionName)
+									.append(currentMotionName)
 									.append(File.separatorChar)
-									.append(currentActionName)
+									.append(currentMotionName)
 									.append(".seq");
 		return waveFile.toString();
 	}
 
 
-	public void dumpListOfAction() {
-		log.info("List of actions");
-		String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getActionsDir());
-		String[] actions =dirlist.split(";");
-		for (String action : actions) log.info(action);
+	public void dumpListOfMotion() {
+		log.info("List of motions");
+		for (String motion : listOfMotions) log.info("  " + motion);
 	}
 
 	public void dumpConfig() {
@@ -257,4 +263,6 @@ public class OrchestrationService {
 				.append(".wav");
 		waveService.playWave(waveFile.toString());
 	}
+
+
 }

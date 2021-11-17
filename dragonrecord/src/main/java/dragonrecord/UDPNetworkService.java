@@ -55,14 +55,14 @@ public class UDPNetworkService implements Runnable{
 				log.debug("UDP data received:"+(receivedDataString.trim()));
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
-				if(choice=='c')orchestrationService.createNewRecording(receivedDataString.substring(1));
+				if(choice=='c')orchestrationService.setCurrentMotion(receivedDataString.substring(1));
 				if(choice=='r')orchestrationService.startTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='t')orchestrationService.stopTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
 				if(choice=='s')orchestrationService.saveCurrentMotion(receivedDataString.substring(1));
 				if(choice=='e')orchestrationService.executeCurrentMotion();
 				if(choice=='u')orchestrationService.receiveWaveFile(receivedDataString.substring(1));
-				if(choice=='l')orchestrationService.sendActions(receivePacket.getAddress());
+				if(choice=='l')orchestrationService.sendMotions(receivePacket.getAddress());
 				if(choice=='v')orchestrationService.sendServoValues(receivePacket.getAddress());
 				if(choice=='f')orchestrationService.filterServo(Integer.parseInt(receivedDataString.substring(2,4)));
 				receiveData = new byte[1024];	// reset the buffer

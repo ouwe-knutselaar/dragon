@@ -23,11 +23,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/DragonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/DragonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragoncontrol/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/MovementRecorder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/MovementRecorder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,8 +147,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.DragonRecord_clear" />
       <item itemvalue="Application.DragonRecord" />
+      <item itemvalue="Application.DragonRecord_clear" />
       <item itemvalue="JAR Application.dragonrecord-0.0.1-SNAPSHOT.jar" />
       <item itemvalue="Maven.dragonrecord [install]" />
     </list>
@@ -182,38 +182,38 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1877" height="384" key="GridCell.Tab.0.bottom" timestamp="1637178878837">
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="384" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178878837" />
-    <state width="1877" height="384" key="GridCell.Tab.0.center" timestamp="1637178878837">
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="384" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178878837" />
-    <state width="1877" height="384" key="GridCell.Tab.0.left" timestamp="1637178878837">
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="384" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178878837" />
-    <state width="1877" height="384" key="GridCell.Tab.0.right" timestamp="1637178878837">
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="384" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178878837" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1637178648007">
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178648007" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1637178648007">
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178648007" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1637178648007">
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178648007" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1637178648007">
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1637179608795">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637178648007" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
     <state x="514" y="248" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1637178477199">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

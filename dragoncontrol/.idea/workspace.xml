@@ -25,15 +25,9 @@
     <list default="true" id="56f6f735-ca85-47c1-96b0-b58f6a7dff3b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/OSValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/OSValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/FileXferServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/FileXferServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/I2CService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/I2CService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/MovementRecorder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/MovementRecorder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/OrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/OrchestrationService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,9 +43,12 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="D:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2\plugins\maven\lib\maven3" />
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="runMavenInBackground" value="false" />
   </component>
   <component name="ProjectId" id="1foV8U2FUt6PqvAtZMbm9hIusza" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -64,7 +61,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.runner" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -156,62 +154,46 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="440" y="94" key="#Project_Structure" timestamp="1607862627396">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1638297452524">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1607862627396" />
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1607892948899">
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297452524" />
+    <state x="414" y="174" width="1092" height="763" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638296319444">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607892948899" />
-    <state x="620" y="259" key="FileChooserDialogImpl" timestamp="1608548218692">
-      <screen x="0" y="0" width="1680" height="1010" />
-    </state>
-    <state x="620" y="259" key="FileChooserDialogImpl/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548218692" />
-    <state width="1877" height="309" key="GridCell.Tab.0.bottom" timestamp="1608876819428">
+    <state x="414" y="174" width="1092" height="763" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638296319444" />
+    <state x="689" y="321" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1638296289644">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1637" height="272" key="GridCell.Tab.0.bottom/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356387" />
-    <state width="1877" height="309" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608876819428" />
-    <state width="1877" height="309" key="GridCell.Tab.0.center" timestamp="1608876819428">
+    <state x="689" y="321" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638296289644" />
+    <state x="681" y="208" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1638297407101">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1637" height="272" key="GridCell.Tab.0.center/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356386" />
-    <state width="1877" height="309" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608876819428" />
-    <state width="1877" height="309" key="GridCell.Tab.0.left" timestamp="1608876819428">
+    <state x="681" y="208" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297407101" />
+    <state x="740" y="260" key="FileChooserDialogImpl" timestamp="1638297284951">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1637" height="272" key="GridCell.Tab.0.left/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356386" />
-    <state width="1877" height="309" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608876819428" />
-    <state width="1877" height="309" key="GridCell.Tab.0.right" timestamp="1608876819428">
+    <state x="740" y="260" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297284951" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1638297740063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1637" height="272" key="GridCell.Tab.0.right/0.0.1680.1010/1680.0.1680.1010@0.0.1680.1010" timestamp="1608548356386" />
-    <state width="1877" height="309" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608876819428" />
-    <state width="1877" height="338" key="GridCell.Tab.1.bottom" timestamp="1608478153659">
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1638297740063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153659" />
-    <state width="1877" height="338" key="GridCell.Tab.1.center" timestamp="1608478153659">
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1638297740063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153659" />
-    <state width="1877" height="338" key="GridCell.Tab.1.left" timestamp="1608478153659">
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1638297740063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153659" />
-    <state width="1877" height="338" key="GridCell.Tab.1.right" timestamp="1608478153659">
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1638296797718">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608478153659" />
-    <state x="470" y="255" width="980" height="630" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1608066354722">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="470" y="255" width="980" height="630" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040@0.0.1920.1040" timestamp="1608066354722" />
-    <state x="616" y="242" width="672" height="677" key="run.anything.popup" timestamp="1607266398880">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="616" y="242" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1607266398880" />
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638296797718" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

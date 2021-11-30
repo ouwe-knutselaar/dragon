@@ -214,7 +214,14 @@ public class ServoSlider extends GridPane
 			messageField.setText("Start recording for servo "+servo);
 			sendUDP(String.format("r %02d", servo));
 		});
-		
+
+		startRecordingButton.setOnMouseEntered(event -> {
+			messageField.setText("Start recording for servo "+servo);
+		});
+
+		startRecordingButton.setOnMouseExited(event -> {
+			messageField.setText("");
+		});
 		
 		playRecordingButton.setOnMouseClicked(event -> {
 			messageField.setText("Play sequence");

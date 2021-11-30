@@ -9,6 +9,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.*;
 import org.apache.log4j.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,11 +20,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -66,38 +65,18 @@ public class ServoSlider extends GridPane
 	ObservableList<String> actionTypes=FXCollections.observableArrayList();
 	ComboBox<String> actionTypesList =new ComboBox<>(actionTypes);
 
-	private Button connect=new Button("Connect");
-	private Button createNewRecordButton=new Button("Create");
-	private Button startRecordingButton = new Button("record [F1]");
-	private Button stopRecordingButton = new Button("stop [F2]");
-	private Button playRecordingButton = new Button("play");
-	private Button dumpRecordingButton = new Button("dump");
-	private Button saveRecordingButton = new Button("save");
-	private Button smoothRecordingButton = new Button("smooth*");
-	private Button uploadWavButton = new Button("wav upload");
-	private Button resetButton = new Button("reset");
-	private Button clearTrackButton = new Button("clear track [F3]");
-
 	private GridPane fieldGrid = new GridPane();
 	private GridPane buttonGrid = new GridPane();
 	
-	
-	private DatagramSocket clientSocket;
+	private Connector connector;
 	
 	private String[] servoList={"empty"};
 	private ComboBox<String> servoDropDownList=new ComboBox<>(FXCollections.observableArrayList(servoList));
-	
+
+	Alert errorAlert = new Alert(Alert.AlertType.ERROR);
 	
 	public ServoSlider() 
 	{
-		
-		try {
-			ipaddress = InetAddress.getByName(host);
-			clientSocket = new DatagramSocket();
-		} catch (SocketException | UnknownHostException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
 
 		actionNames.add("empty");
 		actionNamesList.setEditable(true);
@@ -142,19 +121,30 @@ public class ServoSlider extends GridPane
 		fieldGrid.add(servoName, 1, 8);
 		
 		// colom , row, colspan, rowspan
+		DragonButton connect = new DragonButton.ButtonBuilder().setButtonName("Connect").hooverOvertext("Make a connection").textOutputField(messageField).build();
 		buttonGrid.add(connect,0,0);
+		DragonButton smoothRecordingButton = new DragonButton.ButtonBuilder().setButtonName("Smooth").hooverOvertext("Smooth the movement").textOutputField(messageField).build();
 		buttonGrid.add(smoothRecordingButton,1,0);
+		DragonButton startRecordingButton = new DragonButton.ButtonBuilder().setButtonName("record [F1]").build();
 		buttonGrid.add(startRecordingButton, 2, 0);
-		
+
+		DragonButton createNewRecordButton = new DragonButton.ButtonBuilder().setButtonName("create").hooverOvertext("Create a new movement").textOutputField(messageField).build();
 		buttonGrid.add(createNewRecordButton, 0, 1);
+		DragonButton resetButton = new DragonButton.ButtonBuilder().setButtonName("Reset").hooverOvertext("Reset the movement").textOutputField(messageField).build();
 		buttonGrid.add(resetButton,1,1);
+		DragonButton stopRecordingButton = new DragonButton.ButtonBuilder().setButtonName("stop [F2]").build();
 		buttonGrid.add(stopRecordingButton, 2, 1);
-		
+
+		Button saveRecordingButton = new Button("save");
 		buttonGrid.add(saveRecordingButton, 0, 2);
+		Button clearTrackButton = new Button("clear track [F3]");
 		buttonGrid.add(clearTrackButton,1,2);
+		Button uploadWavButton = new Button("wav upload");
 		buttonGrid.add(uploadWavButton,2,2);
-		
+
+		DragonButton dumpRecordingButton = new DragonButton.ButtonBuilder().setButtonName("Dump").hooverOvertext("Dump the movement").textOutputField(messageField).build();
 		buttonGrid.add(dumpRecordingButton, 0, 3);
+		DragonButton playRecordingButton = new DragonButton.ButtonBuilder().setButtonName("Play").hooverOvertext("Play movement").textOutputField(messageField).build();
 		buttonGrid.add(playRecordingButton, 2, 3);
 		
 		fieldGrid.setHgap(10);
@@ -189,131 +179,89 @@ public class ServoSlider extends GridPane
 		});
 		
 		
-		slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			String sendString=String.format("p %02d %04d", servo,newValue.intValue());
-			sendUDP(sendString);
-			System.out.print(".");
-		});
+		slider.valueProperty().addListener((observable, oldValue, newValue) -> connector.sendUDP(String.format("p %02d %04d", servo,newValue.intValue())));
 	
 		
 		connect.setOnMouseClicked(event -> {
 			try {
-				host=ipAdressField.getText();
 				ipaddress = InetAddress.getByName(host);
-				udpPort=Integer.parseInt(ipPortField.getText());
+				connector = new Connector(ipAdressField.getText(),Integer.parseInt(ipPortField.getText()),messageField);
+				if(!connector.Connect()){
+					showAlert("Cannot connect to "+host);
+					return;
+				}
 				log.info("Host is "+host+" at port "+ipPortField.getText()+" at "+ ipaddress.toString());
 				receiveListOfActions();
 
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
+				showAlert("Unknown host "+e.getMessage());
 			}
 		});
-		
-		
-		startRecordingButton.setOnMouseClicked(event -> {
-			messageField.setText("Start recording for servo "+servo);
-			sendUDP(String.format("r %02d", servo));
+
+		ipPortField.focusedProperty().addListener(new ChangeListener<Boolean>(){
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(!newValue){
+					udpPort=Integer.parseInt(ipPortField.getText());
+					messageField.setText("Updport set to "+udpPort);
+				}
+			}
 		});
 
-		startRecordingButton.setOnMouseEntered(event -> {
-			messageField.setText("Start recording for servo "+servo);
+		ipAdressField.focusedProperty().addListener(new ChangeListener<Boolean>(){
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(!newValue){
+					host=ipAdressField.getText();
+					messageField.setText("host is set to "+host);
+				}
+			}
 		});
 
-		startRecordingButton.setOnMouseExited(event -> {
-			messageField.setText("");
-		});
-		
-		playRecordingButton.setOnMouseClicked(event -> {
-			messageField.setText("Play sequence");
-			sendUDP("e 00");
-		});
-
-		stopRecordingButton.setOnMouseClicked(event -> {
-			sendUDP(String.format("t %02d", servo));
-			messageField.setText("Stop sequence");
-		});
-
-		dumpRecordingButton.setOnMouseClicked(event -> {
-			messageField.setText("Dump sequence");
-			sendUDP("d xx");
-		});
-
-		clearTrackButton.setOnMouseClicked(event -> {
-			messageField.setText("Clear track");
-			sendUDP("w");
-		});
-		
-		createNewRecordButton.setOnMouseClicked(event -> {
-			messageField.setText("New recording named "+actionNamesList.getValue());
-			sendUDP("c"+actionNamesList.getValue());
-		});
-		
-		
-		saveRecordingButton.setOnMouseClicked(event -> {
-			messageField.setText("save sequence "+actionNamesList.getValue());
-			sendUDP("s"+actionTypesList.getValue());
-		});
-		
+		startRecordingButton.setOnMouseClicked(event -> connector.sendUDP(String.format("r %02d", servo)));
+		playRecordingButton.setOnMouseClicked(event -> connector.sendUDP("e 00"));
+		stopRecordingButton.setOnMouseClicked(event -> connector.sendUDP(String.format("t %02d", servo)));
+		dumpRecordingButton.setOnMouseClicked(event -> connector.sendUDP("d xx"));
+		clearTrackButton.setOnMouseClicked(event -> connector.sendUDP("w"));
+		createNewRecordButton.setOnMouseClicked(event -> connector.sendUDP("c"+actionNamesList.getValue()));
+		saveRecordingButton.setOnMouseClicked(event -> connector.sendUDP("s"+actionTypesList.getValue()));
 		uploadWavButton.setOnMouseClicked(event -> {
 			messageField.setText("upload wae for "+actionNamesList.getValue());
 			try {
 				waveUpload();
 			} catch (IOException e) {
-				e.printStackTrace();
+				showAlert("Unknown host "+e.getMessage());
 			}
 		});
-		
-		
-		smoothRecordingButton.setOnMouseClicked(event -> {
-			messageField.setText("Smooth recording for servo "+servo);
-			sendUDP(String.format("f %02d", servo));
-		});
 
-
-
-		servoDropDownList.setOnAction((EventHandler<ActionEvent>) event -> {
-			log.info("event "+event.toString()+" to "+servoDropDownList.getValue().toString());
-			selectNewServo(servoDropDownList.getValue().toString());
-
-		});
-		
-		
-		actionNamesList.setOnAction(event -> {
-			messageField.setText("Set action to "+actionNamesList.getValue());
-			sendUDP("c"+actionNamesList.getValue());
-		});
-		
-		
+		smoothRecordingButton.setOnMouseClicked(event -> connector.sendUDP(String.format("f %02d", servo)));
+		servoDropDownList.setOnAction(event -> selectNewServo(servoDropDownList.getValue()));
+		actionNamesList.setOnAction(event -> connector.sendUDP("c"+actionNamesList.getValue()));
 		actionTypesList.setOnAction(event -> messageField.setText("Set action to "+actionNamesList.getValue()));
-		
-
-		resetButton.setOnMouseClicked(event ->{
-			messageField.setText("Set action to "+actionNamesList.getValue());
-			sendUDP("x");
-		});
-
+		resetButton.setOnMouseClicked(event -> connector.sendUDP("x"));
 
 		this.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
 		      if(key.getCode()==KeyCode.F1) {
 		    	  messageField.setText("Start recording for servo "+servo);
-		    	  sendUDP(String.format("r %02d", servo));
+				  connector.sendUDP(String.format("r %02d", servo));
 		      }
 			if(key.getCode()==KeyCode.F2) {
 				messageField.setText("Stop recording for servo "+servo);
-				sendUDP(String.format("t %02d", servo));
+				connector.sendUDP(String.format("t %02d", servo));
 			}
 			if(key.getCode()==KeyCode.F3) {
 				messageField.setText("Clear recording for servo "+servo);
-				sendUDP("w");
+				connector.sendUDP("w");
 			}
 		});
 	}
-	
-	
+
+
 	private void receiveListOfActions() {
 		try {
 			// Get list of actions
-			sendUDP("l ");
+			connector.sendUDP("l ");
 			DatagramSocket serverSocket = new DatagramSocket(3003);
 			serverSocket.setSoTimeout(1000);
 			byte[] receiveData = new byte[9128];
@@ -326,7 +274,7 @@ public class ServoSlider extends GridPane
 			actionNamesList.getSelectionModel().select(0);
 
 			// get list of servo's
-			sendUDP("v ");
+			connector.sendUDP("v ");
 			serverSocket = new DatagramSocket(3003);
 			serverSocket.setSoTimeout(10000);
 			receiveData = new byte[9128];
@@ -351,27 +299,13 @@ public class ServoSlider extends GridPane
 			rebuildSlider();
 
 		}catch (SocketException e){
-			messageField.setText("Time out error");
-			e.printStackTrace();
+			showAlert("Time out error "+e.getMessage());
 		}catch (IOException e) {
-			messageField.setText("IO Error");
-			e.printStackTrace();
+			showAlert("IO Error "+e.getMessage());
 		}
 		
 	}
 
-
-	private void sendUDP(String sendString)
-	{
-		try {
-			DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), ipaddress, udpPort);
-			clientSocket.send(sendPacket);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 	private void rebuildSlider() {
 		log.info("rebuild slider");
 		servoDropDownList.getItems().clear();
@@ -407,7 +341,7 @@ public class ServoSlider extends GridPane
 		File selectedFile = fileChooser.showOpenDialog(this.getScene().getWindow());
 		if (selectedFile == null)return;
 		
-		sendUDP("u"+actionNamesList.getValue());
+		connector.sendUDP("u"+actionNamesList.getValue());
 		messageField.setText("Wait 2 seconds for the server to start");
 		try {
 			Thread.sleep(2000);
@@ -421,5 +355,11 @@ public class ServoSlider extends GridPane
 		servoName.setText("File send is "+(rc!=-1));		
 		
 	}
-	
+
+	private void showAlert(String message){
+		errorAlert.setContentText(message);
+		errorAlert.setTitle("Error");
+		errorAlert.showAndWait();
+	}
+
 }

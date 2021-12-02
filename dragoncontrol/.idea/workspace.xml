@@ -23,10 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56f6f735-ca85-47c1-96b0-b58f6a7dff3b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/Connector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonButton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/Connector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/DragonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragoncontrol/ServoSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragoncontrol/MainScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +67,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dragonrecord" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -181,30 +184,35 @@
     </state>
     <state x="681" y="208" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297407101" />
     <state x="681" y="208" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1638299183737" />
-    <state x="740" y="260" key="FileChooserDialogImpl" timestamp="1638297284951">
+    <state x="533" y="43" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1638474065921">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="533" y="43" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1638474065921" />
+    <state x="740" y="260" key="FileChooserDialogImpl" timestamp="1638388620218">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="260" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297284951" />
-    <state width="1877" height="309" key="GridCell.Tab.0.bottom" timestamp="1638305278849">
+    <state x="740" y="260" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1638388620218" />
+    <state width="1877" height="309" key="GridCell.Tab.0.bottom" timestamp="1638474226446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
-    <state width="1877" height="309" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1638305278849" />
-    <state width="1877" height="309" key="GridCell.Tab.0.center" timestamp="1638305278849">
+    <state width="1877" height="309" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1638474226446" />
+    <state width="1877" height="309" key="GridCell.Tab.0.center" timestamp="1638474226446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
-    <state width="1877" height="309" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1638305278849" />
-    <state width="1877" height="309" key="GridCell.Tab.0.left" timestamp="1638305278849">
+    <state width="1877" height="309" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1638474226446" />
+    <state width="1877" height="309" key="GridCell.Tab.0.left" timestamp="1638474226446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
-    <state width="1877" height="309" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1638305278849" />
-    <state width="1877" height="309" key="GridCell.Tab.0.right" timestamp="1638305278849">
+    <state width="1877" height="309" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1638474226446" />
+    <state width="1877" height="309" key="GridCell.Tab.0.right" timestamp="1638474226446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1638297740063" />
-    <state width="1877" height="309" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1638305278849" />
+    <state width="1877" height="309" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1638474226446" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1638296797718">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

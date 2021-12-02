@@ -8,8 +8,6 @@ import java.net.*;
 
 public class Connector {
 
-    private final Logger log = Logger.getLogger(Connector.class.getSimpleName());
-
     private DatagramSocket clientSocket;
     private int udpPort;
     private String host;
@@ -47,5 +45,9 @@ public class Connector {
             output.setText("Error "+e.getMessage());
             return false;
         }
+    }
+
+    public void disconnect(){
+        clientSocket.close();
     }
 }

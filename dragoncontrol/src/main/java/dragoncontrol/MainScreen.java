@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,8 +17,6 @@ import javafx.scene.control.*;
 import org.apache.log4j.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.input.KeyCode;
@@ -27,15 +26,13 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-
-
-public class ServoSlider extends GridPane
+public class MainScreen extends GridPane
 {
-	private final Logger log = Logger.getLogger(ServoSlider.class.getSimpleName());
+	private final Logger log = Logger.getLogger(MainScreen.class.getSimpleName());
 
 	int servo = 0;
-	private int udpPort=80;
-	private String host="192.168.2.216";
+	private int udpPort=3001;
+	private String host="127.0.0.1";
 	private InetAddress ipaddress;
 
 	private Slider slider=new Slider();
@@ -75,7 +72,7 @@ public class ServoSlider extends GridPane
 
 	Alert errorAlert = new Alert(Alert.AlertType.ERROR);
 	
-	public ServoSlider() 
+	public MainScreen()
 	{
 
 		actionNames.add("empty");
@@ -125,21 +122,21 @@ public class ServoSlider extends GridPane
 		buttonGrid.add(connect,0,0);
 		DragonButton smoothRecordingButton = new DragonButton.ButtonBuilder().setButtonName("Smooth").hooverOvertext("Smooth the movement").textOutputField(messageField).build();
 		buttonGrid.add(smoothRecordingButton,1,0);
-		DragonButton startRecordingButton = new DragonButton.ButtonBuilder().setButtonName("record [F1]").build();
+		DragonButton startRecordingButton = new DragonButton.ButtonBuilder().setButtonName("record [F1]").hooverOvertext("Record a new servo track").textOutputField(messageField).build();
 		buttonGrid.add(startRecordingButton, 2, 0);
 
 		DragonButton createNewRecordButton = new DragonButton.ButtonBuilder().setButtonName("create").hooverOvertext("Create a new movement").textOutputField(messageField).build();
 		buttonGrid.add(createNewRecordButton, 0, 1);
-		DragonButton resetButton = new DragonButton.ButtonBuilder().setButtonName("Reset").hooverOvertext("Reset the movement").textOutputField(messageField).build();
+		DragonButton resetButton = new DragonButton.ButtonBuilder().setButtonName("Reset").hooverOvertext("Reset the current movement").textOutputField(messageField).build();
 		buttonGrid.add(resetButton,1,1);
-		DragonButton stopRecordingButton = new DragonButton.ButtonBuilder().setButtonName("stop [F2]").build();
+		DragonButton stopRecordingButton = new DragonButton.ButtonBuilder().setButtonName("stop [F2]").hooverOvertext("Stop the recording/play").textOutputField(messageField).build();
 		buttonGrid.add(stopRecordingButton, 2, 1);
 
-		Button saveRecordingButton = new Button("save");
+		DragonButton saveRecordingButton =new DragonButton.ButtonBuilder().setButtonName("Save").hooverOvertext("Save the current movement to file").textOutputField(messageField).build();
 		buttonGrid.add(saveRecordingButton, 0, 2);
-		Button clearTrackButton = new Button("clear track [F3]");
+		DragonButton clearTrackButton = new DragonButton.ButtonBuilder().setButtonName("clear track [F3]").hooverOvertext("Clear the current movement to file").textOutputField(messageField).build();;
 		buttonGrid.add(clearTrackButton,1,2);
-		Button uploadWavButton = new Button("wav upload");
+		DragonButton uploadWavButton = new DragonButton.ButtonBuilder().setButtonName("upload wave").hooverOvertext("Upload wave file").textOutputField(messageField).build();
 		buttonGrid.add(uploadWavButton,2,2);
 
 		DragonButton dumpRecordingButton = new DragonButton.ButtonBuilder().setButtonName("Dump").hooverOvertext("Dump the movement").textOutputField(messageField).build();
@@ -190,9 +187,8 @@ public class ServoSlider extends GridPane
 					showAlert("Cannot connect to "+host);
 					return;
 				}
-				log.info("Host is "+host+" at port "+ipPortField.getText()+" at "+ ipaddress.toString());
 				receiveListOfActions();
-
+				messageField.setText("Connected to "+host);
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 				showAlert("Unknown host "+e.getMessage());
@@ -224,7 +220,7 @@ public class ServoSlider extends GridPane
 		stopRecordingButton.setOnMouseClicked(event -> connector.sendUDP(String.format("t %02d", servo)));
 		dumpRecordingButton.setOnMouseClicked(event -> connector.sendUDP("d xx"));
 		clearTrackButton.setOnMouseClicked(event -> connector.sendUDP("w"));
-		createNewRecordButton.setOnMouseClicked(event -> connector.sendUDP("c"+actionNamesList.getValue()));
+		createNewRecordButton.setOnMouseClicked(event -> createNewMotion());
 		saveRecordingButton.setOnMouseClicked(event -> connector.sendUDP("s"+actionTypesList.getValue()));
 		uploadWavButton.setOnMouseClicked(event -> {
 			messageField.setText("upload wae for "+actionNamesList.getValue());
@@ -254,7 +250,24 @@ public class ServoSlider extends GridPane
 				messageField.setText("Clear recording for servo "+servo);
 				connector.sendUDP("w");
 			}
+			if(key.getCode()==KeyCode.O){
+				slider.adjustValue(slider.getMax());
+			}
+			if(key.getCode()==KeyCode.K){
+				slider.adjustValue(slider.getMin());
+			}
+			if(key.getCode()==KeyCode.M){
+				slider.adjustValue(slider.getMin());
+			}
+
 		});
+
+		this.addEventHandler(KeyEvent.KEY_RELEASED, key->{
+			if(key.getCode()==KeyCode.M){
+				slider.adjustValue(slider.getMax());
+			}
+		});
+
 	}
 
 
@@ -314,7 +327,6 @@ public class ServoSlider extends GridPane
 
 	private void selectNewServo(String servoName)
 	{
-		log.info("Selected servo is "+servoName);
 		Servo selectedServo = Globals.getServoByName(servoName);
 		if( selectedServo == null )return;
 		servo=selectedServo.getServoValue();
@@ -326,7 +338,7 @@ public class ServoSlider extends GridPane
 		minField.setText(""+selectedServo.getMinPos());
 		maxField.setText(""+selectedServo.getMaxPos());
 		restField.setText(""+selectedServo.getRestPos());
-		messageField.setText("Switch to servo "+selectedServo.getServoName());
+		messageField.setText("Current servo is "+selectedServo.getServoName());
 		this.servoName.setText(selectedServo.getServoName());
 	}
 
@@ -360,6 +372,27 @@ public class ServoSlider extends GridPane
 		errorAlert.setContentText(message);
 		errorAlert.setTitle("Error");
 		errorAlert.showAndWait();
+	}
+
+	public void closeAll(){
+		if(connector!=null)connector.disconnect();
+		log.info("Connections closed");
+	}
+
+	public boolean createNewMotion(){
+
+		TextInputDialog textInputDialog = new TextInputDialog();
+		textInputDialog.setTitle("Choose name for the new movement");
+		textInputDialog.setContentText("Name:");
+		Optional<String> result = textInputDialog.showAndWait();
+		if(!result.isPresent())return false;
+		if(result.get().isEmpty())return false;
+
+		messageField.setText("New motion name is "+result.get());
+
+		connector.sendUDP("c"+result.get());
+		receiveListOfActions();
+		return true;
 	}
 
 }

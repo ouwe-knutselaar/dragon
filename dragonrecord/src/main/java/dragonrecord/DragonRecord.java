@@ -14,6 +14,9 @@ public class DragonRecord {
 	
 	public static void main(String[] argv) throws InterruptedException {
 
+		System.setProperty("java.library.path","..");
+		System.setProperty("java.library.path","D:\\onze_projecten\\dragon\\dragonrecord");
+
 		// parse arguments
 		for(String arg: argv)
 		{
@@ -53,6 +56,8 @@ public class DragonRecord {
 
 		KeyboardService keyboardService=new KeyboardService();
 		keyboardService.startKeyBoardService();
+
+		GameControllerService gameControllerService = new GameControllerService();
 	}
 	
 }

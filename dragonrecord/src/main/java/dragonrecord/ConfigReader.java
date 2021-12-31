@@ -15,6 +15,8 @@ public class ConfigReader {
     private final Servo[] servoList = new Servo[16];
     private int timestep = 20;
 
+    private int rx,ry,Xaxis,Yaxis,knop1,knop2,knop3,knop4,knop5,knop6,knop7,knop8,knop9;
+
     public static ConfigReader getInstance(){
         return INSTANCE;
     }
@@ -87,7 +89,49 @@ public class ConfigReader {
             debug = true;
         }
 
+        if (paramlist[0].equals("rx")) {
+            rx = Integer.parseInt(paramlist[1]);
+        }
+
+        if (paramlist[0].equals("ry")) {
+            ry = Integer.parseInt(paramlist[1]);
+        }
+
+        if (paramlist[0].equals("x")) {
+            Xaxis = Integer.parseInt(paramlist[1]);
+        }
+
+        if (paramlist[0].equals("y")) {
+            Yaxis = Integer.parseInt(paramlist[1]);
+        }
+
+        if (paramlist[0].equals("knop1")) {
+            knop1 = Integer.parseInt(paramlist[1]);
+        }
+
+        if (paramlist[0].equals("knop2")) {
+            knop2 = Integer.parseInt(paramlist[1]);
+        }
+        if (paramlist[0].equals("knop3")) {
+            knop3 = Integer.parseInt(paramlist[1]);
+        }
+        if (paramlist[0].equals("knop4")) {
+            knop4 = Integer.parseInt(paramlist[1]);
+        }
+        if (paramlist[0].equals("knop5")) {
+            knop5 = Integer.parseInt(paramlist[1]);
+        }
+        if (paramlist[0].equals("knop6")) {
+            knop6 = Integer.parseInt(paramlist[1]);
+        }
+        if (paramlist[0].equals("knop7")) {
+            knop7 = Integer.parseInt(paramlist[1]);
+        }
     }
+
+
+
+
 
     public void dumpConfig() {
         log.info("List the configuration");
@@ -108,8 +152,6 @@ public class ConfigReader {
         return timestep;
     }
 
-
-
     public boolean isValidServo(int servoNumber){
         return servoList[servoNumber].maxValue!=0;
     }
@@ -128,6 +170,58 @@ public class ConfigReader {
 
     public String getServoName(int servoNumber){
         return servoList[servoNumber].name;
+    }
+
+    public int getRx() {
+        return rx;
+    }
+
+    public int getRy() {
+        return ry;
+    }
+
+    public int getXaxis() {
+        return Xaxis;
+    }
+
+    public int getYaxis() {
+        return Yaxis;
+    }
+
+    public int getKnop1() {
+        return knop1;
+    }
+
+    public int getKnop2() {
+        return knop2;
+    }
+
+    public int getKnop3() {
+        return knop3;
+    }
+
+    public int getKnop4() {
+        return knop4;
+    }
+
+    public int getKnop5() {
+        return knop5;
+    }
+
+    public int getKnop6() {
+        return knop6;
+    }
+
+    public int getKnop7() {
+        return knop7;
+    }
+
+    public int getKnop8() {
+        return knop8;
+    }
+
+    public int getKnop9() {
+        return knop9;
     }
 
     public static boolean isDebug(){ return debug; };

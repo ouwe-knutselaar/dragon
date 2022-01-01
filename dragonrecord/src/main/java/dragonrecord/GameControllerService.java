@@ -6,13 +6,12 @@ import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
 import org.apache.log4j.Logger;
-
 import java.util.Arrays;
 import java.util.Optional;
 
 public class GameControllerService implements Runnable{
 
-    private final Logger log = Logger.getLogger(KeyboardService.class.getSimpleName());
+    private final Logger log = Logger.getLogger(GameControllerService.class.getSimpleName());
     private OrchestrationService orchestrationService = OrchestrationService.getInstance();
     private ConfigReader configReader = ConfigReader.getInstance();
 
@@ -22,7 +21,6 @@ public class GameControllerService implements Runnable{
     private  Controller gamepad;
 
     public GameControllerService(){
-
 
         log.info("open gamecontroller");
         Optional<Controller> gamePad = Arrays.
@@ -62,27 +60,40 @@ public class GameControllerService implements Runnable{
     }
 
     private void processEvent(Event event) {
-
+        log.info(event.getComponent().getIdentifier()+" "+event.getValue());
+        int total=0;
         switch(event.getComponent().getIdentifier().toString()){
-            case "rx": log.info("move bek "+event.getValue()+" "+event.getComponent().getIdentifier());
-                        orchestrationService.setSingleServo(configReader.getRx(),(int)(50*event.getValue()));
-                       break;
-            case "x": log.info("move bek "+event.getValue()+" "+event.getComponent().getIdentifier());
-                orchestrationService.setSingleServo(configReader.getXaxis(),(int)(50*event.getValue()));
+            case "x":
+                total = gamePadToServo(3,event.getValue());
+                orchestrationService.setSingleServo(3,total);
+                log.info("move "+configReader.getServoName(3)+" "+event.getValue()+" "+event.getComponent().getIdentifier() + " swing:"+total);
                 break;
 
-            case "ry": log.info("move bek "+event.getValue()+" "+event.getComponent().getIdentifier());
-                orchestrationService.setSingleServo(configReader.getRy(),(int)(50*event.getValue()));
-
+            case "y":
+                total = gamePadToServo(4,event.getValue());
+                orchestrationService.setSingleServo(4,total);
+                log.info("move "+configReader.getServoName(4)+" "+event.getValue()+" "+event.getComponent().getIdentifier() + " swing:"+total);
                 break;
-            case "y": log.info("move bek "+event.getValue()+" "+event.getComponent().getIdentifier());
-                orchestrationService.setSingleServo(configReader.getYaxis(),(int)(50*event.getValue()));
 
+            case "z":
+                total = gamePadToServo(5,event.getValue());
+                orchestrationService.setSingleServo(5,total);
+                log.info("move "+configReader.getServoName(5)+" "+event.getValue()+" "+event.getComponent().getIdentifier() + " swing:"+total);
                 break;
         }
 
-
     }
 
+
+    private int gamePadToServo(int servo,float gamePadValue){
+        float max = configReader.getServoMaxValue(servo);
+        float min = configReader.getServoMinValue(servo);
+        float defaultValue = configReader.getServoDefaultValue(servo);
+
+        if(gamePadValue<0) {
+            return (int)(defaultValue-((defaultValue-min)*gamePadValue));
+        }
+        return (int)(((max-defaultValue)*gamePadValue)+defaultValue);
+    }
 
 }

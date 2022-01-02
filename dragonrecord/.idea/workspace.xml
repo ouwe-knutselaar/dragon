@@ -24,8 +24,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/GameControllerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/GameControllerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,10 +193,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1638388648262" />
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1640959358240">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1641115211159">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1640959358240" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1641115211159" />
     <state width="1877" height="359" key="GridCell.Tab.0.bottom" timestamp="1641066838184">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

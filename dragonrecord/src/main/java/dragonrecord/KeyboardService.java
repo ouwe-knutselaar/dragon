@@ -30,6 +30,7 @@ public class KeyboardService implements Runnable{
         catch (IOException e) {
             e.printStackTrace();
         }
+        log.info("Keyboardservice stopped");
     }
 
     public void startKeyBoardService() {
@@ -121,6 +122,10 @@ public class KeyboardService implements Runnable{
         OrchestrationService orchestrationService = OrchestrationService.getInstance();
         orchestrationService.setCurrentMotion(paramlist[1]);
         orchestrationService.executeCurrentMotion();
+    }
+
+    public void stop(){
+        isRunning=false;
     }
 
 }

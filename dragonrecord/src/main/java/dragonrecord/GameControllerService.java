@@ -35,7 +35,7 @@ public class GameControllerService implements Runnable{
 
     public void startService(Controller gamepad) {
         this.gamepad = gamepad;
-        log.info("Start game controller service "+this.gamepad.getName());
+
         Thread thisThread = new Thread(this);
         thisThread.start();
     }
@@ -43,6 +43,7 @@ public class GameControllerService implements Runnable{
 
     @Override
     public void run() {
+        log.info("Start game controller service "+this.gamepad.getName());
         Event event = new Event();
         while(isRunning){
             gamepad.poll();
@@ -56,7 +57,7 @@ public class GameControllerService implements Runnable{
                 e.printStackTrace();
             }
         }
-
+        log.info("Gamecontroller stopped");
     }
 
     private void processEvent(Event event) {
@@ -94,6 +95,10 @@ public class GameControllerService implements Runnable{
             return (int)(defaultValue-((defaultValue-min)*gamePadValue));
         }
         return (int)(((max-defaultValue)*gamePadValue)+defaultValue);
+    }
+
+    public void stop(){
+        isRunning=false;
     }
 
 }

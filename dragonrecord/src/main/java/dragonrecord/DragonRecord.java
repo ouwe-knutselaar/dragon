@@ -9,6 +9,7 @@ public class DragonRecord {
 	private static final Logger log = Logger.getLogger(DragonRecord.class.getSimpleName());
 	private UDPNetworkService udpNetworkService;
 	private TimerService timerService;
+    GameControllerService gameControllerService;
 	private boolean running =true;
 	private static String configfile="config.conf";
 	
@@ -35,12 +36,17 @@ public class DragonRecord {
 	
 	public void run() throws InterruptedException {
 		while (running) {Thread.sleep(50000);}
-		udpNetworkService.stop();
-		timerService.stopService();
+
 	}
 	
 	public void init() throws InterruptedException {
 		log.info("Init Dragon Recorder");
+
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            udpNetworkService.stop();
+            timerService.stopService();
+            gameControllerService.stop();
+        }));
 
 		ConfigReader configReader = ConfigReader.getInstance();
 		configReader.setConfigFile(configfile);
@@ -57,7 +63,7 @@ public class DragonRecord {
 		KeyboardService keyboardService=new KeyboardService();
 		keyboardService.startKeyBoardService();
 
-		GameControllerService gameControllerService = new GameControllerService();
+		gameControllerService = new GameControllerService();
 	}
 	
 }

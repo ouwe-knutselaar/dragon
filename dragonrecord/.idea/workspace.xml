@@ -24,9 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/GameControllerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/GameControllerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,8 +145,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.DragonRecord" />
       <item itemvalue="Application.DragonRecord_clear" />
+      <item itemvalue="Application.DragonRecord" />
       <item itemvalue="JAR Application.dragonrecord-0.0.1-SNAPSHOT.jar" />
       <item itemvalue="Maven.dragonrecord [install]" />
     </list>

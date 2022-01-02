@@ -21,6 +21,7 @@ public class GameControllerService implements Runnable{
     private  Controller gamepad;
 
     public GameControllerService(){
+        System.setProperty("jinput.loglevel","FINEST");
 
         log.info("open gamecontroller");
         Optional<Controller> gamePad = Arrays.
@@ -29,7 +30,6 @@ public class GameControllerService implements Runnable{
                         getType().
                         equals(Controller.Type.GAMEPAD)).
                 findFirst();
-
         if(gamePad.isPresent())startService(gamePad.get());
     }
 
@@ -43,7 +43,7 @@ public class GameControllerService implements Runnable{
 
     @Override
     public void run() {
-        log.info("Start game controller service "+this.gamepad.getName());
+        log.info("Start game controller service "+gamepad.getName());
         Event event = new Event();
         while(isRunning){
             gamepad.poll();
@@ -57,6 +57,7 @@ public class GameControllerService implements Runnable{
                 e.printStackTrace();
             }
         }
+
         log.info("Gamecontroller stopped");
     }
 

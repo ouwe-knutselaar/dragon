@@ -146,8 +146,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.DragonRecord_clear" />
       <item itemvalue="Application.DragonRecord" />
+      <item itemvalue="Application.DragonRecord_clear" />
       <item itemvalue="JAR Application.dragonrecord-0.0.1-SNAPSHOT.jar" />
       <item itemvalue="Maven.dragonrecord [install]" />
     </list>

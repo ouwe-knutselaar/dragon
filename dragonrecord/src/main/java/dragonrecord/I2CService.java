@@ -116,6 +116,7 @@ public class I2CService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		log.debug("Led "+lednumber+" has value "+data);
 	}
 
 	

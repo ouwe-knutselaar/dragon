@@ -122,7 +122,7 @@ public class OrchestrationService {
 	}
 
 	public void setSingleServo(int servo, int servoValue) {
-		log.info("Set servo "+servo+" to "+servoValue);
+		log.debug("Set servo "+servo+" to "+servoValue);
 		currentServo=servo;
 		currentServoValue=servoValue;
 		try {

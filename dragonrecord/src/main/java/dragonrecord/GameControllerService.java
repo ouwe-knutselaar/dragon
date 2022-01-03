@@ -1,10 +1,7 @@
 package dragonrecord;
 
 
-import net.java.games.input.Controller;
-import net.java.games.input.ControllerEnvironment;
-import net.java.games.input.Event;
-import net.java.games.input.EventQueue;
+import net.java.games.input.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import java.util.Arrays;
@@ -53,6 +50,7 @@ public class GameControllerService implements Runnable{
                 while(eventQueue.getNextEvent(event)){
                     processEvent(event);
                 }
+                log.debug("Poll data "+gamepad.getComponent(Component.Identifier.Axis.X).getPollData());
             }
             else{
                 log.error("Controller in not longer valid");

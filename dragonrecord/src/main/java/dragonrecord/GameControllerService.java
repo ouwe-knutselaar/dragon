@@ -48,11 +48,16 @@ public class GameControllerService implements Runnable{
         log.info("Start game controller service "+gamepad.getName());
         Event event = new Event();
         while(isRunning){
-            gamepad.poll();
-            EventQueue eventQueue = gamepad.getEventQueue();
-            while(eventQueue.getNextEvent(event)){
-                processEvent(event);
+            if(gamepad.poll()){
+                EventQueue eventQueue = gamepad.getEventQueue();
+                while(eventQueue.getNextEvent(event)){
+                    processEvent(event);
+                }
             }
+            else{
+                log.error("Controller in not longer valid");
+            }
+
             try {
                 Thread.sleep(pollTime);
             } catch (InterruptedException e) {

@@ -21,7 +21,7 @@ public class UDPNetworkService implements Runnable{
 	
 	public UDPNetworkService() throws InterruptedException {
 		try {
-			if(ConfigReader.isDebug()) {
+			if(ConfigReader.getInstance().isDebug()) {
 				log.info("Set level to debug");
 				log.setLevel(Level.DEBUG);
 			}
@@ -61,8 +61,6 @@ public class UDPNetworkService implements Runnable{
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
 				if(choice=='s')orchestrationService.saveCurrentMotion(receivedDataString.substring(1));
 				if(choice=='e')orchestrationService.executeCurrentMotion();
-				if(choice=='u')orchestrationService.receiveWaveFile(receivedDataString.substring(1));
-				if(choice=='l')orchestrationService.sendMotions(receivePacket.getAddress());
 				if(choice=='v')orchestrationService.sendServoValues(receivePacket.getAddress());
 				if(choice=='f')orchestrationService.filterServo(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='x')orchestrationService.totalReset();

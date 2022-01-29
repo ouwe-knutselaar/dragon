@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import dragonrecord.files.FileManager;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -9,9 +10,8 @@ public class DragonRecord {
 	private static final Logger log = Logger.getLogger(DragonRecord.class.getSimpleName());
 	private UDPNetworkService udpNetworkService;
 	private TimerService timerService;
-    GameControllerService gameControllerService;
 	private boolean running =true;
-	private static String configfile="config.conf";
+	private static String configfile= "config.yml";
 	
 	public static void main(String[] argv) throws InterruptedException {
 
@@ -42,16 +42,18 @@ public class DragonRecord {
 	public void init() throws InterruptedException {
 		log.info("Init Dragon Recorder");
 
+
+
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             udpNetworkService.stop();
             timerService.stopService();
-            gameControllerService.stop();
         }));
 
 		ConfigReader configReader = ConfigReader.getInstance();
-		configReader.setConfigFile(configfile);
-		configReader.readConfiguration();
-		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+		configReader.readConfiguration(configfile);
+		if(configReader.isDebug())log.setLevel(Level.DEBUG);
+
+		FileManager fileManager = new FileManager(configReader.getActionPath());
 
 		timerService=TimerService.getInstance();
 		timerService.setTimeStep(configReader.getTimeStep());
@@ -63,7 +65,6 @@ public class DragonRecord {
 		KeyboardService keyboardService=new KeyboardService();
 		keyboardService.startKeyBoardService();
 
-		gameControllerService = new GameControllerService();
 	}
 	
 }

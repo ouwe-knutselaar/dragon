@@ -21,7 +21,7 @@ public class TimerService implements Runnable{
 	
 	private TimerService()
 	{
-		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
 		log.info("Make TimerService");
 		this.startTimer();
 	}

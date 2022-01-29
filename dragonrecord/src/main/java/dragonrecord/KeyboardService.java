@@ -11,7 +11,7 @@ public class KeyboardService implements Runnable{
     private boolean isRunning = true;
     public KeyboardService()
     {
-        if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+        if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
     }
 
 
@@ -47,13 +47,16 @@ public class KeyboardService implements Runnable{
             if (compareCommand(readedline,"ss")) toNewServoPosition(readedline);
             if (compareCommand(readedline,"dc")) orchestrationService.dumpConfig();
             if (compareCommand(readedline,"dm")) orchestrationService.dumpCurrentMotion();
-            if (compareCommand(readedline,"la")) orchestrationService.dumpListOfMotion();
             if (compareCommand(readedline,"as")) orchestrationService.startRandomMoving();
             if (compareCommand(readedline,"bs")) orchestrationService.stopRandomMoving();
             if (compareCommand(readedline,"wa")) waveFilepay(readedline);
             if (compareCommand(readedline,"rd")) orchestrationService.totalReset();
             if (compareCommand(readedline,"em")) playMotion(readedline);
             if (compareCommand(readedline,"tm")) toggleDebug();
+            if (compareCommand(readedline,"setmax")) setServoValue(readedline);
+            if (compareCommand(readedline,"setmin")) setServoValue(readedline);
+            if (compareCommand(readedline,"setrest")) setServoValue(readedline);
+            if (compareCommand(readedline,"addservo")) addServo(readedline);
         } catch (DragonException e)
         {
             log.error(e.getMessage());
@@ -83,13 +86,16 @@ public class KeyboardService implements Runnable{
         log.info("em [name]  Execute motion");
         log.info("dc  Dump the config");
         log.info("dm  dump current motion");
-        log.info("la  List all the motions");
         log.info("as  Automovement start");
         log.info("bs  Automovement stop");
         log.info("rd  Reset all to default");
         log.info("wa  [name] Play the wave file");
         log.info("es  [name] execute motion");
         log.info("tm  toggle debug mode");
+        log.info("setmax  [servo] [max]");
+        log.info("setmin  [servo] [min]");
+        log.info("setrest [servo] [rest]");
+        log.info("addservo [number] [name]  Add new servo");
     }
 
     public void toNewServoPosition(String readedline) throws DragonException {
@@ -124,8 +130,29 @@ public class KeyboardService implements Runnable{
         orchestrationService.executeCurrentMotion();
     }
 
+    private void setServoValue(String readedline){
+        log.info("Execute "+readedline);
+        String[] paramlist = getParm(readedline);
+        int servonumber = Integer.parseInt(paramlist[1]);
+        int newvalue = Integer.parseInt(paramlist[2]);
+        if(paramlist[0].equals("setmax"))ConfigReader.getInstance().updateServo("max",servonumber,newvalue);
+        if(paramlist[0].equals("setmin"))ConfigReader.getInstance().updateServo("min",servonumber,newvalue);
+        if(paramlist[0].equals("setrest"))ConfigReader.getInstance().updateServo("rest",servonumber,newvalue);
+    }
+
+    private void addServo(String readedline){
+        String[] paramlist = getParm(readedline);
+        int servonumber = Integer.parseInt(paramlist[1]);
+        String name = paramlist[2];
+        ConfigReader.getInstance().addServo(name,servonumber);
+    }
+
     public void stop(){
         isRunning=false;
+    }
+
+    private String[] getParm(String readedline){
+        return readedline.split("[\\s\\t]+");
     }
 
 }

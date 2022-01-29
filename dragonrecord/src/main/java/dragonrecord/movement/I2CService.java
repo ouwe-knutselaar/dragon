@@ -1,9 +1,11 @@
-package dragonrecord;
+package dragonrecord.movement;
 
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
+import dragonrecord.ConfigReader;
+import dragonrecord.DragonException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -29,7 +31,7 @@ public class I2CService {
 	private static final int SERVOMAX=15;
 
 	public I2CService() {
-		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
 		log.info("Make I2CService");
 	}
 

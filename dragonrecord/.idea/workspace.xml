@@ -23,7 +23,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/GameControllerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/GameControllerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.yml.org" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/config/Config.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/config/Servo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/files/FileManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/movement/MovementCoordinator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../actions/config.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../actions/config.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dragonrecord.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dragonrecord.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/FileXferServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/GameControllerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/I2CService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/movement/I2CService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/KeyboardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/MovementRecorder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/MovementRecorder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/OrchestrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/TimerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/TimerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/WaveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/WaveService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,15 +103,18 @@
       <recent name="D:\onze_projecten\dragon\dragonrecord" />
       <recent name="D:\onze_projecten\dragon\dragonrecord\src\main\resources" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\onze_projecten\dragon\dragonrecord" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.DragonRecord">
     <configuration name="DragonRecord" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dragonrecord.DragonRecord" />
       <module name="dragonrecord" />
-      <option name="PROGRAM_PARAMETERS" value="-config=D:\onze_projecten\dragon\actions\config.conf" />
+      <option name="PROGRAM_PARAMETERS" value="-config=D:\onze_projecten\dragon\dragonrecord\config.yml" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dragonrecord.*" />
+          <option name="PATTERN" value="dragonrecord.movement.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -105,7 +128,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/target" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dragonrecord.*" />
+          <option name="PATTERN" value="dragonrecord.movement.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -186,50 +209,66 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1638388658770" />
-    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638388648262">
+    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1642796291672">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1638388648262" />
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1641115211159">
+    <state x="414" y="174" width="1092" height="715" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1642796291672" />
+    <state x="706" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1643227542315">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1641115211159" />
-    <state width="1877" height="359" key="GridCell.Tab.0.bottom" timestamp="1641224779596">
+    <state x="706" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1643227542315" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1642796340772">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1642796340772" />
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1642795937620">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1642795937620" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1641325450536">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1641325450536" />
+    <state width="1877" height="362" key="GridCell.Tab.0.bottom" timestamp="1643229450544">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
-    <state width="1877" height="359" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1641224779596" />
-    <state width="1877" height="359" key="GridCell.Tab.0.center" timestamp="1641224779596">
+    <state width="1877" height="362" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1643229450544" />
+    <state width="1877" height="362" key="GridCell.Tab.0.center" timestamp="1643229450544">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
-    <state width="1877" height="359" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1641224779596" />
-    <state width="1877" height="359" key="GridCell.Tab.0.left" timestamp="1641224779596">
+    <state width="1877" height="362" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1643229450544" />
+    <state width="1877" height="362" key="GridCell.Tab.0.left" timestamp="1643229450544">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
-    <state width="1877" height="359" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1641224779596" />
-    <state width="1877" height="359" key="GridCell.Tab.0.right" timestamp="1641224779596">
+    <state width="1877" height="362" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1643229450544" />
+    <state width="1877" height="362" key="GridCell.Tab.0.right" timestamp="1643229450544">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
-    <state width="1877" height="359" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1641224779596" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1637179608795">
+    <state width="1877" height="362" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1643229450544" />
+    <state width="1877" height="449" key="GridCell.Tab.1.bottom" timestamp="1642797103777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1637179608795">
+    <state width="1877" height="449" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1642797103777" />
+    <state width="1877" height="449" key="GridCell.Tab.1.center" timestamp="1642797103777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1637179608795">
+    <state width="1877" height="449" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1642797103777" />
+    <state width="1877" height="449" key="GridCell.Tab.1.left" timestamp="1642797103777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1637179608795">
+    <state width="1877" height="449" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1642797103777" />
+    <state width="1877" height="449" key="GridCell.Tab.1.right" timestamp="1642797103777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1680.1050@0.0.1920.1040" timestamp="1637179608795" />
+    <state width="1877" height="449" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1642797103777" />
     <state x="514" y="248" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1637178477199">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

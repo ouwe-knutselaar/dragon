@@ -1,0 +1,19 @@
+
+timestep: 20
+debug: true
+actionpath: D:\erwin\dragon\actions
+
+servolist:
+  - name: servo0
+    servonummer: 0
+    minvalue: 100
+    maxvalue: 500
+    restvalue: 300
+    steps: 10
+    factor: 0.3
+  - name: servo1
+    servonummer: 1
+    minvalue: 100
+    maxvalue: 500
+    restvalue: 300
+    steps: 10

@@ -1,5 +1,6 @@
 package dragonrecord;
 
+import dragonrecord.movement.MovementCoordinator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -19,32 +20,23 @@ public class OrchestrationService {
 	private boolean playing=false;
 	private boolean moving=false;
 	private final MovementRecorder movementRecorder =new MovementRecorder();
-	private final I2CService i2cService = new I2CService();
 	private final WaveService waveService = WaveService.getInstance();
 	private final RandomMovementService randomMovementService = RandomMovementService.getInstance();
-	private final FileXferServer xferServer = new FileXferServer();
 	private final ConfigReader configReader = ConfigReader.getInstance();
 	private final String ACTIONS_DIR="actions";
-	private int currentServo;
-	private int currentServoValue;
 	private String currentMotionName;
-	private String[] listOfMotions;
+	private MovementCoordinator movementCoordinator;
 	
 	private OrchestrationService() {
-		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
+		movementCoordinator = new MovementCoordinator();
 		log.info("Init Orchestration service");
-		i2cService.init(50);
 
-		String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getMotionsDir());
-		listOfMotions =dirlist.split(";");
-		currentMotionName = listOfMotions[0];
-		setCurrentMotion(currentMotionName);
-		log.info("Current motion is: " + currentMotionName);
 		
 		timerService.addOnTimerEvent(new DragonEvent(){
 			@Override
 			public void handle(String msg, int step, int val2) throws DragonException {
-				if(recording) {
+				/*if(recording) {
 					movementRecorder.record(currentServo, currentServoValue, step);
 					i2cService.writeSingleLed(currentServo,currentServoValue);
 				}
@@ -56,8 +48,12 @@ public class OrchestrationService {
 						stopAll();
 					}
 				}
-				if(moving)randomMovementService.nextStep();
+				if(moving)randomMovementService.nextStep(); */
+
+				movementCoordinator.processServoStepsList();
 			}});
+
+
 	}
 	
 	public static OrchestrationService getInstance() {
@@ -97,11 +93,12 @@ public class OrchestrationService {
 		playing = false;
 		moving = false;
 		//i2cService.reset();
-		int valueList[]=new int[16];
+		/*int valueList[]=new int[16];
 		for(int i = 0 ; i<16;i++){
 			valueList[i] = configReader.getServoDefaultValue(i);
 		}
-		i2cService.writeAllServos(valueList);
+		i2cService.writeAllServos(valueList);*/
+		movementCoordinator.allToDefault();
 		log.info("Stop all activities");
 	}
 
@@ -113,23 +110,12 @@ public class OrchestrationService {
 	public void totalReset() {
 		log.info("Reset current recording");
 		movementRecorder.reset();
-		// i2cService.reset();
-		int valueList[]=new int[16];
-		for(int i = 0 ; i<16;i++){
-			valueList[i] = configReader.getServoDefaultValue(i);
-		}
-		i2cService.writeAllServos(valueList);
+		movementCoordinator.fullReset();
 	}
 
 	public void setSingleServo(int servo, int servoValue) {
 		log.debug("Set servo "+servo+" to "+servoValue);
-		currentServo=servo;
-		currentServoValue=servoValue;
-		try {
-			i2cService.writeSingleLed(currentServo,currentServoValue);
-		} catch (DragonException e) {
-			log.error("Cannot set sible servo "+e.getMessage());
-		}
+		movementCoordinator.goToNewValue(servo,servoValue);
 	}
 
 	public void dumpCurrentMotion() {
@@ -162,29 +148,7 @@ public class OrchestrationService {
 		playing=true;
 	}
 
-	public void receiveWaveFile(String waveName) {
-		waveName=waveName.trim();
-		String waveFile=String.format("%s\\actions\\%s\\%s.wav",selectRootDir(),waveName,waveName);
-		log.info("Receive file "+waveFile);
-		xferServer.serverloop(waveFile);
-		log.info("File received");
-	}
 
-	public void sendMotions(InetAddress inetAddress) {
-		try {
-			DatagramSocket clientSocket = new DatagramSocket();
-			log.info("Reqeust to deliver the list of actions");
-			String dirlist = xferServer.getSemiColonSeparatedDirectoryListing(getMotionsDir());
-			DatagramPacket sendPacket = new DatagramPacket(dirlist.getBytes(), dirlist.length(), inetAddress, 3003);
-			clientSocket.send(sendPacket);
-			clientSocket.close();
-			log.info("List of motions send");
-		} catch (SocketException e) {
-			log.error("Socket opening issue "+e.getMessage());
-		} catch (IOException e) {
-			log.error("IO exception "+e.getMessage());
-		}
-	}
 
 	public void sendServoValues(InetAddress inetAddress) {
 		try {
@@ -244,14 +208,8 @@ public class OrchestrationService {
 	}
 
 
-	public void dumpListOfMotion() {
-		log.info("List of motions");
-		for (String motion : listOfMotions) log.info("  " + motion);
-	}
-
 	public void dumpConfig() {
 		configReader.dumpConfig();
-		i2cService.dumpPCA9685();
 	}
 
 	public void playWaveFile(String waveName) {

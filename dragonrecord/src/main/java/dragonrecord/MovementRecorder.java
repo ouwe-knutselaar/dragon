@@ -22,7 +22,7 @@ public class MovementRecorder {
 	private int laststep=0;
 
 	public MovementRecorder(){
-		if(ConfigReader.isDebug())log.setLevel(Level.DEBUG);
+		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
 		log.info("Init MovementRecorder()");
 		reset();
 	}

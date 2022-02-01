@@ -1,37 +1,24 @@
 package dragonrecord.movement;
 
 import dragonrecord.ConfigReader;
-import dragonrecord.DragonEvent;
-import dragonrecord.DragonException;
 import dragonrecord.TimerService;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MovementCoordinator {
 
     private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
-
-    ConfigReader configReader = ConfigReader.getInstance();
-    TimerService timerService = TimerService.getInstance();
-
     private final I2CService i2cService = new I2CService();
+    private Map<Integer,ServoRecord> servoRecordList = new HashMap<>();
 
-    Map<Integer,ServoRecord> servoRecordList = new HashMap<>();
     public MovementCoordinator(){
         if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
         i2cService.init(50);
-        configReader.getServoList().forEach(servo -> servoRecordList.put(servo.getServonummer(),new ServoRecord(servo)));
-
-        timerService.addOnTimerEvent(new DragonEvent() {
-            @Override
-            public void handle(String msg, int val1, int val2) throws InterruptedException, DragonException, IOException {
-                processServoStepsList();
-            }
-        });
+        ConfigReader.getInstance().getServoList().forEach(servo -> servoRecordList.put(servo.getServonummer(),new ServoRecord(servo)));
+        TimerService.getInstance().addOnTimerEvent((msg, val1, val2) -> processServoStepsList());
     }
 
 

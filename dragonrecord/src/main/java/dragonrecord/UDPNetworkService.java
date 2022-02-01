@@ -55,6 +55,7 @@ public class UDPNetworkService implements Runnable{
 				log.debug("UDP data received:"+(receivedDataString.trim()));
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
+				if(choice=='n')positionFloatServo(receivedDataString);
 				if(choice=='c')orchestrationService.setCurrentMotion(receivedDataString.substring(1));
 				if(choice=='r')orchestrationService.startTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='t')orchestrationService.stopTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
@@ -72,7 +73,13 @@ public class UDPNetworkService implements Runnable{
 		log.info("UDPNetworkService stopped");
 	}
 
-	
+	private void positionFloatServo(String receivedDataString) {
+		log.debug(receivedDataString);
+		String[] parameters=receivedDataString.split(" ");
+		OrchestrationService.getInstance().setSingleServo(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
+	}
+
+
 	public void stop()
 	{
 		log.info("Stopping the UDPNetworkService service");

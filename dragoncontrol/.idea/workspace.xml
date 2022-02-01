@@ -25,6 +25,7 @@
     <list default="true" id="56f6f735-ca85-47c1-96b0-b58f6a7dff3b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/UDPNetworkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dragonrecord/src/main/java/dragonrecord/UDPNetworkService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

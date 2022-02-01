@@ -99,29 +99,28 @@ public class I2CService {
 		
 	}
 	
-	public void writeSingleLed(int lednumber, int data) throws DragonException {
-
-		if(lednumber < SERVOMIN)throw new DragonException ("led or servo number cannot be less then 0");
-		if(lednumber > SERVOMAX)throw new DragonException("led or servo number cannot be more then 15");
-		if(data < 0)throw new DragonException("led or servo value cannot be more then 0");
-		if(data > 4095)throw new DragonException("led or servo value cannot be more then 4095");
-
-        byte[] result=new byte[4];
-        result[1] = (byte) ((data & 0xFF000000) >> 24);		// LED ON_L
-        result[0] = (byte) ((data & 0x00FF0000) >> 16);		// LED ON_H
-        result[3] = (byte) ((data & 0x0000FF00) >> 8);		// LED OFF_L
-        result[2] = (byte) ((data & 0x000000FF) >> 0);		// LED OFF_H
-            
-		if(demoMode)return;
+	public void writeSingleLed(int lednumber, int data) {
 		try {
+			log.info("servo "+lednumber+" has value "+data);
+			if(demoMode)return;
+			if(lednumber < SERVOMIN)throw new DragonException ("led or servo number cannot be less then 0");
+			if(lednumber > SERVOMAX)throw new DragonException("led or servo number cannot be more then 15");
+			if(data < 0)throw new DragonException("led or servo value cannot be more then 0");
+			if(data > 4095)throw new DragonException("led or servo value cannot be more then 4095");
+
+        	byte[] result=new byte[4];
+        	result[1] = (byte) ((data & 0xFF000000) >> 24);		// LED ON_L
+        	result[0] = (byte) ((data & 0x00FF0000) >> 16);		// LED ON_H
+        	result[3] = (byte) ((data & 0x0000FF00) >> 8);		// LED OFF_L
+        	result[2] = (byte) ((data & 0x000000FF) >> 0);		// LED OFF_H
+
 			i2cdev.write(LEDBASELIST[lednumber],result);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | DragonException e) {
+			log.error("Error "+e.getMessage());
 		}
-		log.debug("Led "+lednumber+" has value "+data);
 	}
 
-	
+
 	public void writeAllServos(int[] valueList) {
 		try {
 			log.debug("Write valuelist tot the I2C device " + Arrays.toString(valueList));

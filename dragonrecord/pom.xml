@@ -103,8 +103,6 @@
 							<goal>copy</goal>
 						</goals>
 						<configuration>
-							<sourceFile>src/main/resources/config.conf</sourceFile>
-							<destinationFile>target/config.conf</destinationFile>
 						</configuration>
 					</execution>
 				</executions>

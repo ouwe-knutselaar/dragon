@@ -114,7 +114,7 @@ public class OrchestrationService {
 	}
 
 	public void setSingleServo(int servo, int servoValue) {
-		log.debug("Set servo "+servo+" to "+servoValue);
+		log.debug("Command to set servo "+servo+" to relative position "+servoValue);
 		movementCoordinator.goToNewValue(servo,servoValue);
 	}
 
@@ -148,8 +148,6 @@ public class OrchestrationService {
 		playing=true;
 	}
 
-
-
 	public void sendServoValues(InetAddress inetAddress) {
 		try {
 			DatagramSocket clientSocket = new DatagramSocket();
@@ -179,11 +177,6 @@ public class OrchestrationService {
 		return "unknown";
 	}
 
-	private String getMotionsDir() {
-		StringBuilder motionsDir=new StringBuilder(selectRootDir())
-								.append(ACTIONS_DIR);
-		return motionsDir.toString();
-	}
 
 	private String getRecordingWaveName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())

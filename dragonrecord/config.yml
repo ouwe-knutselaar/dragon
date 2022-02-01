@@ -22,5 +22,5 @@ servolist:
   steps: 20
   factor: 0.5
 debug: true
-timestep: 20
+timestep: 200
 actionpath: "D:\\erwin\\dragon\\actions"

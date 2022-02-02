@@ -58,8 +58,6 @@ public class DragonRecord {
 
 		FileManager fileManager = new FileManager(configReader.getActionPath());
 
-
-
 		udpNetworkService = new UDPNetworkService();
 		udpNetworkService.startUDPNetworkService();
 

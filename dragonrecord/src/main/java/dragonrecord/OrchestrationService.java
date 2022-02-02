@@ -82,10 +82,7 @@ public class OrchestrationService {
 	}
 
 	public void startRandomMoving(){
-		recording = false;
-		playing = false;
-		moving = true;
-		log.info("Switch to random movements");
+		randomMovementService.startRandomMovement();
 	}
 
 	public void stopAll() {
@@ -103,7 +100,6 @@ public class OrchestrationService {
 	}
 
 	public void stopRandomMoving() {
-		log.info("Stop random moving");
 		randomMovementService.stopRandomMovement();
 	}
 

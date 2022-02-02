@@ -22,7 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="" />
+    <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/RandomMovementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/RandomMovementService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

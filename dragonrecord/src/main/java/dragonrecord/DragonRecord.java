@@ -53,11 +53,12 @@ public class DragonRecord {
 		configReader.readConfiguration(configfile);
 		if(configReader.isDebug())log.setLevel(Level.DEBUG);
 
-		FileManager fileManager = new FileManager(configReader.getActionPath());
-
 		timerService=TimerService.getInstance();
 		timerService.setTimeStep(configReader.getTimeStep());
-		timerService.startTimer();
+
+		FileManager fileManager = new FileManager(configReader.getActionPath());
+
+
 
 		udpNetworkService = new UDPNetworkService();
 		udpNetworkService.startUDPNetworkService();
@@ -65,6 +66,7 @@ public class DragonRecord {
 		KeyboardService keyboardService=new KeyboardService();
 		keyboardService.startKeyBoardService();
 
+		timerService.startTimer();
 	}
 	
 }

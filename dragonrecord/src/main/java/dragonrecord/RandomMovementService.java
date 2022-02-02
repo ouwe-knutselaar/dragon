@@ -42,8 +42,8 @@ public class RandomMovementService {
             stepWaiting--;
             return;
         }
-        stepWaiting= random.nextInt(2000)-1000;
-        OrchestrationService.getInstance().setSingleServo(1,stepWaiting);
+        stepWaiting= random.nextInt(2000);
+        OrchestrationService.getInstance().setSingleServo(1,random.nextInt(2000)-1000);
 
     }
 

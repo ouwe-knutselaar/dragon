@@ -9,6 +9,7 @@ public class Config {
     private boolean debug;
     private int timestep;
     private String actionpath;
+    private int randommaxinterval;
 
     public List<Servo> getServolist() {
         return servolist;
@@ -42,6 +43,13 @@ public class Config {
         this.actionpath = actionpath;
     }
 
+    public int getRandommaxinterval() {
+        return randommaxinterval;
+    }
+
+    public void setRandommaxinterval(int randommaxinterval) {
+        this.randommaxinterval = randommaxinterval;
+    }
 
     @Override
     public String toString() {
@@ -49,6 +57,7 @@ public class Config {
         out.append("debug=").append(debug).append(System.lineSeparator());
         out.append("timestep=").append(timestep).append(System.lineSeparator());
         out.append("actionpath=").append(actionpath).append(System.lineSeparator());
+        out.append("randommaxinterval=").append(randommaxinterval).append(System.lineSeparator());
         servolist.forEach(servo -> out.append(servo.toString()).append(System.lineSeparator()));
         return out.toString();
     }

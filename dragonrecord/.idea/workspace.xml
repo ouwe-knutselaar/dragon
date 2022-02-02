@@ -23,8 +23,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b1ac894-5bdd-4862-a15b-7f1f0b834e74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/DragonRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/ConfigReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/RandomMovementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/RandomMovementService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dragonrecord/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dragonrecord/config/Config.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,10 +201,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="706" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1643227542315" />
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1643749383817">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1643819836776">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1643749383817" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1643819836776" />
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1643747667609">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

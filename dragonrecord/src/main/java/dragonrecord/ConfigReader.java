@@ -67,6 +67,10 @@ public class ConfigReader {
         return config.getTimestep();
     }
 
+    public int getRandommaxinterval(){
+        return config.getRandommaxinterval();
+    }
+
     public boolean isValidServo(int servoNumber){
         return servoList.containsKey(servoNumber);
     }

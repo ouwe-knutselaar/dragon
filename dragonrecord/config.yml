@@ -22,5 +22,6 @@ servolist:
   steps: 20
   factor: 0.5
 debug: true
-timestep: 200
+timestep: 20
 actionpath: "D:\\erwin\\dragon\\actions"
+randommaxinterval: 200

@@ -4,7 +4,7 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
-import dragonrecord.ConfigReader;
+import dragonrecord.config.ConfigReader;
 import dragonrecord.DragonException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

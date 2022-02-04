@@ -1,5 +1,7 @@
-package dragonrecord;
+package dragonrecord.network;
 
+import dragonrecord.OrchestrationService;
+import dragonrecord.config.ConfigReader;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 

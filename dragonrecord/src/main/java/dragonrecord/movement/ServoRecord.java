@@ -1,6 +1,6 @@
 package dragonrecord.movement;
 
-import dragonrecord.ConfigReader;
+import dragonrecord.config.ConfigReader;
 import dragonrecord.config.Servo;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

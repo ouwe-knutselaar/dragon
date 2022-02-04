@@ -1,9 +1,7 @@
-package dragonrecord;
+package dragonrecord.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import dragonrecord.config.Config;
-import dragonrecord.config.Servo;
 import org.apache.log4j.Logger;
 
 import java.io.File;

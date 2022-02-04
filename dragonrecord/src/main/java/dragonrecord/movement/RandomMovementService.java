@@ -1,5 +1,8 @@
-package dragonrecord;
+package dragonrecord.movement;
 
+import dragonrecord.OrchestrationService;
+import dragonrecord.TimerService;
+import dragonrecord.config.ConfigReader;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 

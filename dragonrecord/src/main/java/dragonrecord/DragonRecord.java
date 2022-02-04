@@ -1,6 +1,8 @@
 package dragonrecord;
 
+import dragonrecord.config.ConfigReader;
 import dragonrecord.files.FileManager;
+import dragonrecord.network.UDPNetworkService;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -41,8 +43,6 @@ public class DragonRecord {
 	
 	public void init() throws InterruptedException {
 		log.info("Init Dragon Recorder");
-
-
 
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             udpNetworkService.stop();

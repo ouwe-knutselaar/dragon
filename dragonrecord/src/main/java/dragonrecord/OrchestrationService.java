@@ -1,6 +1,9 @@
 package dragonrecord;
 
+import dragonrecord.config.ConfigReader;
 import dragonrecord.movement.MovementCoordinator;
+import dragonrecord.recorder.MovementRecorder;
+import dragonrecord.movement.RandomMovementService;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -67,12 +70,6 @@ public class OrchestrationService {
 		recording = false;
 		playing = false;
 		moving = false;
-		//i2cService.reset();
-		/*int valueList[]=new int[16];
-		for(int i = 0 ; i<16;i++){
-			valueList[i] = configReader.getServoDefaultValue(i);
-		}
-		i2cService.writeAllServos(valueList);*/
 		movementCoordinator.allToDefault();
 		log.info("Stop all activities");
 	}
@@ -151,7 +148,6 @@ public class OrchestrationService {
 		return "unknown";
 	}
 
-
 	private String getRecordingWaveName() {
 		StringBuilder waveFile=new StringBuilder(selectRootDir())
 									.append(ACTIONS_DIR)
@@ -173,7 +169,6 @@ public class OrchestrationService {
 									.append(".seq");
 		return waveFile.toString();
 	}
-
 
 	public void dumpConfig() {
 		configReader.dumpConfig();

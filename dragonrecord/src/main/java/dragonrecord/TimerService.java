@@ -56,10 +56,10 @@ public class TimerService implements Runnable{
 				currentTime=System.currentTimeMillis();	
 				if((currentTime-oldtime)>interval)						// Meer dan Interval voorbij?
 				{
-					for(DragonEvent handler:eventHandlersList)	// Genereer events
+					for(DragonEvent dragonEvent:eventHandlersList)	// Genereer events
 					{
 						try {
-							handler.handle("timer", step,0);
+							dragonEvent.handle("timer", step,0);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 							Thread.currentThread().interrupt();

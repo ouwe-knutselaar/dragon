@@ -32,28 +32,6 @@ public class OrchestrationService {
 		movementCoordinator = new MovementCoordinator();
 		log.info("Init Orchestration service");
 
-		
-		timerService.addOnTimerEvent(new DragonEvent(){
-			@Override
-			public void handle(String msg, int step, int val2) throws DragonException {
-				/*if(recording) {
-					movementRecorder.record(currentServo, currentServoValue, step);
-					i2cService.writeSingleLed(currentServo,currentServoValue);
-				}
-				if(playing){
-					int[] servosteps = movementRecorder.getServoValuesFromStep(step);
-					if(servosteps[0] != -1)i2cService.writeAllServos(servosteps);
-					else{
-						log.info("Current motion ended");
-						stopAll();
-					}
-				}
-				if(moving)randomMovementService.nextStep(); */
-
-				movementCoordinator.processServoStepsList();
-			}});
-
-
 	}
 	
 	public static OrchestrationService getInstance() {

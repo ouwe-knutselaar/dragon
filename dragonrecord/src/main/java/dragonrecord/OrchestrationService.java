@@ -2,8 +2,9 @@ package dragonrecord;
 
 import dragonrecord.config.ConfigReader;
 import dragonrecord.movement.MovementCoordinator;
-import dragonrecord.recorder.MovementRecorder;
 import dragonrecord.movement.RandomMovementService;
+import dragonrecord.network.UDPNetworkService;
+import dragonrecord.recorder.MovementRecorder;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -16,50 +17,49 @@ import java.net.SocketException;
 
 public class OrchestrationService {
 
-	private final Logger log = Logger.getLogger(OrchestrationService.class.getSimpleName());
-	private static OrchestrationService classInstance;
-	private static final TimerService timerService =TimerService.getInstance();
-	private boolean recording=false;
-	private boolean playing=false;
-	private boolean moving=false;
-	private final MovementRecorder movementRecorder =new MovementRecorder();
-	private final WaveService waveService = WaveService.getInstance();
-	private final RandomMovementService randomMovementService = RandomMovementService.getInstance();
-	private final ConfigReader configReader = ConfigReader.getInstance();
+	private final Logger log = Logger.getLogger("OrchestrationService");
+	private WaveService waveService;
+	private final MovementRecorder movementRecorder;
+	private final RandomMovementService randomMovementService;
+	private final UDPNetworkService udpNetworkService;
+	private final ConfigReader configReader;
 	private final String ACTIONS_DIR="actions";
 	private String currentMotionName;
+	private KeyboardService keyboardService;
 	private MovementCoordinator movementCoordinator;
-	
-	private OrchestrationService() {
-		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
-		movementCoordinator = new MovementCoordinator();
+
+
+	public OrchestrationService(ConfigReader configReader) {
+		this.configReader=  configReader;
+		if(this.configReader.isDebug())log.setLevel(Level.DEBUG);
 		log.info("Init Orchestration service");
-
+		udpNetworkService = new UDPNetworkService(this);
+		keyboardService = new KeyboardService(this);
+		waveService = WaveService.getInstance();
+		movementRecorder =new MovementRecorder();
+		randomMovementService = new RandomMovementService(this);
+		movementCoordinator = new MovementCoordinator();
 	}
 	
-	public static OrchestrationService getInstance() {
-		if(classInstance == null) {
-			classInstance = new OrchestrationService();
-		}
-		return classInstance;
-	}
+	//public static OrchestrationService getInstance() {
+	//	if(classInstance == null) {
+	//		classInstance = new OrchestrationService();
+	//	}
+	//	return classInstance;
+	//}
 
-	public void startTrackRecording(int servo) {
-		waveService.playWave(getRecordingWaveName());
-		timerService.stepReset();
-		movementRecorder.startRecording();
-		recording=true;
-		playing=true;
-		moving = false;
-		log.info("Start recording of "+servo);
+	public void toggleTrackRecording() {
+		if(movementRecorder.isRecording())movementRecorder.stopRecording();
+		else movementRecorder.startRecording();
 	}
 
 	public void stopTrackRecording(int servo) {
-		recording=false;
-		playing=false;
-		moving = false;
-		movementRecorder.stopRecording(servo);
-		log.info("Stop recording at "+movementRecorder.getLastStep());
+		if(movementRecorder.isRecording())movementRecorder.stopRecording();
+	}
+
+	public void resetTrack(){
+		if(movementRecorder.isRecording())return;
+		movementRecorder.reset();
 	}
 
 	public void startRandomMoving(){
@@ -67,9 +67,7 @@ public class OrchestrationService {
 	}
 
 	public void stopAll() {
-		recording = false;
-		playing = false;
-		moving = false;
+
 		movementCoordinator.allToDefault();
 		log.info("Stop all activities");
 	}
@@ -85,17 +83,15 @@ public class OrchestrationService {
 	}
 
 	public void setSingleServo(int servo, int servoValue) {
-		log.debug("Command to set servo "+servo+" to relative position "+servoValue);
 		movementCoordinator.goToNewValue(servo,servoValue);
+		movementRecorder.writeServo(servo,servoValue);
 	}
 
 	public void dumpCurrentMotion() {
-		log.info("dump current motion " + currentMotionName);
 		log.info(System.lineSeparator()+movementRecorder);
 	}
 
 	public void saveCurrentMotion(String actionType) throws IOException {
-		log.info("Save current motion");
 		movementRecorder.writeSequenceFile(getSequenceFileName(),actionType);
 	}
 
@@ -113,10 +109,6 @@ public class OrchestrationService {
 
 	public void executeCurrentMotion() {
 		log.info("Play current motion");
-		waveService.playWave(getRecordingWaveName());
-		timerService.stepReset();
-		recording=false;
-		playing=true;
 	}
 
 	public void sendServoValues(InetAddress inetAddress) {
@@ -138,7 +130,7 @@ public class OrchestrationService {
 
 	public void filterServo(int servo) {
 		log.info("Run filter for servo "+servo);
-		movementRecorder.filter(servo);
+
 	}
 
 	public static String selectRootDir() {
@@ -172,6 +164,7 @@ public class OrchestrationService {
 
 	public void dumpConfig() {
 		configReader.dumpConfig();
+		movementRecorder.listTrackEnabled();
 	}
 
 	public void playWaveFile(String waveName) {
@@ -186,4 +179,10 @@ public class OrchestrationService {
 	}
 
 
+	public void stopDragon() {
+	}
+
+	public void toggleTrackRecordng(int servo) {
+		movementRecorder.toggleEnabledForRecording(servo);
+	}
 }

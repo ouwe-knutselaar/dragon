@@ -14,8 +14,18 @@ public class MoveRecord {
         record[servo] = value;
     }
 
+    private int getValue(int servo){
+        return record[servo];
+    }
+
     public int[] getRecord(){
         return record;
+    }
+
+    public void andRecord(MoveRecord andRecord){
+        for(int tel=0;tel<NUM_OF_SERVOS;tel++){
+            if(andRecord.getValue(tel)!=0)this.record[tel]=andRecord.getValue(tel);
+        }
     }
 
 

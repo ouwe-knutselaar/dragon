@@ -21,9 +21,12 @@ public class RandomMovementService {
     private Random random = new Random();
     private int maxrandomsteps;
     private int numberOfServos;
+    private OrchestrationService orchestrationService;
 
-    private RandomMovementService() {
+    public RandomMovementService(OrchestrationService orchestrationService) {
+        this.orchestrationService = orchestrationService;
         if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
+        log.info("Initialize RandomMovementService");
         maxrandomsteps=ConfigReader.getInstance().getRandommaxinterval();
         ConfigReader.getInstance().getServoList().forEach(servo -> servoPositionList.add(servo.getServonummer()));
         numberOfServos = servoPositionList.size();
@@ -32,10 +35,6 @@ public class RandomMovementService {
         });
     }
 
-    public static RandomMovementService getInstance() {
-        if(classInstance == null)classInstance = new RandomMovementService();
-        return classInstance;
-    }
 
     private  void randomMovement(){
         if(stepWaiting > 0){
@@ -43,7 +42,7 @@ public class RandomMovementService {
             return;
         }
         stepWaiting= random.nextInt(maxrandomsteps);
-        OrchestrationService.getInstance().setSingleServo(random.nextInt(numberOfServos),random.nextInt(2000)-1000);
+        orchestrationService.setSingleServo(random.nextInt(numberOfServos),random.nextInt(2000)-1000);
     }
 
     public void startRandomMovement(){

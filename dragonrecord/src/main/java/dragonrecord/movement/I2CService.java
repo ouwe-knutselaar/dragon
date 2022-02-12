@@ -54,10 +54,10 @@ public class I2CService {
 			log.info("Init done");
 			
 		} catch (UnsupportedBusNumberException e) {
-			log.info("UnsupportedBusNumberException switch to demo mode"+e.getMessage());
+			log.info("UnsupportedBusNumberException switch to demo mode "+e.getMessage());
 			demoMode = true;
 		} catch (IOException e) {
-			log.error("IO Exception, switch to demo mode"+e.getMessage());
+			log.error("IO Exception, switch to demo mode "+e.getMessage());
 			e.printStackTrace();
 			demoMode = true;
 		} 
@@ -101,7 +101,7 @@ public class I2CService {
 	
 	public void writeSingleLed(int lednumber, int data) {
 		try {
-			log.info("servo "+lednumber+" has value "+data);
+			log.debug("servo "+lednumber+" has value "+data);
 			if(demoMode)return;
 			if(lednumber < SERVOMIN)throw new DragonException ("led or servo number cannot be less then 0");
 			if(lednumber > SERVOMAX)throw new DragonException("led or servo number cannot be more then 15");

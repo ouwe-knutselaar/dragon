@@ -1,8 +1,6 @@
 package dragonrecord;
 
 import dragonrecord.config.ConfigReader;
-import dragonrecord.files.FileManager;
-import dragonrecord.network.UDPNetworkService;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -10,10 +8,10 @@ import org.apache.log4j.Logger;
 public class DragonRecord {
 	
 	private static final Logger log = Logger.getLogger(DragonRecord.class.getSimpleName());
-	private UDPNetworkService udpNetworkService;
 	private TimerService timerService;
 	private boolean running =true;
 	private static String configfile= "config.yml";
+	private OrchestrationService orchestrationService;
 	
 	public static void main(String[] argv) throws InterruptedException {
 
@@ -44,27 +42,20 @@ public class DragonRecord {
 	public void init() throws InterruptedException {
 		log.info("Init Dragon Recorder");
 
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            udpNetworkService.stop();
-            timerService.stopService();
-        }));
-
 		ConfigReader configReader = ConfigReader.getInstance();
 		configReader.readConfiguration(configfile);
 		if(configReader.isDebug())log.setLevel(Level.DEBUG);
 
-		timerService=TimerService.getInstance();
-		timerService.setTimeStep(configReader.getTimeStep());
+		timerService = TimerService.getInstance();
 
-		FileManager fileManager = new FileManager(configReader.getActionPath());
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			orchestrationService.stopDragon();
+            timerService.stopService();
+        }));
 
-		udpNetworkService = new UDPNetworkService();
-		udpNetworkService.startUDPNetworkService();
+		orchestrationService = new OrchestrationService(configReader);
 
-		KeyboardService keyboardService=new KeyboardService();
-		keyboardService.startKeyBoardService();
 
-		timerService.startTimer();
 	}
 	
 }

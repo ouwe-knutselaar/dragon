@@ -11,12 +11,15 @@ import java.util.Map;
 public class MovementCoordinator {
 
     private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
-    private final I2CService i2cService = new I2CService();
+    private final I2CService i2cService;
     private Map<Integer,ServoRecord> servoRecordList = new HashMap<>();
 
     public MovementCoordinator(){
         if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
+        log.info("initialize MovementCoordinator");
+        i2cService = new I2CService();
         i2cService.init(50);
+        log.info("Load the servo's");
         ConfigReader.getInstance().getServoList().forEach(servo -> servoRecordList.put(servo.getServonummer(),new ServoRecord(servo)));
         TimerService.getInstance().addOnTimerEvent((msg, val1, val2) -> processServoStepsList());
     }
@@ -37,7 +40,9 @@ public class MovementCoordinator {
 
     public void goToNewValue(int servo, int newvalue){
         log.debug("Send servo "+servo+" to new relative position "+ newvalue);
-        servoRecordList.get(servo).goToNewPosition(newvalue);
+        if(servoRecordList.containsKey(servo)) {
+            servoRecordList.get(servo).goToNewPosition(newvalue);
+        }
     }
 
     public void allToDefault() {

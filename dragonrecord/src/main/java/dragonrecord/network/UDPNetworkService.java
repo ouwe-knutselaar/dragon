@@ -4,7 +4,6 @@ import dragonrecord.OrchestrationService;
 import dragonrecord.config.ConfigReader;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -14,22 +13,20 @@ import java.net.SocketException;
 
 public class UDPNetworkService implements Runnable{
 	
-	private OrchestrationService orchestrationService=OrchestrationService.getInstance();
+	private OrchestrationService orchestrationService;
 	private final Logger log=Logger.getLogger(UDPNetworkService.class.getSimpleName());
 	private boolean running=true;
 	private byte[] receiveData = new byte[1024];
 	private DatagramSocket serverSocket;
 	
 	
-	public UDPNetworkService() throws InterruptedException {
+	public UDPNetworkService(OrchestrationService orchestrationService) {
 		try {
-			if(ConfigReader.getInstance().isDebug()) {
-				log.info("Set level to debug");
-				log.setLevel(Level.DEBUG);
-			}
-			log.debug("loglevel set tot debug");
-			log.info("Make the networking service");
+			this.orchestrationService = orchestrationService;
+			if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
+			log.info("Initialize the networking service");
 			serverSocket = new DatagramSocket(3001);
+			startUDPNetworkService();
 		} catch (SocketException e) {
 			log.fatal("UDP Socket Error "+e.getMessage());
 			e.printStackTrace();
@@ -37,8 +34,7 @@ public class UDPNetworkService implements Runnable{
 		}
 	}
 	
-	public void startUDPNetworkService()
-	{
+	public void startUDPNetworkService() {
 		log.info("Start UDPNetworkService on port 3001");
 		Thread thisThread=new Thread(this);
 		thisThread.start();
@@ -46,7 +42,6 @@ public class UDPNetworkService implements Runnable{
 	
 	@Override
 	public void run() {
-		log.info("UDPNetworkService thread started");
 		String receivedDataString = "";
 		while (running) {
 			try {
@@ -57,9 +52,9 @@ public class UDPNetworkService implements Runnable{
 				log.debug("UDP data received:"+(receivedDataString.trim()));
 				char choice=receivedDataString.charAt(0);
 				if(choice=='p')positionServo(receivedDataString);
-				if(choice=='n')positionFloatServo(receivedDataString);
+				if(choice=='n') gameControllerInput(receivedDataString);
 				if(choice=='c')orchestrationService.setCurrentMotion(receivedDataString.substring(1));
-				if(choice=='r')orchestrationService.startTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
+				if(choice=='r')orchestrationService.toggleTrackRecording();
 				if(choice=='t')orchestrationService.stopTrackRecording(Integer.parseInt(receivedDataString.substring(2,4)));
 				if(choice=='d')orchestrationService.dumpCurrentMotion();
 				if(choice=='s')orchestrationService.saveCurrentMotion(receivedDataString.substring(1));
@@ -75,20 +70,37 @@ public class UDPNetworkService implements Runnable{
 		log.info("UDPNetworkService stopped");
 	}
 
-	private void positionFloatServo(String receivedDataString) {
+	private void gameControllerInput(String receivedDataString) {
 		log.debug(receivedDataString);
 		String[] parameters=receivedDataString.split(" ");
-		OrchestrationService.getInstance().setSingleServo(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
+		int value = Integer.parseInt(parameters[2]);
+		switch(parameters[1]){
+			case "0": if(value==1000)orchestrationService.toggleTrackRecording();
+						break;
+			case "1": if(value==1000)orchestrationService.executeCurrentMotion();
+						break;
+			case "2": if(value==1000)orchestrationService.dumpCurrentMotion();
+						break;
+			case "3": if(value==1000)orchestrationService.resetTrack();
+						break;
+			case "x": orchestrationService.setSingleServo(0,value);
+						break;
+			case "y":   orchestrationService.setSingleServo(1,value);
+						break;
+			case "rx":  orchestrationService.setSingleServo(2,value);
+						break;
+			case "ry":  orchestrationService.setSingleServo(3,value);
+						break;
+			case "z":   orchestrationService.setSingleServo(10,value);
+						break;
+		}
 	}
 
-
-	public void stop()
-	{
+	public void stop() {
 		log.info("Stopping the UDPNetworkService service");
 		running=false;
 	}
-	
-	
+
 	private String positionServo(String clientSentence) {
 		try {
 			int servo = Integer.parseInt(clientSentence.substring(2, 4));
@@ -100,10 +112,8 @@ public class UDPNetworkService implements Runnable{
 			return "NumberFormatException\n\r";
 		}
 	}
-	
-	
-	public void sendString(InetAddress inetAddress,String sendString)
-	{
+
+	public void sendString(InetAddress inetAddress,String sendString) {
 		try {
 			DatagramSocket clientSocket = new DatagramSocket();
 			DatagramPacket sendPacket = new DatagramPacket(sendString.getBytes(), sendString.length(), inetAddress, 3003);
@@ -115,5 +125,7 @@ public class UDPNetworkService implements Runnable{
 
 	}
 	
+	public void handlePov(int value){
 
+	}
 }

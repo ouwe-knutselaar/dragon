@@ -21,7 +21,24 @@ servolist:
   restvalue: 2048
   steps: 20
   factor: 0.5
-debug: true
+
+debug: false
 timestep: 20
 actionpath: "D:\\erwin\\dragon\\actions"
 randommaxinterval: 200
+
+gamecontroller:
+  0: recording
+  1: playing
+  2: dump
+  3: reset
+  ry: 4
+  rx: tail
+  pov: 6
+  y: heady
+  x: headx
+  6: 9
+  7: 10
+  z: headspin
+  4: 12
+  5: mouth

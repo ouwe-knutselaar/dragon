@@ -24,7 +24,7 @@ public class TimerService implements Runnable{
 	{
 		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
 		log.info("Make TimerService");
-		this.startTimer();
+		startTimer();
 	}
 	
 	
@@ -34,9 +34,8 @@ public class TimerService implements Runnable{
 	}
 	
 	
-	public void startTimer()
-	{
-		log.info("Start TimerService");
+	private void startTimer() {
+		log.info("Start TimerService thread");
 		Thread thisThread=new Thread(this);
 		thisThread.start();
 	}
@@ -45,8 +44,6 @@ public class TimerService implements Runnable{
 	// HEt timer loop
 	@Override
 	public void run() {
-		log.info("Start the timer");
-		
 		long oldtime		= 0;									// laatste keer dat er een puls werdt gegeven
 		starttime		 	= System.currentTimeMillis();		// Nu in  milliseconds
 		int difftime	 	= 0;									// aantal milisecondens dat we lopen
@@ -90,19 +87,11 @@ public class TimerService implements Runnable{
 	}
 	
 	
-	public void addOnTimerEvent(DragonEvent event)
-	{
+	public void addOnTimerEvent(DragonEvent event){
 		log.info("Add timerListener from "+event);
 		eventHandlersList.add(event);
 	}
-	
-	
-	public void stepReset()
-	{
-		log.info("Timer reset requested");
-		step=0;
-		starttime=System.currentTimeMillis();
-	}
+
 	
 	public void stopService()
 	{

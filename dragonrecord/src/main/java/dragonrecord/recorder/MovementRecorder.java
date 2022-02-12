@@ -1,7 +1,5 @@
 package dragonrecord.recorder;
 
-import dragonrecord.DragonEvent;
-import dragonrecord.DragonException;
 import dragonrecord.TimerService;
 import dragonrecord.config.ConfigReader;
 import org.apache.log4j.Level;
@@ -15,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MovementRecorder {
@@ -23,40 +22,44 @@ public class MovementRecorder {
 	private List<MoveRecord> tracklist = new ArrayList<>();
 	private MoveRecord currentRecord = new MoveRecord();
 	private boolean isRecording = false;
+	private int recordPosition;
+	private int currentRecordSize;
+	private List<Boolean> enabledForRecording;
 
 	public MovementRecorder(){
 		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
 		log.info("Init MovementRecorder()");
+		enabledForRecording = Collections.nCopies(ConfigReader.MAXSERVOS,true);
 
-		TimerService.getInstance().addOnTimerEvent(new DragonEvent() {
-			@Override
-			public void handle(String msg, int val1, int val2) throws InterruptedException, DragonException, IOException {
-				if(isRecording){
-					tracklist.add(currentRecord);
-					currentRecord = new MoveRecord();
-				}
+		TimerService.getInstance().addOnTimerEvent((msg, val1, val2) -> {
+			if(isRecording){
+				recordStep();
 			}
 		});
 	}
-	
-	public void reset()	{
-		log.info("Reset the recorder");
-		tracklist = new ArrayList<>();
-	}
 
-	public void record(int servo, int servoValue) {
-		if(isRecording) {
-			currentRecord.setValue(servo, servoValue);
-			log.debug("record servo " + servo + " value " + servoValue);
+	private void recordStep(){
+		if(recordPosition<currentRecordSize){
+			tracklist.get(recordPosition).andRecord(currentRecord);
+			recordPosition++;
+			currentRecord = new MoveRecord();
+		}
+		else{
+			tracklist.add(currentRecord);
+			currentRecord = new MoveRecord();
 		}
 	}
 
-	public void stopRecording(int servo){
-		isRecording = false;
+	public void reset()	{
+		log.info("Reset the whole track");
+		tracklist = new ArrayList<>();
+		currentRecord = new MoveRecord();
 	}
 
-	public int getLastStep(){
-		return tracklist.size();
+	public void stopRecording(){
+		log.info("Stop recording, tracksize is "+tracklist.size());
+		isRecording = false;
+		currentRecord=new MoveRecord();
 	}
 
 	public void writeSequenceFile(String sequenceFileName,String actionType) throws IOException {
@@ -95,12 +98,37 @@ public class MovementRecorder {
 	@Override
 	public String toString() {
 		StringBuilder dump = new StringBuilder();
-		tracklist.forEach(record -> dump.append(record).append(System.lineSeparator()));
+		for (int counter = 0; counter<tracklist.size();counter++) {
+			dump.append(counter).append(" ").append(tracklist.get(counter)).append(System.lineSeparator());
+		}
 		return dump.toString();
 	}
 
 	public void startRecording() {
+		log.info("Start recording");
 		isRecording=true;
+		recordPosition=0;
+		currentRecordSize=tracklist.size();
+	}
+
+	public boolean isRecording(){
+	    return isRecording;
+    }
+
+    public void writeServo(int servo, int value){
+		if(enabledForRecording.get(servo))currentRecord.setValue(servo,value);
+	}
+
+	public void toggleEnabledForRecording(int servoNumber){
+		enabledForRecording.set(servoNumber, !enabledForRecording.get(servoNumber));
+		log.info("Track recording for servo "+servoNumber+" is set to "+enabledForRecording.get(servoNumber));
+
+	}
+
+	public void listTrackEnabled(){
+		System.out.print("tracks ");
+		enabledForRecording.forEach(value -> System.out.print(" "+value));
+		System.out.print(System.lineSeparator());
 	}
 
 }

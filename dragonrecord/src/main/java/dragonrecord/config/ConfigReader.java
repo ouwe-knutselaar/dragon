@@ -13,18 +13,21 @@ import java.util.Map;
 
 public class ConfigReader {
 
+    public static final int MAXSERVOS = 16;
     private final Logger log = Logger.getLogger(this.getClass().getSimpleName());
-    private static final ConfigReader INSTANCE = new ConfigReader();
+    private static ConfigReader INSTANCE;
     private Config config;
     private ObjectMapper mapper;
     Map<Integer, Servo> servoList = new HashMap<>();
     private String configFile;
 
     public static ConfigReader getInstance(){
+        if(INSTANCE == null)INSTANCE = new ConfigReader();
         return INSTANCE;
     }
 
-    private ConfigReader(){};
+    private ConfigReader(){
+    }
 
 
     public void readConfiguration(String configFile) {
@@ -106,6 +109,7 @@ public class ConfigReader {
             if(param.equals("min"))servoList.get(servo).setMinvalue(value);
             if(param.equals("rest"))servoList.get(servo).setRestvalue(value);
             writeConfiguration();
+            log.info("Set servo "+servo+" "+param+" value to " + value);
             return;
         }
         log.error("Invalid servo "+servo);
@@ -123,5 +127,8 @@ public class ConfigReader {
         log.info("New servo added. name is "+name+", number is "+number);
         writeConfiguration();
     }
+
+    public String getGameControllerCommand(String name){return config.getGamecontroller().get(name);}
+
 
 }

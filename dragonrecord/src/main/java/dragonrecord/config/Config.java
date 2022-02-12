@@ -1,7 +1,9 @@
 package dragonrecord.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Config {
 
@@ -10,6 +12,7 @@ public class Config {
     private int timestep;
     private String actionpath;
     private int randommaxinterval;
+    private Map<String,String> gamecontroller = new HashMap<>();
 
     public List<Servo> getServolist() {
         return servolist;
@@ -49,6 +52,14 @@ public class Config {
 
     public void setRandommaxinterval(int randommaxinterval) {
         this.randommaxinterval = randommaxinterval;
+    }
+
+    public Map<String, String> getGamecontroller() {
+        return gamecontroller;
+    }
+
+    public void setGamecontroller(Map<String, String> gamecontroller) {
+        this.gamecontroller = gamecontroller;
     }
 
     @Override

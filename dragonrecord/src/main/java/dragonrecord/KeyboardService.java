@@ -10,14 +10,21 @@ public class KeyboardService implements Runnable{
 
     private final Logger log = Logger.getLogger(KeyboardService.class.getSimpleName());
     private boolean isRunning = true;
-    public KeyboardService()
-    {
-        if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
+    private OrchestrationService orchestrationService;
+    private ConfigReader configReader;
+
+    public KeyboardService(OrchestrationService orchestrationService) {
+        this.orchestrationService = orchestrationService;
+        log.info("Initialize keyboard service");
+        configReader = ConfigReader.getInstance();
+        if(configReader.isDebug())log.setLevel(Level.DEBUG);
+        startKeyBoardService();
     }
 
 
     @Override
     public void run() {
+        log.info("Start the keyboard service thread");
         String readedline;
         try {
             Scanner inkey = new Scanner(System.in);
@@ -35,14 +42,12 @@ public class KeyboardService implements Runnable{
     }
 
     public void startKeyBoardService() {
-        log.info("Start keyboardservice");
         Thread thisThread = new Thread(this);
         thisThread.start();
     }
 
     private void processStringCommand(String readedline) {
         try {
-            OrchestrationService orchestrationService = OrchestrationService.getInstance();
             if(readedline.isEmpty())return;
             if (compareCommand(readedline,"help")) printHelpText();
             if (compareCommand(readedline,"ss")) toNewServoPosition(readedline);
@@ -53,7 +58,7 @@ public class KeyboardService implements Runnable{
             if (compareCommand(readedline,"wa")) waveFilepay(readedline);
             if (compareCommand(readedline,"rd")) orchestrationService.totalReset();
             if (compareCommand(readedline,"em")) playMotion(readedline);
-            if (compareCommand(readedline,"tm")) toggleDebug();
+            if (compareCommand(readedline,"tt")) toggleTrackRecordng(readedline);
             if (compareCommand(readedline,"setmax")) setServoValue(readedline);
             if (compareCommand(readedline,"setmin")) setServoValue(readedline);
             if (compareCommand(readedline,"setrest")) setServoValue(readedline);
@@ -70,17 +75,6 @@ public class KeyboardService implements Runnable{
         return paramlist[0].equals(command);
     }
 
-    private void toggleDebug() {
-        if(Logger.getRootLogger().isDebugEnabled()){
-            Logger.getRootLogger().setLevel(Level.INFO);
-            log.info("Loglevel is set to INFO");
-        }
-        else{
-            Logger.getRootLogger().setLevel(Level.DEBUG);
-            log.info("Loglevel is set to DEBUG");
-        }
-    }
-
     private void printHelpText() {
         log.info("Helptext");
         log.info("ss [servonumber] [position]  Set a servo");
@@ -92,7 +86,7 @@ public class KeyboardService implements Runnable{
         log.info("rd  Reset all to default");
         log.info("wa  [name] Play the wave file");
         log.info("es  [name] execute motion");
-        log.info("tm  toggle debug mode");
+        log.info("tt  toggle disable or enable recording of a track");
         log.info("setmax  [servo] [max]");
         log.info("setmin  [servo] [min]");
         log.info("setrest [servo] [rest]");
@@ -102,13 +96,9 @@ public class KeyboardService implements Runnable{
     public void toNewServoPosition(String readedline) throws DragonException {
         try {
             log.info("Execute "+readedline);
-            OrchestrationService orchestrationService = OrchestrationService.getInstance();
             String[] paramlist = readedline.split("[\\s\\t]+");
             if(paramlist.length != 3) throw new DragonException("invalid number of parameters: use S [x] [y]");
-            int servonumber = Integer.parseInt(paramlist[1]);
-            int value = Integer.parseInt(paramlist[2]);
-            log.info("Set servo " + servonumber + " at position " + value);
-            orchestrationService.setSingleServo(servonumber, value);
+            orchestrationService.setSingleServo(Integer.parseInt(paramlist[1]), Integer.parseInt(paramlist[2]));
         } catch (NumberFormatException e) {
             log.error("number error in provided command "+e.getMessage() );
         }
@@ -116,7 +106,6 @@ public class KeyboardService implements Runnable{
 
     private void waveFilepay(String readedline) throws DragonException{
         log.info("Execute "+readedline);
-        OrchestrationService orchestrationService = OrchestrationService.getInstance();
         String[] paramlist = readedline.split("[\\s\\t]+");
         if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use w [name]");
         orchestrationService.playWaveFile(paramlist[1]);
@@ -125,27 +114,30 @@ public class KeyboardService implements Runnable{
     private void playMotion(String readedline) throws DragonException {
         String[] paramlist = readedline.split("[\\s\\t]+");
         if(paramlist.length != 2) throw new DragonException("invalid number of parameters: use e [name]");
-
-        OrchestrationService orchestrationService = OrchestrationService.getInstance();
         orchestrationService.setCurrentMotion(paramlist[1]);
         orchestrationService.executeCurrentMotion();
     }
 
     private void setServoValue(String readedline){
-        log.info("Execute "+readedline);
         String[] paramlist = getParm(readedline);
         int servonumber = Integer.parseInt(paramlist[1]);
         int newvalue = Integer.parseInt(paramlist[2]);
-        if(paramlist[0].equals("setmax"))ConfigReader.getInstance().updateServo("max",servonumber,newvalue);
-        if(paramlist[0].equals("setmin"))ConfigReader.getInstance().updateServo("min",servonumber,newvalue);
-        if(paramlist[0].equals("setrest"))ConfigReader.getInstance().updateServo("rest",servonumber,newvalue);
+        if(paramlist[0].equals("setmax"))configReader.updateServo("max",servonumber,newvalue);
+        if(paramlist[0].equals("setmin"))configReader.updateServo("min",servonumber,newvalue);
+        if(paramlist[0].equals("setrest"))configReader.updateServo("rest",servonumber,newvalue);
+    }
+
+    private void toggleTrackRecordng(String readedline){
+        log.info("Execute "+readedline);
+        String[] paramlist = getParm(readedline);
+        orchestrationService.toggleTrackRecordng(Integer.parseInt(paramlist[1]));
     }
 
     private void addServo(String readedline){
         String[] paramlist = getParm(readedline);
         int servonumber = Integer.parseInt(paramlist[1]);
         String name = paramlist[2];
-        ConfigReader.getInstance().addServo(name,servonumber);
+        configReader.addServo(name,servonumber);
     }
 
     public void stop(){

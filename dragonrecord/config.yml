@@ -1,19 +1,20 @@
 ---
 servolist:
 - servonummer: 0
-  name: "servo0"
-  minvalue: 100
-  maxvalue: 400
-  restvalue: 300
+  name: "left_eye"
+  minvalue: 0
+  maxvalue: 4095
+  restvalue: 2048
   steps: 10
   factor: 0.3
 - servonummer: 1
-  name: "servo1"
-  minvalue: 100
-  maxvalue: 500
-  restvalue: 300
+  name: "right_eye"
+  minvalue: 0
+  maxvalue: 4095
+  restvalue: 2048
   steps: 10
   factor: 0.5
+
 - servonummer: 2
   name: "test"
   minvalue: 0
@@ -22,6 +23,70 @@ servolist:
   steps: 20
   factor: 0.5
 
+- servonummer: 3
+  name: "tail"
+  minvalue: 200
+  maxvalue: 600
+  restvalue: 400
+  steps: 20
+  factor: 0.5
+
+- servonummer: 4
+  name: "neck_muscle_right"
+  minvalue: 100
+  restvalue: 350
+  maxvalue: 600  
+
+- servonummer: 5
+  name: "neck_muscle_left"
+  minvalue: 100
+  restvalue: 350
+  maxvalue: 600
+  factor: 0.5
+  steps: 20
+
+- servonummer: 6
+  name: "neck_turn"
+  minvalue: 100
+  restvalue: 350
+  maxvalue: 600
+  factor: 0.5
+  steps: 20
+
+
+- servonummer: 7
+  name: "jaw"
+  minvalue: 350
+  restvalue: 350
+  maxvalue: 500
+  factor: 0.5
+  steps: 20
+
+- servonummer: 12
+  name: "test_servo"
+  minvalue: 100
+  restvalue: 350
+  maxvalue: 600
+  factor: 0.5
+  steps: 20
+
+
+- servonummer: 14
+  name: "rightwing"
+  minvalue: 100
+  restvalue: 350
+  maxvalue: 600
+  factor: 0.5
+  steps: 200
+
+- servonummer: 15
+  name: "leftwing"
+  minvalue: 100
+  restvalue: 350
+  maxvalue: 600
+  factor: 0.5
+  steps: 20  
+ 
 debug: false
 timestep: 20
 actionpath: "D:\\erwin\\dragon\\actions"

@@ -24,7 +24,6 @@ public class MovementCoordinator {
         TimerService.getInstance().addOnTimerEvent((msg, val1, val2) -> processServoStepsList());
     }
 
-
     public void processServoStepsList(){
         servoRecordList.forEach((number,servo) -> processServo(servo));
     }
@@ -37,12 +36,16 @@ public class MovementCoordinator {
         }
     }
 
-
     public void goToNewValue(int servo, int newvalue){
         log.debug("Send servo "+servo+" to new relative position "+ newvalue);
         if(servoRecordList.containsKey(servo)) {
             servoRecordList.get(servo).goToNewPosition(newvalue);
         }
+    }
+
+    public void goToNewValueDirect(int servo, int newvalue){
+        log.debug("Send servo "+servo+" to new direct position "+ newvalue);
+        i2cService.writeSingleLed(servo,newvalue);
     }
 
     public void allToDefault() {

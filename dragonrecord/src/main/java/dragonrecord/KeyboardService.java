@@ -51,6 +51,7 @@ public class KeyboardService implements Runnable{
             if(readedline.isEmpty())return;
             if (compareCommand(readedline,"help")) printHelpText();
             if (compareCommand(readedline,"ss")) toNewServoPosition(readedline);
+            if (compareCommand(readedline,"ss")) toNewServoPositionDirect(readedline);
             if (compareCommand(readedline,"dc")) orchestrationService.dumpConfig();
             if (compareCommand(readedline,"dm")) orchestrationService.dumpCurrentMotion();
             if (compareCommand(readedline,"as")) orchestrationService.startRandomMoving();
@@ -77,7 +78,8 @@ public class KeyboardService implements Runnable{
 
     private void printHelpText() {
         log.info("Helptext");
-        log.info("ss [servonumber] [position]  Set a servo");
+        log.info("ss [servonumber] [position]  Set a servo -1000 to 1000");
+        log.info("sd [servonumber] [position]  Set a servo value direct to the PCA9685 for 0-4096");
         log.info("em [name]  Execute motion");
         log.info("dc  Dump the config");
         log.info("dm  dump current motion");
@@ -99,6 +101,17 @@ public class KeyboardService implements Runnable{
             String[] paramlist = readedline.split("[\\s\\t]+");
             if(paramlist.length != 3) throw new DragonException("invalid number of parameters: use S [x] [y]");
             orchestrationService.setSingleServo(Integer.parseInt(paramlist[1]), Integer.parseInt(paramlist[2]));
+        } catch (NumberFormatException e) {
+            log.error("number error in provided command "+e.getMessage() );
+        }
+    }
+
+    public void toNewServoPositionDirect(String readedline) throws DragonException {
+        try {
+            log.info("Execute "+readedline);
+            String[] paramlist = readedline.split("[\\s\\t]+");
+            if(paramlist.length != 3) throw new DragonException("invalid number of parameters: use S [x] [y]");
+            orchestrationService.setSingleServoDirect(Integer.parseInt(paramlist[1]), Integer.parseInt(paramlist[2]));
         } catch (NumberFormatException e) {
             log.error("number error in provided command "+e.getMessage() );
         }

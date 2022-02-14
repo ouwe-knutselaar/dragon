@@ -18,30 +18,24 @@ public class TimerService implements Runnable{
 	private long starttime;
 	private static final TimerService INSTANCE=new TimerService();
 	private List<DragonEvent> eventHandlersList=new ArrayList<>();		// Lijst met eventhandlers
-	
-	
-	private TimerService()
-	{
+
+	private TimerService(){
 		if(ConfigReader.getInstance().isDebug())log.setLevel(Level.DEBUG);
 		log.info("Make TimerService");
 		startTimer();
 	}
-	
-	
+
 	public static TimerService getInstance()
 	{
 		return INSTANCE;
 	}
-	
-	
+
 	private void startTimer() {
 		log.info("Start TimerService thread");
 		Thread thisThread=new Thread(this);
 		thisThread.start();
 	}
-	
 
-	// HEt timer loop
 	@Override
 	public void run() {
 		long oldtime		= 0;									// laatste keer dat er een puls werdt gegeven
@@ -85,16 +79,13 @@ public class TimerService implements Runnable{
 		log.info("TimerThread is stopped");
 		
 	}
-	
-	
+
 	public void addOnTimerEvent(DragonEvent event){
 		log.info("Add timerListener from "+event);
 		eventHandlersList.add(event);
 	}
 
-	
-	public void stopService()
-	{
+	public void stopService(){
 		log.info("Try to stop the Timer Service");
 		running=false;
 	}

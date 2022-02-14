@@ -87,6 +87,10 @@ public class OrchestrationService {
 		movementRecorder.writeServo(servo,servoValue);
 	}
 
+	public void setSingleServoDirect(int servo, int servoValue) {
+		movementCoordinator.goToNewValueDirect(servo,servoValue);
+	}
+
 	public void dumpCurrentMotion() {
 		log.info(System.lineSeparator()+movementRecorder);
 	}
